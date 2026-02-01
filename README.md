@@ -1,2 +1,2 @@
-# WindFingerings
+# WindFingerings 1.0
 README TO BE COMPLETED
