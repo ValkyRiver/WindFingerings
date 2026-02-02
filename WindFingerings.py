@@ -1,4 +1,7 @@
-version = "1.0"
+# WindFingerings
+# by Valky River
+
+version = "1.1"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -122,7 +125,6 @@ def onclick(event):
         DATABASE.pop(index)
         SELECT = ""
         render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-        return
 
     if SELECT != "":
         if "sposition" in SELECT:
@@ -196,7 +198,7 @@ def onclick(event):
             elif SELECT == "description":
                 FINGERING[-1] = DESCRIPTION.get("1.0", "end-1c")
             elif SELECT == "databasedesc":
-                DATABASE[0][4] = DATABASEDESC.get("1.0", "end-1c")
+                DATABASE[0][-1] = DATABASEDESC.get("1.0", "end-1c")
             elif SELECT[:-1] == "freq":
                 try:
                     temp_pitch = float(TEMPVAR)
@@ -387,6 +389,7 @@ def onclick(event):
             )
             if file:
                 DATABASE[0][0] = file.split("/")[-1]
+                DATABASE[0][-1] = DATABASEDESC.get("1.0", "end-1c")
                 try:
                     with open(file, "w", encoding="utf-8") as f:
                         f.write(exportfile(DATABASE))
@@ -401,10 +404,10 @@ def onclick(event):
         elif "loadfile" in tags:
             file = fd.askopenfilename(
                 title="Select .csv file",
-                filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*"))
+                filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*")) #qweg
             )
             if file:
-                try:
+                #try:
                     with open(file, "r") as f:
                         DATABASE = importfile(f.read().strip().split("\n"))
                     PAGE = 0
@@ -412,15 +415,22 @@ def onclick(event):
                     TONIC = DATABASE[0][2]
                     TET = DATABASE[0][3]
                     FILTERS["search"] = "none"
+                    if "trombone" in key_systems[instruments[INSTRUMENT][0]]["special"]:
+                        if FINGTYPE == "trill":
+                            FINGERING[4] = complex(1, 1)
+                        else:
+                            FINGERING[4] = complex(1, 0)
+                    else:
+                        FINGERING[4] = complex(0, 0)
                     render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                     render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
                     render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
                     render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                except Exception as e:
-                    E = Toplevel(C)
-                    E.geometry("800x50")
-                    E.title("Error loading file")
-                    Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+                #except Exception as e:
+                    #E = Toplevel(C)
+                    #E.geometry("800x50")
+                    #E.title("Error loading file")
+                    #Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
 
         elif "copytoclipboard" in tags:
             C.clipboard_clear()
@@ -452,8 +462,8 @@ def onclick(event):
 
         elif "entry" in tags:
             SELECT = tags[2]
-            PITCHES = sorted(DATABASE[int(tags[2][4:])][0])
-            FINGERING = DATABASE[int(tags[2][4:])][1]
+            PITCHES = sorted(list(DATABASE[int(tags[2][4:])][0]))
+            FINGERING = list(DATABASE[int(tags[2][4:])][1])
             FINGTYPE = DATABASE[int(tags[2][4:])][2]
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
@@ -946,7 +956,7 @@ key_systems = {
     },
     
     "oboe": {
-        "parameters": {"keys":28, "LR_split":14, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":45.5, "My":13, "Bx":37, "By":32, "Rx":80, "Ry":32, "Descy":36},
+        "parameters": {"keys":28, "LR_split":16, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":45.5, "My":13, "Bx":37, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":8, "y1":23, "x2":12.5, "y2":26, "type":"model", "halfable":False, "label":"III", "labelsize":1, "descname":"III ", "descoff":""},
         1: {"x1":12.5, "y1":23, "x2":17, "y2":26, "type":"octave", "halfable":False, "label":"I", "labelsize":1, "descname":"I ", "descoff":""},
@@ -979,7 +989,7 @@ key_systems = {
     },
 
     "corangl": {
-        "parameters": {"keys":27, "LR_split":14, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":49, "My":13, "Bx":42, "By":32, "Rx":80, "Ry":32, "Descy":36},
+        "parameters": {"keys":27, "LR_split":16, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":49, "My":13, "Bx":42, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":8, "y1":23, "x2":12.5, "y2":26, "type":"model", "halfable":False, "label":"III", "labelsize":1, "descname":"III ", "descoff":""},
         1: {"x1":12.5, "y1":23, "x2":17, "y2":26, "type":"octave", "halfable":False, "label":"I", "labelsize":1, "descname":"I ", "descoff":""},
@@ -1035,7 +1045,7 @@ key_systems = {
         19: {"x1":45, "y1":10, "x2":47.5, "y2":14, "type":"model", "halfable":False, "label":"W", "labelsize":1, "descname":" W", "descoff":""},
         20: {"x1":45, "y1":6, "x2":47.5, "y2":10, "type":"model", "halfable":False, "label":"A", "labelsize":1, "descname":" A", "descoff":""},
         21: {"x1":45.5, "y1":27.5, "x2":48, "y2":31.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
-        22: {"x1":48, "y1":27.5, "x2":53, "y2":31.5, "type":"low", "halfable":False, "label":"E", "labelsize":1, "descname":"E ", "descoff":""},
+        22: {"x1":48, "y1":27, "x2":53, "y2":32, "type":"low", "halfable":False, "label":"E", "labelsize":1, "descname":"E ", "descoff":""},
         23: {"x1":53, "y1":27.5, "x2":55.5, "y2":31.5, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":"F# ", "descoff":""},
         24: {"x1":55.5, "y1":27.5, "x2":58, "y2":31.5, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
         25: {"x1":45.5, "y1":17, "x2":48.5, "y2":21, "type":"trill", "halfable":False, "label":"C#", "labelsize":1, "descname":"C# ", "descoff":""},
@@ -1123,7 +1133,7 @@ key_systems = {
         1: {"x1":16.5, "y1":27.5, "x2":20.5, "y2":31.5, "type":"main", "halfable":False, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":" "},
         2: {"x1":12, "y1":10, "x2":17, "y2":13, "type":"high", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
         3: {"x1":10, "y1":14, "x2":15, "y2":17, "type":"high", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
-        4: {"x1":16, "y1":12, "x2":23, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
+        4: {"x1":16, "y1":12, "x2":23, "y2":19, "type":"main", "halfable":True, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
         5: {"x1":24, "y1":12, "x2":31, "y2":19, "type":"main", "halfable":False, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
         6: {"x1":30.5, "y1":9, "x2":33.5, "y2":14, "type":"second", "halfable":False, "label":"Eb\nBb", "labelsize":5/6, "descname":"Eb", "descoff":""},
         7: {"x1":33, "y1":12, "x2":40, "y2":19, "type":"main", "halfable":False, "label":"3", "labelsize":2, "descname":"3", "descoff":"−"},
@@ -1253,32 +1263,32 @@ key_systems = {
 # FUNCTIONS
 
 def styleminus(number):
-    if number < 0:
-        return "−" + str(-number)
+    if round(number, 6) < 0:
+        return "−" + str(abs(number))
     else:
         return str(abs(number))
 
 def csvplus(number):
-    if number >= 0:
-        return "+" + str(number)
+    if round(number, 6) >= 0:
+        return "+" + str(abs(number))
     else:
         return str(number)
 
 def csvplusminus(number):
-    if number > 0:
-        return "+" + str(number)
+    if round(number, 6) > 0:
+        return "+" + str(abs(number))
     else:
         return str(number)
 
 def dataplus(number):
-    if number >= 0:
-        return "+" + str(number)
+    if round(number, 6) >= 0:
+        return "+" + str(abs(number))
     else:
         return "−" + str(abs(number))
 
 def plusminus(number):
-    if number > 0:
-        return "+" + str(number)
+    if round(number, 6) > 0:
+        return "+" + str(abs(number))
     else:
         return styleminus(number)
 
@@ -1334,6 +1344,7 @@ def notetofreq(notename, transpose=0):
 
 def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingering, fingtype)
     entry[0].sort()
+    entry = ([round(e, 6) for e in entry[0]], entry[1], entry[2])
 
     if len(database) == 1:
         return 1, [database[0]] + [entry]
@@ -1447,8 +1458,12 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
 
 def exportfile(database=DATABASE):
 
-    csv_string = database[0][0] + "\nInstrument: " + database[0][1] + "\nTransposition: " + str(instruments[database[0][1]][1]*100) + " cents\nTonic: " + str(round(database[0][2], 6)) + " Hz\nTemperament: " + str(database[0][3]) + "-TET\nDescription: " + database[0][4]
-    header = "Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering" + (",Partial" if "partial" in key_systems[instruments[database[0][1]][0]]["special"] else "") + ",Fingering ID,Description"
+    no_comma_databasedesc = ""
+    for char in database[0][4].strip():
+        no_comma_databasedesc += ("`" if char == "," else ("$" if char == "\"" else char))
+
+    csv_string = database[0][0] + "\nInstrument: " + database[0][1] + "\nTransposition: " + str(instruments[database[0][1]][1]*100) + " cents\nTonic: " + str(round(database[0][2], 6)) + " Hz\nTemperament: " + str(database[0][3]) + "-TET\nDescription: " + no_comma_databasedesc
+    header = "Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description"
     csv = ""
     for fingering in database[1:]: # entry is a tuple — (pitches, fingering, fingtype)
 
@@ -1486,10 +1501,10 @@ def exportfile(database=DATABASE):
             t.insert(0, "0")
         states = []
         for key in range(key_systems[instruments[database[0][1]][0]]["parameters"]["keys"]):
-            if key_systems[instruments[database[0][1]][0]][key]["type"] == "sposition1":
-                states.insert(0, fingering[4])
-            elif key_systems[instruments[database[0][1]][0]][key]["type"] == "sposition2":
-                states.insert(0, fingering[5])
+            if key_systems[instruments[database[0][1]][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition1":
+                states.insert(0, fingering[1][4])
+            elif key_systems[instruments[database[0][1]][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition2":
+                states.insert(0, fingering[1][5])
             elif int(t[key]) == 1:
                 states.insert(0, 3)
             else:
@@ -1524,7 +1539,7 @@ def exportfile(database=DATABASE):
         elif fingering[1][3] <= -2:
             desc_string += "[(" + str(-fingering[1][3]-1) + ")(" + str(-fingering[1][3]) + ")]"
 
-        csv += desc_string+","
+        csv += " "+desc_string+","
 
         for fingering_id in fingering[1][:-1]:
             if isinstance(fingering_id, complex):
@@ -1535,20 +1550,28 @@ def exportfile(database=DATABASE):
                 csv += str(fingering_id) + "_"
 
         csv = csv[:-1] + ","
+
+        no_comma_desc = ""
+        for char in fingering[1][-1]:
+            no_comma_desc += ("`" if char == "," else ("$" if char == "\"" else char))
         
-        csv += fingering[1][-1]+"\n"
+        csv += no_comma_desc+"\n"
         
     return csv_string + "\n" + header + "\n" + csv
 
 
 def importfile(file):
 
+    comma_databasedesc = ""
+    for char in file[5].split(",")[0][13:]:
+        comma_databasedesc += ("," if char == "`" else ("\"" if char == "$" else char))
+
     database = [[
         file[0].split(",")[0], # name
         file[1].split(",")[0][12:], # instrument
         float(file[3].split(",")[0].split(" ")[1]), # tonic
         int(file[4].split(",")[0].split(" ")[1].split("-")[0]), # tet
-        file[5].split(",")[0][13:] # databasedesc
+        comma_databasedesc # databasedesc
     ]]
 
     for f in file[7:]:
@@ -1564,7 +1587,11 @@ def importfile(file):
             else:
                 fingering.append(int(fing_element))
 
-        fingering.append(f[-1])
+        comma_desc = ""
+        for char in f[-1]:
+            comma_desc += ("," if char == "`" else ("\"" if char == "$" else char))
+                
+        fingering.append(comma_desc)
         fingtype = "multi" + str(len(pitches)) if f[0] == "multi" else f[0]
         database.append((pitches, fingering, fingtype))
 
@@ -1614,10 +1641,10 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
         t.insert(0, "0")
     states = []
     for key in range(key_systems[instruments[INSTRUMENT][0]]["parameters"]["keys"]):
-        if key_systems[instruments[INSTRUMENT][0]][key]["type"] == "sposition1":
-            states.insert(0, fingering[4])
-        elif key_systems[instruments[INSTRUMENT][0]][key]["type"] == "sposition2":
-            states.insert(0, fingering[5])
+        if key_systems[instruments[INSTRUMENT][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition1":
+            states.insert(0, fingering[1][4])
+        elif key_systems[instruments[INSTRUMENT][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition2":
+            states.insert(0, fingering[1][5])
         elif int(t[key]) == 1:
             states.insert(0, 3)
         else:
@@ -1652,7 +1679,7 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
     elif fingering[1][3] <= -2:
         desc_string += "[(" + str(-fingering[1][3]-1) + ")(" + str(-fingering[1][3]) + ")]"
 
-    csv += desc_string+","
+    csv += " "+desc_string+","
 
     for fingering_id in fingering[1][:-1]:
         if isinstance(fingering_id, complex):
@@ -1663,8 +1690,12 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
             csv += str(fingering_id) + "_"
 
     csv = csv[:-1] + ","
+
+    no_comma_desc = ""
+    for char in fingering[1][-1]:
+        no_comma_desc += ("`" if char == "," else ("$" if char == "\"" else char))
         
-    csv += fingering[1][-1]
+    csv += no_comma_desc
         
     return csv
 
@@ -1683,7 +1714,11 @@ def pastefromclipboard(f):
         else:
             fingering.append(int(fing_element))
 
-    fingering.append(f[-1])
+    comma_desc = ""
+    for char in f[-1]:
+        comma_desc += ("," if char == "`" else ("\"" if char == "$" else char))
+
+    fingering.append(comma_desc)
     fingtype = "multi" + str(len(pitches)) if f[0] == "multi" else f[0]
     return (pitches, fingering, fingtype)
     
@@ -2149,8 +2184,8 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             C.create_rectangle((78 + (112/totalcolumns)*int(i/percolumn))*scale, (21.75 + (i%percolumn)*rowexpand)*scale, (78 + (112/totalcolumns)*int(i/percolumn + 1))*scale, (21.75 + ((i%percolumn)+1)*rowexpand)*scale, fill=(colors["set_instrument"] if instrument == INSTRUMENT else "#FFFFFF"), width=1, tags=("clickable", "setinstrument", underscored_instrument))
             C.create_text((78 + (112/totalcolumns)*(int(i/percolumn)+0.5))*scale, (21.75 + ((i%percolumn)+0.5)*rowexpand)*scale, text=instrument + transposition, font=("Arial", int(scale*11/8), "bold"), fill=("#000000"), tags=("clickable", "setinstrument", underscored_instrument))
     else:
-        rowspacing = 2.8
-        topy = 27
+        rowspacing = 2.75
+        topy = 28
         per_page = 25
 
         C.create_rectangle(124*scale, 21*scale, 127*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage"))
@@ -2333,7 +2368,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
 
             C.create_rectangle(110*scale, (topy + rowspacing*f)*scale, 125*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(117.5*scale, (topy + rowspacing*(f+0.5))*scale, text=steptext, font=("Arial", int(scale*stepsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
-            
+
             F = list(bin(entry[1][0]))[2:]
             H = list(bin(entry[1][1]))[2:]
             T = list(bin(entry[1][2]))[2:]
@@ -2344,10 +2379,11 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             while len(T) < key_systems[instruments[database[0][1]][0]]["parameters"]["keys"]:
                 T.insert(0, "0")
             states = []
-            for key in range(key_systems[instruments[database[0][1]][0]]["parameters"]["keys"]):
-                if key_systems[instruments[database[0][1]][0]][key]["type"] == "sposition1":
+
+            for key in range(key_systems[instruments[database[0][1]][0]]["parameters"]["keys"]):                
+                if key_systems[instruments[database[0][1]][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition1":
                     states.insert(0, entry[1][4])
-                elif key_systems[instruments[database[0][1]][0]][key]["type"] == "sposition2":
+                elif key_systems[instruments[database[0][1]][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition2":
                     states.insert(0, entry[1][5])
                 elif int(T[key]) == 1:
                     states.insert(0, 3)
@@ -2372,13 +2408,13 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 elif state == 0:
                     desc_string += key_systems[instruments[database[0][1]][0]][key]["descoff"]
             if entry[1][3] == -17:
-                desc_string += "[" + circlednums[16] + "]"
+                desc_string += "[(16)]"
             elif entry[1][3] == -1:
-                desc_string += "[" + circlednums[0] + "]"
+                desc_string += "[(0)]"
             elif entry[1][3] >= 0:
-                desc_string += circlednums[entry[1][3]]
+                desc_string += "(" + str(entry[1][3]) + ")"
             elif entry[1][3] <= -2:
-                desc_string += "[" + circlednums[-entry[1][3]-1] + circlednums[-fingering[3]] + "]"
+                desc_string += "[(" + str(-entry[1][3]-1) + ")(" + str(-fingering[3]) + ")]"
 
             descsize = min(40/len(desc_string), 1)
             if descsize <= 2/3:
