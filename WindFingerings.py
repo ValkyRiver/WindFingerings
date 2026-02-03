@@ -1,3 +1,5 @@
+# WindFingerings 1.1.2 by Valky River
+
 version = "1.1.2"
 
 from tkinter import *
