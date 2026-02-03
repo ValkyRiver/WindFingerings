@@ -4,5 +4,5 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 README TO BE COMPLETED
 
 ## Issues
-Any known bugs will be listed here
+Sorting for trill and multiphonic fingerings is still messed up to some extent
 
