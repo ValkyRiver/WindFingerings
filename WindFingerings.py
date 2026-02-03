@@ -1,6 +1,6 @@
-# WindFingerings 1.1.2 by Valky River
+# WindFingerings 1.1.3 by Valky River
 
-version = "1.1.2"
+version = "1.1.3"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1357,14 +1357,13 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 trills.append(tup)
             elif tup[2] in ["multi2", "multi3", "multi4"]:
                 multiphonics.append(tup)
-        print(len(trills))
 
         if entry[2] == "note":
             if len(notes) == 0:
                 notes.append(entry)
                 return 1, [database[0]] + notes + trills + multiphonics
             elif len(notes) == 1:
-                if (entry[0][0], entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) < (notes[0][0][0], notes[0][1][4].real, notes[0][1][5].real, notes[0][1][0], notes[0][1][1]):
+                if (round(entry[0][0], 4), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) < (round(notes[0][0][0], 4), round(notes[0][1][4].real, 4), round(notes[0][1][5].real, 4), notes[0][1][0], notes[0][1][1]):
                     notes.insert(0, entry)
                     return 1, [database[0]] + notes + trills + multiphonics
                 else:
@@ -1374,17 +1373,17 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 low = 0; high = len(notes)-1
                 while high - low > 1:
                     mid = int((low + high) / 2)
-                    if (entry[0][0], entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) == (notes[mid][0][0], notes[mid][1][4].real, notes[mid][1][5].real, notes[mid][1][0], notes[mid][1][1]):
+                    if (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5], 4).real, entry[1][0], entry[1][1]) == (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
                         notes.insert(mid+1, entry)
                         return mid+2, [database[0]] + notes + trills + multiphonics
-                    elif (entry[0][0], entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) < (notes[mid][0][0], notes[mid][1][4].real, notes[mid][1][5].real, notes[mid][1][0], notes[mid][1][1]):
+                    elif (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) < (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
                         high = mid
-                    elif (entry[0][0], entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) > (notes[mid][0][0], notes[mid][1][4].real, notes[mid][1][5].real, notes[mid][1][0], notes[mid][1][1]):
+                    elif (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) > (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
                         low = mid
-                if (entry[0][0], entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (notes[high][0][0], notes[high][1][4].real, notes[high][1][5].real, notes[high][1][0], notes[high][1][1]):
+                if (round(entry[0][0], 4), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (round(notes[high][0][0], 4), round(notes[high][1][4].real, 4), round(notes[high][1][5].real, 4), notes[high][1][0], notes[high][1][1]):
                     notes.insert(high+1, entry)
                     return high+2, [database[0]] + notes + trills + multiphonics
-                elif (entry[0][0], entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (notes[low][0][0], notes[low][1][4].real, notes[low][1][5].real, notes[low][1][0], notes[low][1][1]):
+                elif (round(entry[0][0], 4), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (round(notes[low][0][0], 4), round(notes[low][1][4].real, 4), round(notes[low][1][5].real, 4), notes[low][1][0], notes[low][1][1]):
                     notes.insert(high, entry)
                     return high+1, [database[0]] + notes + trills + multiphonics
                 else:
@@ -1396,7 +1395,7 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 trills.append(entry)
                 return 1+len(notes), [database[0]] + notes + trills + multiphonics
             elif len(trills) == 1:
-                if (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) < (trills[0][0][0], trills[0][0][1], trills[0][1][4].real, trills[0][1][4].imag, trills[0][1][5].real, trills[0][1][5].imag, trills[0][1][0], trills[0][1][1]):
+                if (round(entry[0][0], 4), round(entry[0][1], 4), round(entry[1][4].real, 4), round(entry[1][4].imag, 4), round(entry[1][5].real, 4), round(entry[1][5].imag, 4), entry[1][0], entry[1][1]) < (round(trills[0][0][0], 4), round(trills[0][0][1], 4), round(trills[0][1][4].real, 4), round(trills[0][1][4].imag, 4), round(trills[0][1][5].real, 4), round(trills[0][1][5].imag, 4), trills[0][1][0], trills[0][1][1]):
                     trills.insert(0, entry)
                     return 1+len(notes), [database[0]] + notes + trills + multiphonics
                 else:
@@ -1406,17 +1405,17 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 low = 0; high = len(trills)-1
                 while high - low > 1:
                     mid = int((low + high) / 2)
-                    if (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) == (trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]):
+                    if (round(entry[0][0], 4), round(entry[0][1], 4), round(entry[1][4].real, 4), round(entry[1][4].imag, 4), round(entry[1][5].real, 4), round(entry[1][5].imag, 4), entry[1][0], entry[1][1]) == (round(trills[mid][0][0], 4), round(trills[mid][0][1], 4), round(trills[mid][1][4].real, 4), round(trills[mid][1][4].imag, 4), round(trills[mid][1][5].real, 4), round(trills[mid][1][5].imag, 4), trills[mid][1][0], trills[mid][1][1]):
                         trills.insert(mid+1, entry)
                         return mid+2+len(notes), [database[0]] + notes + trills + multiphonics
-                    elif (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) < (trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]):
+                    elif (round(entry[0][0], 4), round(entry[0][1], 4), round(entry[1][4].real, 4), round(entry[1][4].imag, 4), round(entry[1][5].real, 4), round(entry[1][5].imag, 4), entry[1][0], entry[1][1]) < (round(trills[mid][0][0], 4), round(trills[mid][0][1], 4), round(trills[mid][1][4].real, 4), round(trills[mid][1][4].imag, 4), round(trills[mid][1][5].real, 4), round(trills[mid][1][5].imag, 4), trills[mid][1][0], trills[mid][1][1]):
                         high = mid
-                    elif (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) > (trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]):
+                    elif (round(entry[0][0], 4), round(entry[0][1], 4), round(entry[1][4].real, 4), round(entry[1][4].imag, 4), round(entry[1][5].real, 4), round(entry[1][5].imag, 4), entry[1][0], entry[1][1]) > (round(trills[mid][0][0], 4), round(trills[mid][0][1], 4), round(trills[mid][1][4].real, 4), round(trills[mid][1][4].imag, 4), round(trills[mid][1][5].real, 4), round(trills[mid][1][5].imag, 4), trills[mid][1][0], trills[mid][1][1]):
                         low = mid
-                if (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) >= (trills[high][0][0], trills[high][0][1], trills[high][1][4].real, trills[high][1][4].imag, trills[high][1][5].real, trills[high][1][5].imag, trills[high][1][0], trills[high][1][1]):
+                if (round(entry[0][0], 4), round(entry[0][1], 4), round(entry[1][4].real, 4), round(entry[1][4].imag, 4), round(entry[1][5].real, 4), round(entry[1][5].imag, 4), entry[1][0], entry[1][1]) >= (round(trills[high][0][0], 4), round(trills[high][0][1], 4), round(trills[high][1][4].real, 4), round(trills[high][1][4].imag, 4), round(trills[high][1][5].real, 4), round(trills[high][1][5].imag, 4), trills[high][1][0], trills[high][1][1]):
                     trills.insert(high+1, entry)
                     return high+2+len(notes), [database[0]] + notes + trills + multiphonics
-                elif (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) >= (trills[low][0][0], trills[low][0][1], trills[low][1][4].real, trills[low][1][4].imag, trills[low][1][5].real, trills[low][1][5].imag, trills[low][1][0], trills[low][1][1]):
+                elif (round(entry[0][0], 4), round(entry[0][1], 4), round(entry[1][4].real, 4), round(entry[1][4].imag, 4), round(entry[1][5].real, 4), round(entry[1][5].imag, 4), entry[1][0], entry[1][1]) >= (round(trills[low][0][0], 4), round(trills[low][0][1], 4), round(trills[low][1][4].real, 4), round(trills[low][1][4].imag, 4), round(trills[low][1][5].real, 4), round(trills[low][1][5].imag, 4), trills[low][1][0], trills[low][1][1]):
                     trills.insert(high, entry)
                     return high+1+len(notes), [database[0]] + notes + trills + multiphonics
                 else:
@@ -1428,7 +1427,7 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 multiphonics.append(entry)
                 return 1+len(notes)+len(trills), [database[0]] + notes + trills + multiphonics
             elif len(multiphonics) == 1:
-                if (entry[0][0], entry[0][1], (entry[0][2] if len(entry[0]) >= 6 else 0), (entry[0][3] if len(entry[0]) >= 7 else 0), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) < (multiphonics[0][0][0], multiphonics[0][0][1], (multiphonics[0][0][2] if len(multiphonics[0][0]) >= 3 else 0), (multiphonics[0][0][3] if len(multiphonics[0][0]) >= 4 else 0), multiphonics[0][1][4].real, multiphonics[0][1][5].real, multiphonics[0][1][0], multiphonics[0][1][1]):
+                if (round(entry[0][0], 4), round(entry[0][1], 4), (round(entry[0][2], 4) if len(entry[0]) >= 6 else 0), (round(entry[0][3], 4) if len(entry[0]) >= 7 else 0), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) < (round(multiphonics[0][0][0], 4), round(multiphonics[0][0][1], 4), (round(multiphonics[0][0][2], 4) if len(multiphonics[0][0]) >= 3 else 0), (round(multiphonics[0][0][3], 4) if len(multiphonics[0][0]) >= 4 else 0), round(multiphonics[0][1][4].real, 4), round(multiphonics[0][1][5].real, 4), multiphonics[0][1][0], multiphonics[0][1][1]):
                     multiphonics.insert(0, entry)
                     return 1+len(notes)+len(trills), [database[0]] + notes + trills + multiphonics
                 else:
@@ -1438,17 +1437,17 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 low = 0; high = len(multiphonics)-1
                 while high - low > 1:
                     mid = int((low + high) / 2)
-                    if (entry[0][0], entry[0][1], (entry[0][2] if len(entry[0]) >= 6 else 0), (entry[0][3] if len(entry[0]) >= 7 else 0), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) == (multiphonics[mid][0][0], multiphonics[mid][0][1], (multiphonics[mid][0][2] if len(multiphonics[mid][0]) >= 3 else 0), (multiphonics[mid][0][3] if len(multiphonics[mid][0]) >= 4 else 0), multiphonics[mid][1][4].real, multiphonics[mid][1][5].real, multiphonics[mid][1][0], multiphonics[mid][1][1]):
+                    if (round(entry[0][0], 4), round(entry[0][1], 4), (round(entry[0][2], 4) if len(entry[0]) >= 6 else 0), (round(entry[0][3], 4) if len(entry[0]) >= 7 else 0), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) == (round(multiphonics[mid][0][0], 4), round(multiphonics[mid][0][1], 4), (round(multiphonics[mid][0][2], 4) if len(multiphonics[mid][0]) >= 3 else 0), (round(multiphonics[mid][0][3], 4) if len(multiphonics[mid][0]) >= 4 else 0), round(multiphonics[mid][1][4].real, 4), round(multiphonics[mid][1][5].real, 4), multiphonics[mid][1][0], multiphonics[mid][1][1]):
                         multiphonics.insert(mid+1, entry)
                         return mid+2+len(notes)+len(trills), [database[0]] + notes + trills + multiphonics
-                    elif (entry[0][0], entry[0][1], (entry[0][2] if len(entry[0]) >= 6 else 0), (entry[0][3] if len(entry[0]) >= 7 else 0), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) < (multiphonics[mid][0][0], multiphonics[mid][0][1], (multiphonics[mid][0][2] if len(multiphonics[mid][0]) >= 3 else 0), (multiphonics[mid][0][3] if len(multiphonics[mid][0]) >= 4 else 0), multiphonics[mid][1][4].real, multiphonics[mid][1][5].real, multiphonics[mid][1][0], multiphonics[mid][1][1]):
+                    elif (round(entry[0][0], 4), round(entry[0][1], 4), (round(entry[0][2], 4) if len(entry[0]) >= 6 else 0), (round(entry[0][3], 4) if len(entry[0]) >= 7 else 0), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) < (round(multiphonics[mid][0][0], 4), round(multiphonics[mid][0][1], 4), (round(multiphonics[mid][0][2], 4) if len(multiphonics[mid][0]) >= 3 else 0), (round(multiphonics[mid][0][3], 4) if len(multiphonics[mid][0]) >= 4 else 0), round(multiphonics[mid][1][4].real, 4), round(multiphonics[mid][1][5].real, 4), multiphonics[mid][1][0], multiphonics[mid][1][1]):
                         high = mid
-                    elif (entry[0][0], entry[0][1], (entry[0][2] if len(entry[0]) >= 6 else 0), (entry[0][3] if len(entry[0]) >= 7 else 0), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) > (multiphonics[mid][0][0], multiphonics[mid][0][1], (multiphonics[mid][0][2] if len(multiphonics[mid][0]) >= 3 else 0), (multiphonics[mid][0][3] if len(multiphonics[mid][0]) >= 4 else 0), multiphonics[mid][1][4].real, multiphonics[mid][1][5].real, multiphonics[mid][1][0], multiphonics[mid][1][1]):
+                    elif (round(entry[0][0], 4), round(entry[0][1], 4), (round(entry[0][2], 4) if len(entry[0]) >= 6 else 0), (round(entry[0][3], 4) if len(entry[0]) >= 7 else 0), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) > (round(multiphonics[mid][0][0], 4), round(multiphonics[mid][0][1], 4), (round(multiphonics[mid][0][2], 4) if len(multiphonics[mid][0]) >= 3 else 0), (round(multiphonics[mid][0][3], 4) if len(multiphonics[mid][0]) >= 4 else 0), round(multiphonics[mid][1][4].real, 4), round(multiphonics[mid][1][5].real, 4), multiphonics[mid][1][0], multiphonics[mid][1][1]):
                         low = mid
-                if (entry[0][0], entry[0][1], (entry[0][2] if len(entry[0]) >= 6 else 0), (entry[0][3] if len(entry[0]) >= 7 else 0), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (multiphonics[high][0][0], multiphonics[high][0][1], (multiphonics[high][0][2] if len(multiphonics[high][0]) >= 3 else 0), (multiphonics[high][0][3] if len(multiphonics[high][0]) >= 4 else 0), multiphonics[high][1][4].real, multiphonics[high][1][5].real, multiphonics[high][1][0], multiphonics[high][1][1]):
+                if (round(entry[0][0], 4), round(entry[0][1], 4), (round(entry[0][2], 4) if len(entry[0]) >= 6 else 0), (round(entry[0][3], 4) if len(entry[0]) >= 7 else 0), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) >= (round(multiphonics[high][0][0], 4), round(multiphonics[high][0][1], 4), (round(multiphonics[high][0][2], 4) if len(multiphonics[high][0]) >= 3 else 0), (round(multiphonics[high][0][3], 4) if len(multiphonics[high][0]) >= 4 else 0), round(multiphonics[high][1][4].real, 4), round(multiphonics[high][1][5].real, 4), multiphonics[high][1][0], multiphonics[high][1][1]):
                     multiphonics.insert(high+1, entry)
                     return high+2+len(notes)+len(trills), [database[0]] + notes + trills + multiphonics
-                elif (entry[0][0], entry[0][1], (entry[0][2] if len(entry[0]) >= 6 else 0), (entry[0][3] if len(entry[0]) >= 7 else 0), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (multiphonics[low][0][0], multiphonics[low][0][1], (multiphonics[low][0][2] if len(multiphonics[low][0]) >= 3 else 0), (multiphonics[low][0][3] if len(multiphonics[low][0]) >= 4 else 0), multiphonics[low][1][4].real, multiphonics[low][1][5].real, multiphonics[low][1][0], multiphonics[low][1][1]):
+                elif (round(entry[0][0], 4), round(entry[0][1], 4), (round(entry[0][2], 4) if len(entry[0]) >= 6 else 0), (round(entry[0][3], 4) if len(entry[0]) >= 7 else 0), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) >= (round(multiphonics[low][0][0], 4), round(multiphonics[low][0][1], 4), (round(multiphonics[low][0][2], 4) if len(multiphonics[low][0]) >= 3 else 0), (round(multiphonics[low][0][3], 4) if len(multiphonics[low][0]) >= 4 else 0), round(multiphonics[low][1][4].real, 4), round(multiphonics[low][1][5].real, 4), multiphonics[low][1][0], multiphonics[low][1][1]):
                     multiphonics.insert(high, entry)
                     return high+1+len(notes)+len(trills), [database[0]] + notes + trills + multiphonics
                 else:
