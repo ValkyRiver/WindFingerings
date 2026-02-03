@@ -1,4 +1,4 @@
-# WindFingerings 1.1.3
+# WindFingerings 1.1.4
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Note: "G# cancel" on saxophone
@@ -10,6 +10,12 @@ While this mechanism allows smoother transitions to the note G#, it also elimina
 
 ### README TO BE COMPLETED
 
-## Issues
+## Version overview
+- 1.0 — first version of WindFingerings
+- 1.1 — added "standard" collection
+- 1.1.1 — bug fixes
 - 1.1.2 — partially fixed trills and multiphonics sorting bug
 - 1.1.3 — fixed trills and multiphonics sorting bug
+- 1.1.4 — more bug fixes
+
+## Issues
