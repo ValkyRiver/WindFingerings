@@ -210,13 +210,14 @@ def onclick(event):
                 except Exception:
                     pass
             elif SELECT[:-1] == "notename":
-                if notetofreq(TEMPVAR, instruments[INSTRUMENT][1]):
-                    if notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) >= (55/8) * 2**(5/24) and notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) <= 14080 / 2**(1/8):
+                temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1]/1200)
+                if temp_pitch:
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
-                            TONIC = notetofreq(TEMPVAR, instruments[INSTRUMENT][1])
+                            TONIC = temp_pitch
                             DATABASE[0][2] = temp_pitch
                         else:
-                            PITCHES[int(SELECT[-1])-1] = notetofreq(TEMPVAR, instruments[INSTRUMENT][1])
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
             elif SELECT[:-1] == "centsdev":
                 try:
                     temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1])/1200)
@@ -229,13 +230,14 @@ def onclick(event):
                 except Exception:
                     pass
             elif SELECT[:-1] == "concertname":
-                if notetofreq(TEMPVAR):
-                    if notetofreq(TEMPVAR) >= (55/8) * 2**(5/24) and notetofreq(TEMPVAR) <= 14080 / 2**(1/8):
+                temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(PITCHES[int(SELECT[-1])-1], 0)[1]/1200)
+                if temp_pitch:
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
-                            TONIC = notetofreq(TEMPVAR, 0)
+                            TONIC = temp_pitch
                             DATABASE[0][2] = temp_pitch
                         else:
-                            PITCHES[int(SELECT[-1])-1] = notetofreq(TEMPVAR, 0)
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
             elif SELECT[:-1] == "concertdev":
                 try:
                     temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)[1])/1200)
