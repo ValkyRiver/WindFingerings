@@ -31,7 +31,7 @@ The trombone and trumpet contain continuous pitch parameters:
 - for trombone, the number is the position. Note that the fractional values for positions involving triggers might not be exact and might differ between instruments.
 - for trumpet, "¼" corresponds to the position for D4 (1−3 {0.25} {0.0} ③), and "½" corresponds to the position for C#4 (123 {0.5} {0.0} ③). 123 {0.5} {0.5} ② is a low F3.
 
-Note: the fingering diagram doesn't "know" whether pressing down one key automatically presses down another (e.g. pressing down the low C key on a flute will automatically depress the low C# as well). The convention in the "standard" collections is to only include the key being pressed, and not any keys that are automatically depressed as a result of some other key being pressed. So low C on flute is stored as T 123 | 456 C, instead of T 123 | 456 C# C.
+Note: the fingering diagram doesn't "know" whether pressing down one key automatically presses down another (e.g. pressing down the low C key on a flute will automatically depress the low C# as well). The convention in the "standard" collections is to only include the key being pressed, and not any keys that are automatically depressed as a result of some other key being pressed. So low C on flute is stored as T 123 | 456 C, instead of T 123 | 456 C# C (or T 1Bb\*23 | G*F#*456 C).
 
 ### Special purple "keys"
 #### G# cancel on saxophone
@@ -39,7 +39,7 @@ The "G# cancel" refers to the screw on top of the tone-hole key for G#. It serve
 - When the RH presses F#*, 4, 5, or 6, the G# key is prevented from activating
 - When the RH presses F#*, 4, 5, or 6, the bis key is automatically pressed
 
-While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill), you need to also select "G# cancel" on the fingering diagram. This will change the fingering description to contain a double vertical bar (||) — e.g. low B is 123 B || 456 C, not 123 B | 456 C (or T 1Bb\*23 | G*F#*456 C).
+While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill), you need to also select "G# cancel" on the fingering diagram. This will change the fingering description to contain a double vertical bar (||) — e.g. low B is 123 B || 456 C, not 123 B | 456 C.
 
 #### E−* on trombone
 On a trombone, the lowest "normal" note is E2 (played in 7th position). Then, there is a gap until Bb1, the first pedal tone (in 1st position). The notes within this gap are partially filled by a trombone with a F attachment, namely Eb2, D2, C#2, and C2, however this still leaves a 1-note gap at B1. In order to play this note on a single-(F)-trigger trombone without resorting to lipping or using false tones, the tuning of the F attachment has to be pulled out to just below E. This turns the F-trigger into a "E−trigger", and this what the E−* refers to.
