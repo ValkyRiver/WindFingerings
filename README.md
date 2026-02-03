@@ -1,4 +1,4 @@
-# WindFingerings 1.0
+# WindFingerings 1.1.1
 README TO BE COMPLETED
 
 ## Issues
