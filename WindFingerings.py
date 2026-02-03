@@ -1,6 +1,6 @@
-# WindFingerings 1.1.3 by Valky River
+# WindFingerings 1.1.4 by Valky River
 
-version = "1.1.3"
+version = "1.1.4"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1363,7 +1363,7 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 notes.append(entry)
                 return 1, [database[0]] + notes + trills + multiphonics
             elif len(notes) == 1:
-                if (round(entry[0][0], 4), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) < (round(notes[0][0][0], 4), round(notes[0][1][4].real, 4), round(notes[0][1][5].real, 4), notes[0][1][0], notes[0][1][1]):
+                if (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) < (round(notes[0][0][0], 4), round(notes[0][1][4].real, 4), round(notes[0][1][5].real, 4), notes[0][1][0], notes[0][1][1]):
                     notes.insert(0, entry)
                     return 1, [database[0]] + notes + trills + multiphonics
                 else:
@@ -1373,17 +1373,17 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 low = 0; high = len(notes)-1
                 while high - low > 1:
                     mid = int((low + high) / 2)
-                    if (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5], 4).real, entry[1][0], entry[1][1]) == (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
+                    if (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) == (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
                         notes.insert(mid+1, entry)
                         return mid+2, [database[0]] + notes + trills + multiphonics
                     elif (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) < (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
                         high = mid
                     elif (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) > (round(notes[mid][0][0], 4), round(notes[mid][1][4].real, 4), round(notes[mid][1][5].real, 4), notes[mid][1][0], notes[mid][1][1]):
                         low = mid
-                if (round(entry[0][0], 4), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (round(notes[high][0][0], 4), round(notes[high][1][4].real, 4), round(notes[high][1][5].real, 4), notes[high][1][0], notes[high][1][1]):
+                if (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) >= (round(notes[high][0][0], 4), round(notes[high][1][4].real, 4), round(notes[high][1][5].real, 4), notes[high][1][0], notes[high][1][1]):
                     notes.insert(high+1, entry)
                     return high+2, [database[0]] + notes + trills + multiphonics
-                elif (round(entry[0][0], 4), entry[1][4].real, entry[1][5].real, entry[1][0], entry[1][1]) >= (round(notes[low][0][0], 4), round(notes[low][1][4].real, 4), round(notes[low][1][5].real, 4), notes[low][1][0], notes[low][1][1]):
+                elif (round(entry[0][0], 4), round(entry[1][4].real, 4), round(entry[1][5].real, 4), entry[1][0], entry[1][1]) >= (round(notes[low][0][0], 4), round(notes[low][1][4].real, 4), round(notes[low][1][5].real, 4), notes[low][1][0], notes[low][1][1]):
                     notes.insert(high, entry)
                     return high+1, [database[0]] + notes + trills + multiphonics
                 else:
