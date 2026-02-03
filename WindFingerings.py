@@ -1,4 +1,4 @@
-version = "1.1.1"
+version = "1.1.2"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1355,6 +1355,7 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 trills.append(tup)
             elif tup[2] in ["multi2", "multi3", "multi4"]:
                 multiphonics.append(tup)
+        print(len(trills))
 
         if entry[2] == "note":
             if len(notes) == 0:
@@ -1403,8 +1404,6 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 low = 0; high = len(trills)-1
                 while high - low > 1:
                     mid = int((low + high) / 2)
-                    #print((entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]))
-                    #print((trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]))
                     if (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) == (trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]):
                         trills.insert(mid+1, entry)
                         return mid+2+len(notes), [database[0]] + notes + trills + multiphonics
@@ -1415,7 +1414,7 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 if (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) >= (trills[high][0][0], trills[high][0][1], trills[high][1][4].real, trills[high][1][4].imag, trills[high][1][5].real, trills[high][1][5].imag, trills[high][1][0], trills[high][1][1]):
                     trills.insert(high+1, entry)
                     return high+2+len(notes), [database[0]] + notes + trills + multiphonics
-                elif (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) == (trills[low][0][0], trills[low][0][1], trills[low][1][4].real, trills[low][1][4].imag, trills[low][1][5].real, trills[low][1][5].imag, trills[low][1][0], trills[low][1][1]):
+                elif (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) >= (trills[low][0][0], trills[low][0][1], trills[low][1][4].real, trills[low][1][4].imag, trills[low][1][5].real, trills[low][1][5].imag, trills[low][1][0], trills[low][1][1]):
                     trills.insert(high, entry)
                     return high+1+len(notes), [database[0]] + notes + trills + multiphonics
                 else:
