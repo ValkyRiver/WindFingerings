@@ -11,5 +11,5 @@ While this mechanism allows smoother transitions to the note G#, it also elimina
 ### README TO BE COMPLETED
 
 ## Issues
-1.1.2 — partially fixed trills and multiphonics sorting bug
-1.1.3 — fixed trills and multiphonics sorting bug
+- 1.1.2 — partially fixed trills and multiphonics sorting bug
+- 1.1.3 — fixed trills and multiphonics sorting bug
