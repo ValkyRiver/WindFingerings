@@ -1,6 +1,6 @@
-# WindFingerings 1.1.5 by Valky River
+# WindFingerings 1.1.6 by Valky River
 
-version = "1.1.5"
+version = "1.1.6"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1640,9 +1640,9 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
         t.insert(0, "0")
     states = []
     for key in range(key_systems[instruments[INSTRUMENT][0]]["parameters"]["keys"]):
-        if key_systems[instruments[INSTRUMENT][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition1":
+        if key_systems[instruments[INSTRUMENT][0]][key_systems[instruments[INSTRUMENT][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition1":
             states.insert(0, fingering[1][4])
-        elif key_systems[instruments[INSTRUMENT][0]][key_systems[instruments[database[0][1]][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition2":
+        elif key_systems[instruments[INSTRUMENT][0]][key_systems[instruments[INSTRUMENT][0]]["parameters"]["keys"] - 1 - key]["type"] == "sposition2":
             states.insert(0, fingering[1][5])
         elif int(t[key]) == 1:
             states.insert(0, 3)
