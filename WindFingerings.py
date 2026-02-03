@@ -845,7 +845,7 @@ instruments = { # key system, transpose
     "Alto Clarinet": ["clarinet", -9],
     "Bass Clarinet": ["bassclar", -14],
     #"Contra-alto Cl": ["?", -21],
-    #"Contrabass Cl": ["?", -26],
+    "Contrabass Clarinet": ["bassclar", -26],
 
     # SAXOPHONES
     "Sopranino Saxophone": ["saxophone", 3],
