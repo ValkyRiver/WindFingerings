@@ -1,7 +1,4 @@
-# WindFingerings
-# by Valky River
-
-version = "1.1"
+version = "1.1.1"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -404,10 +401,10 @@ def onclick(event):
         elif "loadfile" in tags:
             file = fd.askopenfilename(
                 title="Select .csv file",
-                filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*")) #qweg
+                filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*"))
             )
             if file:
-                #try:
+                try:
                     with open(file, "r") as f:
                         DATABASE = importfile(f.read().strip().split("\n"))
                     PAGE = 0
@@ -426,11 +423,11 @@ def onclick(event):
                     render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
                     render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
                     render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                #except Exception as e:
-                    #E = Toplevel(C)
-                    #E.geometry("800x50")
-                    #E.title("Error loading file")
-                    #Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+                except Exception as e:
+                    E = Toplevel(C)
+                    E.geometry("800x50")
+                    E.title("Error loading file")
+                    Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
 
         elif "copytoclipboard" in tags:
             C.clipboard_clear()
@@ -1406,6 +1403,8 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                 low = 0; high = len(trills)-1
                 while high - low > 1:
                     mid = int((low + high) / 2)
+                    #print((entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]))
+                    #print((trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]))
                     if (entry[0][0], entry[0][1], entry[1][4].real, entry[1][4].imag, entry[1][5].real, entry[1][5].imag, entry[1][0], entry[1][1]) == (trills[mid][0][0], trills[mid][0][1], trills[mid][1][4].real, trills[mid][1][4].imag, trills[mid][1][5].real, trills[mid][1][5].imag, trills[mid][1][0], trills[mid][1][1]):
                         trills.insert(mid+1, entry)
                         return mid+2+len(notes), [database[0]] + notes + trills + multiphonics
@@ -1888,6 +1887,9 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
     C.delete("fingeringhelp")
     C.delete("sposition1")
     C.delete("sposition2")
+
+    DESCRIPTION.delete(1.0, END)
+    DESCRIPTION.insert(END, FINGERING[-1])
 
     parameters = key_systems[key_system]["parameters"]
 
