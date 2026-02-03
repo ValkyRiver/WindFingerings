@@ -2,7 +2,7 @@
 # WindFingerings 1.1.5
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
-# Current supported instruments
+## Current supported instruments
 - Piccolo, Flute
 - Oboe, English Horn, Bassoon, Contrabassoon
 - Clarinet in Eb, Clarinet in Bb, Clarinet in A, Basset Horn, Alto Clarinet, Bass Clarinet, Contrabass Clarinet
@@ -12,7 +12,7 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium, F Tuba, Eb Tuba, CC Tuba, BBb Tuba
 
-# Fingering
+## Fingering
 To select a fingering, click on the keys in the fingering diagram on the top left corner. Right-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, middle-click on a key to trill it (which will change the color of the key to bright green).
 
 The keys in the diagram are colored based on their function on the instrument:
@@ -33,26 +33,26 @@ The trombone and trumpet contain continuous pitch parameters:
 
 Note: the fingering diagram doesn't "know" whether pressing down one key automatically presses down another (e.g. pressing down the low C key on a flute will automatically depress the low C# as well). The convention in the "standard" collections is to only include the key being pressed, and not any keys that are automatically depressed as a result of some other key being pressed.
 
-## Special purple "keys"
-### G# cancel on saxophone
+### Special purple "keys"
+#### G# cancel on saxophone
 The "G# cancel" refers to the screw on top of the tone-hole key for G#. It serves two purposes:
 - When the RH presses F#*, 4, 5, or 6, the G# key is prevented from activating
 - When the RH presses F#*, 4, 5, or 6, the bis key is automatically pressed
 
 While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill), you need to also select "G# cancel" on the fingering diagram. This will change the fingering description to contain a double vertical bar (||) — e.g. low B is 123 B || 456 C, not 123 B | 456 C.
 
-### E−* on trombone
+#### E−* on trombone
 On a trombone, the lowest "normal" note is E2 (played in 7th position). Then, there is a gap until Bb1, the first pedal tone (in 1st position). The notes within this gap are partially filled by a trombone with a F attachment, namely Eb2, D2, C#2, and C2, however this still leaves a 1-note gap at B1. In order to play this note on a single-(F)-trigger trombone without resorting to lipping or using false tones, the tuning of the F attachment has to be pulled out to just below E.
 
 Just like G# the cancel on saxophone, the E−* on trombone does not refer to a valve or key. Instead, it represents the tuning of the F attachment being pulled out to just below E.
 
-# Pitch
+## Pitch
 to be completed
 
-# Filters
+## Filters
 to be completed
 
-# Version overview
+## Version overview
 - 1.0 — first version of WindFingerings
 - 1.1 — added "standard" collection
 - 1.1.1 — bug fixes
