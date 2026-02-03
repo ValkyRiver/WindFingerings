@@ -210,7 +210,10 @@ def onclick(event):
                 except Exception:
                     pass
             elif SELECT[:-1] == "notename":
-                temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1]/1200)
+                if SELECT[-1] == "0":
+                    temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(DATABASE[0][2], instruments[INSTRUMENT][1])[1]/1200)
+                else:
+                    temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1]/1200)
                 if temp_pitch:
                     if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
@@ -220,7 +223,10 @@ def onclick(event):
                             PITCHES[int(SELECT[-1])-1] = temp_pitch
             elif SELECT[:-1] == "centsdev":
                 try:
-                    temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1])/1200)
+                    if SELECT[-1] == "0":
+                        temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], instruments[INSTRUMENT][1])[1])/1200)
+                    else:
+                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1])/1200)
                     if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
                             TONIC = temp_pitch
@@ -230,7 +236,10 @@ def onclick(event):
                 except Exception:
                     pass
             elif SELECT[:-1] == "concertname":
-                temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(PITCHES[int(SELECT[-1])-1], 0)[1]/1200)
+                if SELECT[-1] == "0":
+                    temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(DATABASE[0][2], 0)[1]/1200)
+                else:
+                    temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(PITCHES[int(SELECT[-1])-1], 0)[1]/1200)
                 if temp_pitch:
                     if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
@@ -240,7 +249,10 @@ def onclick(event):
                             PITCHES[int(SELECT[-1])-1] = temp_pitch
             elif SELECT[:-1] == "concertdev":
                 try:
-                    temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)[1])/1200)
+                    if SELECT[-1] == "0":
+                        temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], 0)[1])/1200)
+                    else:
+                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**(float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)/1200)
                     if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
                             TONIC = temp_pitch
