@@ -1,6 +1,6 @@
-# WindFingerings 1.1.4 by Valky River
+# WindFingerings 1.1.5 by Valky River
 
-version = "1.1.4"
+version = "1.1.5"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1514,7 +1514,7 @@ def exportfile(database=DATABASE):
             if key == key_systems[instruments[database[0][1]][0]]["parameters"]["LR_split"]:
                 desc_string += key_systems[instruments[database[0][1]][0]]["parameters"]["separator"]
             if isinstance(state, complex):
-                if state.imag == 0 or round(state.real, 6) == round(state.imag, 6):
+                if fingering[2] != "trill" or round(state.real, 6) == round(state.imag, 6):
                     desc_string += "{"+str(round(state.real, 2))+"} "
                 else:
                     desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
@@ -1654,7 +1654,7 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
         if key == key_systems[instruments[INSTRUMENT][0]]["parameters"]["LR_split"]:
             desc_string += key_systems[instruments[INSTRUMENT][0]]["parameters"]["separator"]
         if isinstance(state, complex):
-            if state.imag == 0 or round(state.real, 6) == round(state.imag, 6):
+            if fingering[2] != "trill" or round(state.real, 6) == round(state.imag, 6):
                 desc_string += "{"+str(round(state.real, 2))+"} "
             else:
                 desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
@@ -1882,6 +1882,7 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
     
     
 def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEMPVAR):
+    global FINGTYPE
     C.delete("key")
     C.delete("partial")
     C.delete("fingeringhelp")
@@ -1931,7 +1932,7 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
         if key == parameters["LR_split"]:
             desc_string += parameters["separator"]
         if isinstance(state, complex):
-            if state.imag == 0 or round(state.real, 6) == round(state.imag, 6):
+            if FINGTYPE != "trill" or round(state.real, 6) == round(state.imag, 6):
                 desc_string += "{"+str(round(state.real, 2))+"} "
             else:
                 desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
@@ -2397,7 +2398,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 if key == key_systems[instruments[database[0][1]][0]]["parameters"]["LR_split"]:
                     desc_string += key_systems[instruments[database[0][1]][0]]["parameters"]["separator"]
                 if isinstance(state, complex):
-                    if state.imag == 0 or round(state.real, 6) == round(state.imag, 6):
+                    if fingering[1][2] != "trill" or round(state.real, 6) == round(state.imag, 6):
                         desc_string += "{"+str(round(state.real, 2))+"} "
                     else:
                         desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
@@ -2416,7 +2417,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             elif entry[1][3] >= 0:
                 desc_string += "(" + str(entry[1][3]) + ")"
             elif entry[1][3] <= -2:
-                desc_string += "[(" + str(-entry[1][3]-1) + ")(" + str(-fingering[3]) + ")]"
+                desc_string += "[(" + str(-entry[1][3]-1) + ")(" + str(-fingering[1][1][3]) + ")]"
 
             descsize = min(40/len(desc_string), 1)
             if descsize <= 2/3:
