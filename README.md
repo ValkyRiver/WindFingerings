@@ -58,5 +58,6 @@ to be completed
 - 1.1.3 — fixed trills and multiphonics sorting bug
 - 1.1.4 — more bug fixes
 - 1.1.5 — added some trills to "standard" collection, fixed more bugs
+- 1.1.6 — bug fixed with copying to clipboard, added Contrabass Clarinet
 
 ## Issues
