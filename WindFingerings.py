@@ -420,7 +420,7 @@ def onclick(event):
                 filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*"))
             )
             if file:
-                #try:
+                try:
                     with open(file, "r") as f:
                         DATABASE = importfile(f.read().strip().split("\n"))
                     PAGE = 0
@@ -439,11 +439,11 @@ def onclick(event):
                     render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
                     render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
                     render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                #except Exception as e:
-                    #E = Toplevel(C)
-                    #E.geometry("800x50")
-                    #E.title("Error loading file")
-                    #Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+                except Exception as e:
+                    E = Toplevel(C)
+                    E.geometry("800x50")
+                    E.title("Error loading file")
+                    Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
 
         elif "copytoclipboard" in tags:
             C.clipboard_clear()
