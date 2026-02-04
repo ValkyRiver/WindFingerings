@@ -1,5 +1,5 @@
 ### README TO BE COMPLETED
-# WindFingerings 1.1.6
+# WindFingerings 1.1.7
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
@@ -12,7 +12,7 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium, F Tuba, Eb Tuba, CC Tuba, BBb Tuba
 
-## Fingering
+## Fingering section
 To select a fingering, click on the keys in the fingering diagram on the top left corner. Right-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, middle-click on a key to trill it (which will change the color of the key to bright green).
 
 The keys in the diagram are colored based on their function on the instrument:
@@ -33,19 +33,30 @@ The trombone and trumpet contain continuous pitch parameters:
 
 Note: the fingering diagram doesn't "know" whether pressing down one key automatically presses down another (e.g. pressing down the low C key on a flute will automatically depress the low C# as well). The convention in the "standard" collections is to only include the key being pressed, and not any keys that are automatically depressed as a result of some other key being pressed. So low C on flute is stored as T 123 | 456 C, instead of T 123 | 456 C# C (or T 1Bb\*23 | G*F#*456 C).
 
-### Special purple "keys"
-#### G# cancel on saxophone
+### Special: G# cancel on saxophone
 The "G# cancel" refers to the screw on top of the tone-hole key for G#. It serves two purposes:
 - When the RH presses F#*, 4, 5, or 6, the G# key is prevented from activating
 - When the RH presses F#*, 4, 5, or 6, the bis key is automatically pressed
 
-While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill), you need to also select "G# cancel" on the fingering diagram. This will change the fingering description to contain a double vertical bar (||) — e.g. low B is 123 B || 456 C, not 123 B | 456 C.
+While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# (as well as between Bb and B) that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill), you need to also select "G# cancel" on the fingering diagram. This will change the fingering description to contain a double vertical bar (||) — e.g. B3 (low B) is 123 B || 456 C, not 123 B | 456 C.
 
-#### E−* on trombone
-On a trombone, the lowest "normal" note is E2 (played in 7th position). Then, there is a gap until Bb1, the first pedal tone (in 1st position). The notes within this gap are partially filled by a trombone with a F attachment, namely Eb2, D2, C#2, and C2, however this still leaves a 1-note gap at B1. In order to play this note on a single-(F)-trigger trombone without resorting to lipping or using false tones, the tuning of the F attachment has to be pulled out to just below E. This turns the F-trigger into a "E−trigger", and this what the E−* refers to.
+### Special: E−* on trombone
+On a trombone, the lowest "normal" note is E2 (played in 7th position). Then, there is a gap until Bb1, the first pedal tone (in 1st position). The notes within this gap are partially filled by a trombone with a F attachment, namely Eb2, D2, C#2, and C2, however this still leaves a 1-note gap at B1. In order to play this note on a single-(F)-trigger trombone without resorting to lipping or using false tones, the tuning of the F attachment has to be pulled out to just below E. This turns the F-trigger into a "E−-trigger", and this what the E−* refers to.
 
-## Pitch
-to be completed
+## Pitch section
+### Fingering type
+After selecting a fingering, you can also specify what type of fingering this is, and which pitch this fingering plays in the "pitch" section. There are three options for fingering type:
+- Note/Microtone (1 pitch) — for static fingerings that produces one pitch. If the same fingering is capable of producing different pitches depending on other factors, include as two separate entries (e.g. flute T 123 | 1−− Eb can produce both F4 and F5 — these would be stored as two separate entries) 
+- Trill/Tremolo (2 pitches) — for a non-static fingering that involves alternation between two pitches. In the description, trilled keys will appear in square brackets (e.g. on saxophone, T 123 B || 4\[Bb*]56 C is a trill between Bb3 and B3).
+- Multiphonic (2−4 pitches) — for static fingerings that produce more than one pitch. When selecting this option, it will also popup whether the multiphonic has 2, 3, or 4 pitches.
+
+### Pitches
+After selecting the type of fingering, there are five boxes for each pitch. Select on one of the boxes to type in a pitch, or use the arrow keys to shift the pitch in increments of 1 TET—step. The first box shows the frequency of this pitch in Hz. The second and third boxes display the pitch by a note name and cent deviation from A=440 12−TET, in transposed pitch. The fourth and fifth boxes are the same but in concert pitch instead of transposed pitch.
+
+For example, if the selected instrument is Bass Clarinet, the pitch 300 Hz will also display as E5 +36.95 (i.e. 36.95 cents higher than transposed E5) and concert D4 +36.95 (i.e. 36.95 cents higher than concert D4).
+
+### Tonic and TET
+On the bottom, "tonic" refers to the pitch to be labeled as pitch class 0. "TET" refers to the number of equally-spaced notes in an octave (i.e. which equal temperament is used). After this is set, every pitch class is given a "pitch class name" which is shown to the right of the pitch (e.g. with the tonic at 256 Hz and 19−TET, the frequency 440 Hz would be in pitch class "15\\19 −15.42%".
 
 ## Filters
 to be completed
@@ -59,5 +70,6 @@ to be completed
 - 1.1.4 — more bug fixes
 - 1.1.5 — added some trills to "standard" collection, fixed more bugs
 - 1.1.6 — bug fixed with copying to clipboard, added Contrabass Clarinet
+- 1.1.7 — bug fixes
 
 ## Issues
