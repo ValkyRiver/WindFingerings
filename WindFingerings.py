@@ -1,6 +1,6 @@
-# WindFingerings 1.1.6 by Valky River
+# WindFingerings 1.1.7 by Valky River
 
-version = "1.1.6"
+version = "1.1.7"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -420,7 +420,7 @@ def onclick(event):
                 filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*"))
             )
             if file:
-                try:
+                #try:
                     with open(file, "r") as f:
                         DATABASE = importfile(f.read().strip().split("\n"))
                     PAGE = 0
@@ -439,11 +439,11 @@ def onclick(event):
                     render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
                     render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
                     render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                except Exception as e:
-                    E = Toplevel(C)
-                    E.geometry("800x50")
-                    E.title("Error loading file")
-                    Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+                #except Exception as e:
+                    #E = Toplevel(C)
+                    #E.geometry("800x50")
+                    #E.title("Error loading file")
+                    #Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
 
         elif "copytoclipboard" in tags:
             C.clipboard_clear()
@@ -1473,7 +1473,7 @@ def exportfile(database=DATABASE):
 
     no_comma_databasedesc = ""
     for char in database[0][4].strip():
-        no_comma_databasedesc += ("`" if char == "," else ("$" if char == "\"" else char))
+        no_comma_databasedesc += ("`" if char == "," else ("$" if char == "\"" else ("!" if char == "\n" else char)))
 
     csv_string = database[0][0] + "\nInstrument: " + database[0][1] + "\nTransposition: " + str(instruments[database[0][1]][1]*100) + " cents\nTonic: " + str(round(database[0][2], 6)) + " Hz\nTemperament: " + str(database[0][3]) + "-TET\nDescription: " + no_comma_databasedesc
     header = "Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description"
@@ -1566,7 +1566,7 @@ def exportfile(database=DATABASE):
 
         no_comma_desc = ""
         for char in fingering[1][-1]:
-            no_comma_desc += ("`" if char == "," else ("$" if char == "\"" else char))
+            no_comma_desc += ("`" if char == "," else ("$" if char == "\"" else ("!" if char == "\n" else char)))
         
         csv += no_comma_desc+"\n"
         
@@ -1577,7 +1577,7 @@ def importfile(file):
 
     comma_databasedesc = ""
     for char in file[5].split(",")[0][13:]:
-        comma_databasedesc += ("," if char == "`" else ("\"" if char == "$" else char))
+        comma_databasedesc += ("," if char == "`" else ("\"" if char == "$" else ("\n" if char == "!" else char)))
 
     database = [[
         file[0].split(",")[0], # name
@@ -1602,7 +1602,7 @@ def importfile(file):
 
         comma_desc = ""
         for char in f[-1]:
-            comma_desc += ("," if char == "`" else ("\"" if char == "$" else char))
+            comma_desc += ("," if char == "`" else ("\"" if char == "$" else ("\n" if char == "!" else char)))
                 
         fingering.append(comma_desc)
         fingtype = "multi" + str(len(pitches)) if f[0] == "multi" else f[0]
@@ -1706,7 +1706,7 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
 
     no_comma_desc = ""
     for char in fingering[1][-1]:
-        no_comma_desc += ("`" if char == "," else ("$" if char == "\"" else char))
+        no_comma_desc += ("`" if char == "," else ("$" if char == "\"" else ("!" if char == "\n" else char)))
         
     csv += no_comma_desc
         
@@ -1729,7 +1729,7 @@ def pastefromclipboard(f):
 
     comma_desc = ""
     for char in f[-1]:
-        comma_desc += ("," if char == "`" else ("\"" if char == "$" else char))
+        comma_desc += ("," if char == "`" else ("\"" if char == "$" else ("\n" if char == "!" else char)))
 
     fingering.append(comma_desc)
     fingtype = "multi" + str(len(pitches)) if f[0] == "multi" else f[0]
