@@ -1,16 +1,18 @@
-### README TO BE COMPLETED
-# WindFingerings 1.1.7
+# WindFingerings 1.1.8
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
-- Piccolo, Flute
-- Oboe, English Horn, Bassoon, Contrabassoon
-- Clarinet in Eb, Clarinet in Bb, Clarinet in A, Basset Horn, Alto Clarinet, Bass Clarinet, Contrabass Clarinet
-- Sopranino Saxophone, Soprano Saxophone, Alto Saxophone, Tenor Saxophone, Baritone Saxophone, Bass Saxophone
-- Piccolo Trumpet in Bb, Trumpet in C, Trumpet in Bb, Cornet in Bb, Flugelhorn
-- Single F Horn, Single Bb Horn, Double F/Bb Horn
+- Piccolo, Flute†
+- Oboe†, English Horn, Bassoon†, Contrabassoon
+- Clarinet in Eb, Clarinet in Bb†, Clarinet in A, Basset Horn*, Alto Clarinet, Bass Clarinet, Contrabass Clarinet*
+- Sopranino Saxophone*, Soprano Saxophone, Alto Saxophone†, Tenor Saxophone†, Baritone Saxophone, Bass Saxophone*
+- Piccolo Trumpet in Bb*, Trumpet in C, Trumpet in Bb†, Cornet in Bb, Flugelhorn
+- Single F Horn, Single Bb Horn, Double F/Bb Horn†
 - Tenor Trombone, Bass Trombone
-- Tenor Horn, Baritone Horn, Euphonium, F Tuba, Eb Tuba, CC Tuba, BBb Tuba
+- Tenor Horn, Baritone Horn, Euphonium†, F Tuba, Eb Tuba, CC Tuba, BBb Tuba†
+
+### Standard collections
+The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones marked with an asterisk (*). The instruments marked with a dagger (†) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
 
 ## Fingering section
 To select a fingering, click on the keys in the fingering diagram on the top left corner. Right-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, middle-click on a key to trill it (which will change the color of the key to bright green).
@@ -51,15 +53,49 @@ After selecting a fingering, you can also specify what type of fingering this is
 - Multiphonic (2−4 pitches) — for static fingerings that produce more than one pitch. When selecting this option, it will also popup whether the multiphonic has 2, 3, or 4 pitches.
 
 ### Pitches
-After selecting the type of fingering, there are five boxes for each pitch. Select on one of the boxes to type in a pitch, or use the arrow keys to shift the pitch in increments of 1 TET—step. The first box shows the frequency of this pitch in Hz. The second and third boxes display the pitch by a note name and cent deviation from A=440 12−TET, in transposed pitch. The fourth and fifth boxes are the same but in concert pitch instead of transposed pitch.
+After selecting the type of fingering, there are five boxes for each pitch. Select on one of the boxes to type in a pitch, or use the arrow keys to shift the pitch in increments of 1 TET−step. The first box shows the frequency of this pitch in Hz. The second and third boxes display the pitch by a note name and cent deviation from A=440 12−TET, in transposed pitch. The fourth and fifth boxes are the same but in concert pitch instead of transposed pitch.
 
 For example, if the selected instrument is Bass Clarinet, the pitch 300 Hz will also display as E5 +36.95 (i.e. 36.95 cents higher than transposed E5) and concert D4 +36.95 (i.e. 36.95 cents higher than concert D4).
 
 ### Tonic and TET
 On the bottom, "tonic" refers to the pitch to be labeled as pitch class 0. "TET" refers to the number of equally-spaced notes in an octave (i.e. which equal temperament is used). After this is set, every pitch class is given a "pitch class name" which is shown to the right of the pitch (e.g. with the tonic at 256 Hz and 19−TET, the frequency 440 Hz would be in pitch class "15\\19 −15.42%".
 
-## Filters
-to be completed
+## Filters and Search section
+The bottom left corner offers options for narrowing down results of the database based on several criteria. "Filter for fingering type" allows only certain types of fingerings to show up (notes, trills, multiphonics). The other types are bit more nuanced.
+
+All of the examples given in this section will assume that the selected TET is 12−TET with a tonic of 440 Hz, but the same applies regardless of what the chosen tonic and TET are.
+
+### Tolerance
+When searching for pitch (or TET), this shows the maximum deviation from the pitch (or TET) being searched. Tolerance can be specified in cents (absolute), or as a percentage of 1 TET−step (relative). All of the examples given here will assume a tolerance of 15%, but the same applies regardless of the tolerance.
+
+### Filter for pitches in TET
+When this filter is active, only pitches that are within tolerance of the TET (specified in the "pitch" section) will remain (i.e. "in tune" with the TET). For example, 392 Hz and 440 Hz will remain, but 475 Hz is filtered out as it is not with 15% of the selected TET (it is 1\\12 +32.51%).
+
+- At least 1 in TET: A trill or multiphonic fingering will remain if at least one of the pitches is in the TET. For instance, a trill between 440 Hz and 475 Hz will not be filtered out, as although 475 Hz is not within 15% of the TET, 440 Hz is in the TET, and this setting only requires at least 1 pitch to be in the TET.
+- All in TET: A trill or multiphonic fingering will only remain if all of its pitches are in the TET. The same 440 Hz to 475 Hz trill would now be filtered out, as even though 440 Hz is in the TET, 475 Hz is not, and this setting requires all pitches to be in the TET.
+These two settings are identical for fingerings of type "note", as notes only have one pitch to begin with.
+
+### Search for fingering
+To search a fingering, select a fingering on the diagram in the top left, and then press either "Match primary fingering" or "Match exact fingering"
+
+Match primary fingering: only the main elements of the fingering need to match for a fingering to remain. Aspects like half-holes, trills, and partials will be ignored.
+- Example 1: in oboe-standard.csv, searching 123 | 456 C# (the fingering for C#4) will also cause ½23 | 456 C# (the fingering for C#5) to remain, as the half-hole is ignored by "Match primary fingering".
+- Example 2: in trumpet-bb-standard.csv, searching 1−3 {0.0} {0.0} ③ (a slightly sharp D4) will not only cause 1−3 {0.25} {0.0} ③ (in-tune D4) to remain (as the 3rd valve tuning is ignored by "Match primary fingering"), but also leave 1−3 {0.0} {0.0} ② (G3), 1−3 {0.25} {0.0} ④ (G4), etc. untouched — partials are ignored by "Match primary fingering", and only the 1−3 matters here.
+- Example 3: in clarinet-bb-trill.csv, searching T 123 | 4\[5]− (A3 to Bb3 trill) will not only cause the matched T 123 | 4\[5]− to remain, but also any trill that contains T 123 | 4−− or T 123 | 45−. Doing the same search in clarinet-bb-standard.csv will return two results: T 123 | 4−− (A3) and T 123 | 45− (Bb3), as the fingering only needs to match either of the two trilled positions.
+
+Match exact fingering: all aspects of the fingering need to match for a fingering to remain, including half-holes, trills, and partials.
+- Example 1: in oboe-standard.csv, searching 123 | 456 C# (the fingering for C#4) will only return 123 | 456 C#, not ½23 | 456 C#.
+- Example 2: in trumpet-bb-standard.csv, searching 1−− {0.0} {0.0} ④ (Bb4) will only return 1−− {0.0} {0.0} ④ (Bb4), and not 1−− {0.0} {0.0} ② (Bb3), 1−− {0.0} {0.0} ③ (F4), or anything else.
+- Example 3: in clarinet-bb-trill.csv, searching T 123 | 4\[5]− (A3 to Bb3 trill) will only return T 123 | 4\[5]−. Doing the same in clarinet-bb-standard.csv will return no results, as that collection does not contain any trills.
+
+Exceptions: continuous pitch parameters
+- Trumpet: the tuning of the 1st and 3rd valves are ignored
+- Trombone: positions follow the same "tolerance" as pitch searches. So it the tolerance is 15 cents, a search will return if the position is at most 15% of a position off.
+
+### Search for pitches
+This search works similarly to "Filter for pitches in TET", except instead of searching for all pitches in a temperament, it only searches for fingerings that contain pitches within tolerance of searched pitches.
+- At least 1 pitch match: a fingering will remain if one of its pitches matches one of the searched pitches. For example, if searching for 392 Hz and 440 Hz, a trill between 440 Hz and 475 Hz will remain, because one of its pitches (440 Hz) matches with one of the searched pitches (440 Hz).
+- All pitches match: a fingering will only remain if all of its pitches can individually match up with a searched pitch. For example, if searching for 392 Hz and 440 Hz, a multiphonic consisting of 392 Hz, 440 Hz, and 475 Hz will remain (as both 392 Hz and 440 Hz are present), but a trill between 440 Hz and 475 Hz will not, because the 475 Hz doesn't match either the searched 392 Hz or 440 Hz. 
 
 ## Version overview
 - 1.0 — first version of WindFingerings
@@ -71,5 +107,6 @@ to be completed
 - 1.1.5 — added some trills to "standard" collection, fixed more bugs
 - 1.1.6 — bug fixed with copying to clipboard, added Contrabass Clarinet
 - 1.1.7 — bug fixes
+- 1.1.8 — bug fixes
 
 ## Issues
