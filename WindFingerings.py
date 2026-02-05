@@ -1,6 +1,6 @@
-# WindFingerings 1.1.7 by Valky River
+# WindFingerings 1.1.8 by Valky River
 
-version = "1.1.7"
+version = "1.1.8"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -374,6 +374,7 @@ def onclick(event):
             SETINSTRUMENT = False
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
             render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
@@ -428,15 +429,21 @@ def onclick(event):
                     TONIC = DATABASE[0][2]
                     TET = DATABASE[0][3]
                     FILTERS["search"] = "none"
+                    if "partial" in key_systems[instruments[INSTRUMENT][0]]["special"]:
+                        FINGERING = [0, 0, 0, 1]
+                    else:
+                        FINGERING = [0, 0, 0, -0.5]
                     if "trombone" in key_systems[instruments[INSTRUMENT][0]]["special"]:
                         if FINGTYPE == "trill":
-                            FINGERING[4] = complex(1, 1)
+                            FINGERING += [complex(1, 1), complex(0)]
                         else:
-                            FINGERING[4] = complex(1, 0)
+                            FINGERING += [complex(1), complex(0)]
                     else:
-                        FINGERING[4] = complex(0, 0)
+                        FINGERING += [complex(0), complex(0)]
+                    FINGERING.append("")
                     render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                     render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+                    render_filters(FILTERS, TET, SELECT, TEMPVAR)
                     render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
                     render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
                 except Exception as e:
@@ -528,9 +535,13 @@ def middleclick(event):
                 temp_trill = FINGERING[2] ^ (2**int(tags[2]))
                 FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             elif "partial" in tags:
                 FINGERING[3] = -int(tags[2])-1
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
             elif "sposition" in tags[2] and ("setto" in tags[2]):
                 new_pos = float(tags[3])
