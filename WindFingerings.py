@@ -1,6 +1,6 @@
-# WindFingerings 1.1.8 by Valky River
+# WindFingerings 1.1.9 by Valky River
 
-version = "1.1.8"
+version = "1.1.9"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -422,7 +422,7 @@ def onclick(event):
             )
             if file:
                 try:
-                    with open(file, "r") as f:
+                    with open(file, "r", encoding="utf-8") as f:
                         DATABASE = importfile(f.read().strip().split("\n"))
                     PAGE = 0
                     INSTRUMENT = DATABASE[0][1]
@@ -478,6 +478,13 @@ def onclick(event):
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
         elif "nextpage" in tags and NUM_PAGES != 0:
             PAGE = (PAGE + 1) % NUM_PAGES 
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+        elif "prevpage2" in tags and NUM_PAGES != 0:
+            PAGE = NUM_PAGES - 1 if PAGE == 0 else max(0, PAGE - 20) % NUM_PAGES
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+        elif "nextpage2" in tags and NUM_PAGES != 0:
+            PAGE = 0 if PAGE == NUM_PAGES - 1 else min(PAGE + 20, NUM_PAGES - 1) % NUM_PAGES 
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
         elif "entry" in tags:
@@ -2216,11 +2223,17 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
         topy = 28
         per_page = 25
 
-        C.create_rectangle(124*scale, 21*scale, 127*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage"))
-        C.create_text(125.5*scale, 22.5*scale, text="◀", font=("Arial", int(scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage"))
+        C.create_rectangle(122*scale, 21*scale, 125*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage"))
+        C.create_text(123.5*scale, 22.5*scale, text="◀", font=("Arial", int(scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage"))
 
-        C.create_rectangle(141*scale, 21*scale, 144*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage"))
-        C.create_text(142.5*scale, 22.5*scale, text="▶", font=("Arial", int(scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage"))
+        C.create_rectangle(143*scale, 21*scale, 146*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage"))
+        C.create_text(144.5*scale, 22.5*scale, text="▶", font=("Arial", int(scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage"))
+
+        C.create_rectangle(118.5*scale, 21*scale, 121.5*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage2"))
+        C.create_text(120*scale, 22.5*scale, text="◀◀", font=("Arial", int(scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage2"))
+
+        C.create_rectangle(146.5*scale, 21*scale, 149.5*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage2"))
+        C.create_text(148*scale, 22.5*scale, text="▶▶", font=("Arial", int(scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage2"))
 
         if filters["search"] != "none":
             C.create_text(89.75*scale, 22.5*scale, text="SEARCH RESULTS", font=("Arial", int(scale*2), "bold"), fill=("#000000"), tags=("database"))
