@@ -1,4 +1,4 @@
-# WindFingerings 1.1.8
+# WindFingerings 1.1.9
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
@@ -108,5 +108,6 @@ This search works similarly to "Filter for pitches in TET", except instead of se
 - 1.1.6 — bug fixed with copying to clipboard, added Contrabass Clarinet
 - 1.1.7 — bug fixes
 - 1.1.8 — bug fixes
+- 1.1.9 — added super-steps to page select for large collections
 
 ## Issues
