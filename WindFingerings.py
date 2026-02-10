@@ -481,10 +481,10 @@ def onclick(event):
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             
         elif "prevpage2" in tags and NUM_PAGES != 0:
-            PAGE = NUM_PAGES - 1 if PAGE == 0 else max(0, PAGE - 20) % NUM_PAGES
+            PAGE = NUM_PAGES - 1 if PAGE == 0 else max(0, PAGE - 10) % NUM_PAGES
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
         elif "nextpage2" in tags and NUM_PAGES != 0:
-            PAGE = 0 if PAGE == NUM_PAGES - 1 else min(PAGE + 20, NUM_PAGES - 1) % NUM_PAGES 
+            PAGE = 0 if PAGE == NUM_PAGES - 1 else min(PAGE + 10, NUM_PAGES - 1) % NUM_PAGES 
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
         elif "entry" in tags:
