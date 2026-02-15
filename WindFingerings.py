@@ -1,6 +1,6 @@
-# WindFingerings 1.1.9 by Valky River
+# WindFingerings 1.1.10 by Valky River
 
-version = "1.1.9"
+version = "1.1.10"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1128,7 +1128,7 @@ key_systems = {
         "parameters": {"keys":28, "LR_split":14, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":0, "shifty":1, "Lx":6, "Ly":3, "Mx":50.5, "My":12, "Bx":42, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":7, "y1":23, "x2":13, "y2":26, "type":"octave", "halfable":False, "label":"R", "labelsize":1, "descname":"R ", "descoff":""},
-        1: {"x1":13.5, "y1":22.5, "x2":17.5, "y2":26.5, "type":"main", "halfable":False, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":" "},
+        1: {"x1":13.5, "y1":22.5, "x2":17.5, "y2":26.5, "type":"main", "halfable":True, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":" "},
         2: {"x1":9, "y1":10, "x2":14, "y2":13, "type":"high", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
         3: {"x1":7, "y1":14, "x2":12, "y2":17, "type":"high", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
         4: {"x1":13, "y1":12, "x2":20, "y2":19, "type":"main", "halfable":True, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
@@ -1164,7 +1164,7 @@ key_systems = {
         1: {"x1":16.5, "y1":27.5, "x2":20.5, "y2":31.5, "type":"main", "halfable":False, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":" "},
         2: {"x1":12, "y1":10, "x2":17, "y2":13, "type":"high", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
         3: {"x1":10, "y1":14, "x2":15, "y2":17, "type":"high", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
-        4: {"x1":16, "y1":12, "x2":23, "y2":19, "type":"main", "halfable":True, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
+        4: {"x1":16, "y1":12, "x2":23, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
         5: {"x1":24, "y1":12, "x2":31, "y2":19, "type":"main", "halfable":False, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
         6: {"x1":30.5, "y1":9, "x2":33.5, "y2":14, "type":"second", "halfable":False, "label":"Eb\nBb", "labelsize":5/6, "descname":"Eb", "descoff":""},
         7: {"x1":33, "y1":12, "x2":40, "y2":19, "type":"main", "halfable":False, "label":"3", "labelsize":2, "descname":"3", "descoff":"−"},
