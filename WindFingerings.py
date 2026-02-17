@@ -1,6 +1,6 @@
-# WindFingerings 1.1.10 by Valky River
+# WindFingerings 1.1.11 by Valky River
 
-version = "1.1.10"
+version = "1.1.11"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -1013,10 +1013,10 @@ key_systems = {
         21: {"x1":56.5, "y1":12, "x2":63.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
         22: {"x1":63.5, "y1":16, "x2":66.5, "y2":21, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":"F", "descoff":""},
         23: {"x1":66.5, "y1":12, "x2":73.5, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        24: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":True, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
-        25: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":True, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
-        26: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":True, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
-        27: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":True, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
+        24: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":False, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
+        25: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
+        26: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
+        27: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
     },
 
     "corangl": {
@@ -1045,10 +1045,10 @@ key_systems = {
         20: {"x1":56.5, "y1":12, "x2":63.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
         21: {"x1":63.5, "y1":16, "x2":66.5, "y2":21, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":"F", "descoff":""},
         22: {"x1":66.5, "y1":12, "x2":73.5, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        23: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":True, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
-        24: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":True, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
-        25: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":True, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
-        26: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":True, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
+        23: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":False, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
+        24: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
+        25: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
+        26: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
     },
 
     "bassoon": {
