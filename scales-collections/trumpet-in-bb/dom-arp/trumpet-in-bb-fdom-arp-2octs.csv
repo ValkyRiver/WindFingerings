@@ -1,0 +1,16 @@
+trumpet-in-bb-fdom-arp-2octs.csv
+Instrument: Trumpet in Bb
+Transposition: -200 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,155.563493,F3+0.0,Eb3+0.0,6\12 0.0%, 123 {0.5} {0.5} (2),7_0_0_2_0.5:0.0_0.5:0.0,
+note,195.99772,A3+0.0,G3+0.0,10\12 0.0%, 12- {0.0} {0.0} (2),3_0_0_2_0.0:0.0_0.0:0.0,
+note,233.081882,C4+0.0,Bb3+0.0,1\12 0.0%, --- {0.0} {0.0} (2),0_0_0_2_0.0:0.0_0.0:0.0,
+note,277.182633,Eb4+0.0,C#4+0.0,4\12 0.0%, -23 {0.0} {0.0} (3),6_0_0_3_0.0:0.0_0.0:0.0,
+note,311.126986,F4+0.0,Eb4+0.0,6\12 0.0%, 1-- {0.0} {0.0} (3),1_0_0_3_0.0:0.0_0.0:0.0,
+note,391.995438,A4+0.0,G4+0.0,10\12 0.0%, 12- {0.0} {0.0} (4),3_0_0_4_0.0:0.0_0.0:0.0,
+note,466.163765,C5+0.0,Bb4+0.0,1\12 0.0%, --- {0.0} {0.0} (4),0_0_0_4_0.0:0.0_0.0:0.0,
+note,554.365266,Eb5+0.0,C#5+0.0,4\12 0.0%, -2- {0.0} {0.0} (5),2_0_0_5_0.0:0.0_0.0:0.0,
+note,622.253972,F5+0.0,Eb5+0.0,6\12 0.0%, 1-- {0.0} {0.0} (6),1_0_0_6_0.0:0.0_0.0:0.0,
