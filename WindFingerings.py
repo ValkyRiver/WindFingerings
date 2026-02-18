@@ -1,6 +1,6 @@
-# WindFingerings 1.1.11 by Valky River
+# WindFingerings 1.2 by Valky River
 
-version = "1.1.11"
+version = "1.2"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -126,7 +126,9 @@ def onclick(event):
         render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
     if SELECT != "":
-        if "sposition" in SELECT:
+        if "fingeringhelp" in tags or "pitchhelp" in tags or "filtershelp" in tags:
+            pass
+        elif "sposition" in SELECT:
             if "number" in SELECT:
                 try:
                     temp_sposition = float(TEMPVAR)
@@ -161,7 +163,10 @@ def onclick(event):
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                 
         elif "data" in SELECT:
-            SELECT = ""
+            if "filters" in tags:
+                pass
+            else:
+                SELECT = ""
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             
         elif "tolerance" in SELECT:
@@ -663,7 +668,7 @@ def onkey(event):
 
         if "number" in SELECT:
             if pressed == "up" or pressed == "right":
-                temp_sposition = FINGERING[int(SELECT[9])+3].real + 12/TET
+                temp_sposition = FINGERING[int(SELECT[9])+3].real + (3/TET if instruments[INSTRUMENT][0] == "trumpet" else 12/TET)
                 if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
                     if FINGTYPE == "trill":
                         if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
@@ -674,7 +679,7 @@ def onkey(event):
                         FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
                 TEMPVAR = ""
             elif pressed == "down" or pressed == "left":
-                temp_sposition = FINGERING[int(SELECT[9])+3].real - 12/TET
+                temp_sposition = FINGERING[int(SELECT[9])+3].real - (3/TET if instruments[INSTRUMENT][0] == "trumpet" else 12/TET)
                 if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
                     if FINGTYPE == "trill":
                         if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
@@ -723,7 +728,25 @@ def onkey(event):
             tolerance = round(FILTERS["tolerance"] - 0.01, 6)
             if tolerance >= 0 and tolerance <= 0.5:
                 FILTERS["tolerance"] = tolerance
-    render_filters(FILTERS, TET, SELECT, TEMPVAR)
+        render_filters(FILTERS, TET, SELECT, TEMPVAR)
+
+    elif "data" in SELECT:
+        if pressed == "down":
+            SELECT = "data+" + SELECT.split(" ")[0][4:]
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            PITCHES = sorted(list(DATABASE[int(SELECT[4:])][0]))
+            FINGERING = list(DATABASE[int(SELECT[4:])][1])
+            FINGTYPE = DATABASE[int(SELECT[4:])][2]
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+        elif pressed == "up":
+            SELECT = "data-" + SELECT.split(" ")[0][4:]
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            PITCHES = sorted(list(DATABASE[int(SELECT[4:])][0]))
+            FINGERING = list(DATABASE[int(SELECT[4:])][1])
+            FINGTYPE = DATABASE[int(SELECT[4:])][2]
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
 
 
 def spositionclick(event):
@@ -1128,7 +1151,7 @@ key_systems = {
         "parameters": {"keys":28, "LR_split":14, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":0, "shifty":1, "Lx":6, "Ly":3, "Mx":50.5, "My":12, "Bx":42, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":7, "y1":23, "x2":13, "y2":26, "type":"octave", "halfable":False, "label":"R", "labelsize":1, "descname":"R ", "descoff":""},
-        1: {"x1":13.5, "y1":22.5, "x2":17.5, "y2":26.5, "type":"main", "halfable":True, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":" "},
+        1: {"x1":13.5, "y1":22.5, "x2":17.5, "y2":26.5, "type":"main", "halfable":True, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":""},
         2: {"x1":9, "y1":10, "x2":14, "y2":13, "type":"high", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
         3: {"x1":7, "y1":14, "x2":12, "y2":17, "type":"high", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
         4: {"x1":13, "y1":12, "x2":20, "y2":19, "type":"main", "halfable":True, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
@@ -1161,7 +1184,7 @@ key_systems = {
         "parameters": {"keys":33, "LR_split":14, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1.5, "shifty":-1, "Lx":6, "Ly":3, "Mx":50.5, "My":12, "Bx":42, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":10, "y1":28, "x2":16, "y2":31, "type":"octave", "halfable":False, "label":"R", "labelsize":1, "descname":"R ", "descoff":""},
-        1: {"x1":16.5, "y1":27.5, "x2":20.5, "y2":31.5, "type":"main", "halfable":False, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":" "},
+        1: {"x1":16.5, "y1":27.5, "x2":20.5, "y2":31.5, "type":"main", "halfable":False, "label":"T", "labelsize":6/5, "descname":"T ", "descoff":""},
         2: {"x1":12, "y1":10, "x2":17, "y2":13, "type":"high", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
         3: {"x1":10, "y1":14, "x2":15, "y2":17, "type":"high", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
         4: {"x1":16, "y1":12, "x2":23, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
@@ -2142,11 +2165,12 @@ def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False
 
 def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.delete("filters")
+    C.delete("filterbackground")
     C.delete("tolerance")
-    C.create_rectangle(2*scale, 72*scale, 76*scale, 88*scale, fill=colors["filters_background"], width=0, tags=("filters"))
+    C.create_rectangle(2*scale, 72*scale, 76*scale, 88*scale, fill=colors["filters_background"], width=0, tags=("filterbackground"))
 
     # FINGTYPE FILTER
-    C.create_text(14.5*scale, 74.5*scale, text="Filter for fingering type:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filters"))
+    C.create_text(14.5*scale, 74.5*scale, text="Filter for fingering type:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 73*scale, 38.5*scale, 76*scale, fill=("#000000" if "note" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "note"))
     C.create_text(32.5*scale, 74.5*scale, text="Note/Microtone", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if "note" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "note"))
     C.create_rectangle(39*scale, 73*scale, 51*scale, 76*scale, fill=("#000000" if "trill" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "trill"))
@@ -2155,7 +2179,7 @@ def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.create_text(57.5*scale, 74.5*scale, text="Multiphonic", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if "multi" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "multi"))
 
     # TET FILTER
-    C.create_text(14.25*scale, 78*scale, text="Filter for pitches in TET:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filters"))
+    C.create_text(14.25*scale, 78*scale, text="Filter for pitches in TET:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 76.5*scale, 38.5*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "none" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "none"))
     C.create_text(32.5*scale, 78*scale, text="No filter", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "none" else "#000000"), tags=("clickable", "filters", "tetf", "none"))
     C.create_rectangle(39*scale, 76.5*scale, 51*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "part" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "part"))
@@ -2164,14 +2188,14 @@ def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.create_text(57.5*scale, 78*scale, text="All in TET", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "all" else "#000000"), tags=("clickable", "filters", "tetf", "all"))
 
     # FINGERING SEARCH
-    C.create_text(15.75*scale, 82*scale, text="Search for fingering:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filters"))
+    C.create_text(15.75*scale, 82*scale, text="Search for fingering:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 80.5*scale, 44.75*scale, 83.5*scale, fill=colors["searched"] if filters["search"] == "fingering_primary" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "fingering_primary"))
     C.create_text(35.625*scale, 82*scale, text="Match primary fingering", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_primary"))
     C.create_rectangle(45.25*scale, 80.5*scale, 63.5*scale, 83.5*scale, fill=colors["searched"] if filters["search"] == "fingering_exact" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "fingering_exact"))
     C.create_text(54.375*scale, 82*scale, text="Match exact fingering", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_exact"))
 
     # PITCH SEARCH
-    C.create_text(16.5*scale, 85.5*scale, text="Search for pitches:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filters"))
+    C.create_text(16.5*scale, 85.5*scale, text="Search for pitches:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 84*scale, 44.75*scale, 87*scale, fill=colors["searched"] if filters["search"] == "pitch_single" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "pitch_single"))
     C.create_text(35.625*scale, 85.5*scale, text="At least 1 pitch match", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "pitch_single"))
     C.create_rectangle(45.25*scale, 84*scale, 63.5*scale, 87*scale, fill=colors["searched"] if filters["search"] == "pitch_full" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "pitch_full"))
@@ -2199,6 +2223,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
     global FINGERING
     global FINGTYPE
     global PITCHES
+    global SELECT
     
     C.delete("database")
     C.delete("setinstrument")
@@ -2240,6 +2265,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             C.create_rectangle(175*scale, 21*scale, 190*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "clearsearch"))
             C.create_text(182.5*scale, 22.5*scale, text="Clear search", font=("Arial", int(scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "clearsearch"))
 
+        filtered_values = []
         filtered_database = []
         
         for f, fingering in enumerate(database[1:]): # tuple: (pitches, fingering, fingtype)
@@ -2316,29 +2342,55 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                         break
 
             if include:
-                filtered_database.append((f+1, fingering))
+                filtered_database.append(fingering)
+                filtered_values.append(f+1)
 
         NUM_PAGES = math.ceil(len(filtered_database) / per_page)
         if page >= NUM_PAGES:
             page = max(0, NUM_PAGES-1)
             PAGE = page
+        
+        if "data+" in select: # data+
+            if len(filtered_database) == 0:
+                select = ""
+            elif len(filtered_database) == 1:
+                select = "data" + str(filtered_values[0])
+            else:
+                next_entry = ((int(select[5:])+1) - 1) % (len(database)) +1
+                while next_entry % (len(database)) not in filtered_values:
+                    next_entry = ((next_entry+1) - 1) % (len(database)) +1
+                select = "data" + str(next_entry)
+            SELECT = select
+        elif "data-" in select: # data-
+            if len(filtered_database) == 0:
+                select = ""
+            elif len(filtered_database) == 1:
+                select = "data" + str(filtered_values[0])
+            else:
+                prev_entry = ((int(select[5:])-1) - 1) % (len(database)) +1
+                while prev_entry % (len(database)) not in filtered_values:
+                    prev_entry = ((prev_entry-1) - 1) % (len(database)) +1
+                select = "data" + str(prev_entry)
+            SELECT = select
 
-        if "data" in SELECT: # if entry is selected, binary search for entry
+        if "data" in select and len(filtered_database) > 0: # if entry is selected, binary search for entry
+            select = select.split(" ")[0]
+            
             low = 0; high = len(filtered_database)-1
             while high - low > 1:
                 mid = int((low + high) / 2)
-                if int(SELECT[4:]) == filtered_database[mid][0]:
+                if int(select[4:]) == filtered_values[mid]:
                     page = int(mid / per_page)
                     PAGE = page
                     break
-                elif int(SELECT[4:]) < filtered_database[mid][0]:
+                elif int(select[4:]) < filtered_values[mid]:
                     high = mid
-                elif int(SELECT[4:]) > filtered_database[mid][0]:
+                elif int(select[4:]) > filtered_values[mid]:
                     low = mid
-            if int(SELECT[4:]) == filtered_database[high][0]:
+            if int(select[4:]) == filtered_values[high]:
                     page = int(high / per_page)
                     PAGE = page
-            elif int(SELECT[4:]) == filtered_database[low][0]:
+            elif int(select[4:]) == filtered_values[low]:
                     page = int(low / per_page)
                     PAGE = page
 
@@ -2352,9 +2404,9 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
         C.create_text(140*scale, (topy-1)*scale, text="Fingering", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
         C.create_text(172.5*scale, (topy-1)*scale, text="Description", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
         
-        for f, fingering in enumerate(filtered_database[page*per_page : (page+1)*per_page] if len(filtered_database) >= (page+1)*per_page else filtered_database[page*per_page :]):
-            entry_num = fingering[0]
-            entry = fingering[1]
+        for f, entry in enumerate(filtered_database[page*per_page : (page+1)*per_page] if len(filtered_database) >= (page+1)*per_page else filtered_database[page*per_page :]):
+            
+            entry_num = filtered_values[f + page*per_page]
 
             if "multi" in entry[2]:
                 fingtype = "multi"
@@ -2365,7 +2417,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             # right side: 188
 
             # fingtype
-            C.create_rectangle(78*scale, (topy + rowspacing*f)*scale, 82*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(78*scale, (topy + rowspacing*f)*scale, 82*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(80*scale, (topy + rowspacing*(f+0.5))*scale, text=fingtype, font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
         
             freqs = []
@@ -2398,16 +2450,16 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 conctext = ", ".join(concert_pitches); concsize = min(14/len(conctext), 1)
                 steptext = ", ".join(tet_steps); stepsize = min(20/len(steptext), 1)
                 
-            C.create_rectangle(82*scale, (topy + rowspacing*f)*scale, 90*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(82*scale, (topy + rowspacing*f)*scale, 90*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(86*scale, (topy + rowspacing*(f+0.5))*scale, text=freqtext, font=("Arial", int(scale*freqsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
-            C.create_rectangle(90*scale, (topy + rowspacing*f)*scale, 100*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(90*scale, (topy + rowspacing*f)*scale, 100*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(95*scale, (topy + rowspacing*(f+0.5))*scale, text=notetext, font=("Arial", int(scale*notesize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
-            C.create_rectangle(100*scale, (topy + rowspacing*f)*scale, 110*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(100*scale, (topy + rowspacing*f)*scale, 110*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(105*scale, (topy + rowspacing*(f+0.5))*scale, text=conctext, font=("Arial", int(scale*concsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
-            C.create_rectangle(110*scale, (topy + rowspacing*f)*scale, 125*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(110*scale, (topy + rowspacing*f)*scale, 125*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(117.5*scale, (topy + rowspacing*(f+0.5))*scale, text=steptext, font=("Arial", int(scale*stepsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             F = list(bin(entry[1][0]))[2:]
@@ -2455,7 +2507,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             elif entry[1][3] >= 0:
                 desc_string += "(" + str(entry[1][3]) + ")"
             elif entry[1][3] <= -2:
-                desc_string += "[(" + str(-entry[1][3]-1) + ")(" + str(-fingering[1][1][3]) + ")]"
+                desc_string += "[(" + str(-entry[1][3]-1) + ")(" + str(-entry[1][3]) + ")]"
 
             descsize = min(40/len(desc_string), 1)
             if descsize <= 2/3:
@@ -2463,7 +2515,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 desc_right = desc_string.split("|[|")[1] if "|[|" in desc_string else (desc_string.split("||")[1] if "||" in desc_string else desc_string.split("|")[1])
                 descsize = min(50/max(len(desc_left), len(desc_right)), 0.75)
                 desc_string = desc_left + "|\n[|" + desc_right if "|[|" in desc_string else (desc_left + "||\n" + desc_right if "||" in desc_string else desc_left + "|\n" + desc_right)
-            C.create_rectangle(125*scale, (topy + rowspacing*f)*scale, 155*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(125*scale, (topy + rowspacing*f)*scale, 155*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(140*scale, (topy + rowspacing*(f+0.5))*scale, text=desc_string, font=("Arial", int(scale*descsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             descriptionsize = max(min(40/(len(entry[1][-1])+0.000000001), 1), 0.75)
@@ -2472,7 +2524,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 descriptionsize = max(min(47/(len(entry[1][-1])+0.000000001), 1), 2/3)
             if len(description) > 207:
                 description = description[:205] + "..."
-            C.create_rectangle(155*scale, (topy + rowspacing*f)*scale, 190*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if SELECT == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_rectangle(155*scale, (topy + rowspacing*f)*scale, 190*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
             C.create_text(172.5*scale, (topy + rowspacing*(f+0.5))*scale, text=description, width=34.5*scale, font=("Arial", int(scale*descriptionsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
     
 
