@@ -1,0 +1,19 @@
+flute-dfg#b-dim7-arp.csv
+Instrument: Flute
+Transposition: 0 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,293.664768,D4+0.0,D4+0.0,5\12 0.0%, T 123 | 456,43062_0_0_|_0.0:0.0_0.0:0.0,
+note,349.228231,F4+0.0,F4+0.0,8\12 -0.0%, T 123 | 4-- Eb,67638_0_0_|_0.0:0.0_0.0:0.0,
+note,415.304697,Ab4+0.0,Ab4+0.0,11\12 -0.0%, T 123 G# | --- Eb,65654_0_0_|_0.0:0.0_0.0:0.0,
+note,493.883301,B4+0.0,B4+0.0,2\12 -0.0%, T 1-- | --- Eb,65542_0_0_|_0.0:0.0_0.0:0.0,
+note,587.329535,D5+0.0,D5+0.0,5\12 -0.0%, T -23 | 456,43058_0_0_|_0.0:0.0_0.0:0.0,
+note,698.456462,F5+0.0,F5+0.0,8\12 -0.0%, T 123 | 4-- Eb,67638_0_0_|_0.0:0.0_0.0:0.0,
+note,830.609394,Ab5+0.0,Ab5+0.0,11\12 -0.0%, T 123 G# | --- Eb,65654_0_0_|_0.0:0.0_0.0:0.0,
+note,987.766601,B5+0.0,B5+0.0,2\12 -0.0%, T 1-- | --- Eb,65542_0_0_|_0.0:0.0_0.0:0.0,
+note,1174.65907,D6+0.0,D6+0.0,5\12 -0.0%, T -23 | --- Eb,65586_0_0_|_0.0:0.0_0.0:0.0,
+note,1396.912924,F6+0.0,F6+0.0,8\12 -0.0%, T 1-3 | 4-- Eb,67622_0_0_|_0.0:0.0_0.0:0.0,
+note,1661.218788,Ab6+0.0,Ab6+0.0,11\12 -0.0%, -23 G# | --- Eb,65648_0_0_|_0.0:0.0_0.0:0.0,
+note,1975.533203,B6+0.0,B6+0.0,2\12 -0.0%, T 1-3 | --eb-,16422_0_0_|_0.0:0.0_0.0:0.0,

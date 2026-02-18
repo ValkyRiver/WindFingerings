@@ -1,0 +1,16 @@
+flute-ddom-arp-2octs.csv
+Instrument: Flute
+Transposition: 0 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,293.664768,D4+0.0,D4+0.0,5\12 0.0%, T 123 | 456,43062_0_0_|_0.0:0.0_0.0:0.0,
+note,369.994423,F#4+0.0,F#4+0.0,9\12 0.0%, T 123 | --6 Eb,98358_0_0_|_0.0:0.0_0.0:0.0,
+note,440.0,A4+0.0,A4+0.0,0\12 0.0%, T 12- | --- Eb,65558_0_0_|_0.0:0.0_0.0:0.0,
+note,523.251131,C5+0.0,C5+0.0,3\12 0.0%, 1-- | --- Eb,65540_0_0_|_0.0:0.0_0.0:0.0,
+note,587.329535,D5+0.0,D5+0.0,5\12 -0.0%, T -23 | 456,43058_0_0_|_0.0:0.0_0.0:0.0,
+note,739.988847,F#5+0.0,F#5+0.0,9\12 0.0%, T 123 | --6 Eb,98358_0_0_|_0.0:0.0_0.0:0.0,
+note,880.000001,A5+0.0,A5+0.0,0\12 0.0%, T 12- | --- Eb,65558_0_0_|_0.0:0.0_0.0:0.0,
+note,1046.502261,C6+0.0,C6+0.0,3\12 -0.0%, 1-- | --- Eb,65540_0_0_|_0.0:0.0_0.0:0.0,
+note,1174.65907,D6+0.0,D6+0.0,5\12 -0.0%, T -23 | --- Eb,65586_0_0_|_0.0:0.0_0.0:0.0,

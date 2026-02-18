@@ -1,0 +1,14 @@
+flute-gmin-arp-2octs.csv
+Instrument: Flute
+Transposition: 0 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,391.995436,G4+0.0,G4+0.0,10\12 0.0%, Bb 123 | --- Eb,65589_0_0_|_0.0:0.0_0.0:0.0,
+note,466.163762,Bb4+0.0,Bb4+0.0,1\12 0.0%, Bb 1-- | --- Eb,65541_0_0_|_0.0:0.0_0.0:0.0,
+note,587.329535,D5+0.0,D5+0.0,5\12 -0.0%, Bb -23 | 456,43057_0_0_|_0.0:0.0_0.0:0.0,
+note,783.990874,G5+0.0,G5+0.0,10\12 0.0%, Bb 123 | --- Eb,65589_0_0_|_0.0:0.0_0.0:0.0,
+note,932.327523,Bb5+0.0,Bb5+0.0,1\12 -0.0%, Bb 1-- | --- Eb,65541_0_0_|_0.0:0.0_0.0:0.0,
+note,1174.659071,D6+0.0,D6+0.0,5\12 -0.0%, Bb -23 | --- Eb,65585_0_0_|_0.0:0.0_0.0:0.0,
+note,1567.981743,G6+0.0,G6+0.0,10\12 -0.0%, 123 | --- Eb,65588_0_0_|_0.0:0.0_0.0:0.0,
