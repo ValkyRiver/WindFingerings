@@ -1,18 +1,30 @@
-# WindFingerings 1.1.11
+# WindFingerings 1.2
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
-- Piccolo, Flute†
-- Oboe†, English Horn, Bassoon†, Contrabassoon
-- Clarinet in Eb, Clarinet in Bb†, Clarinet in A, Basset Horn*, Alto Clarinet, Bass Clarinet, Contrabass Clarinet*
-- Sopranino Saxophone*, Soprano Saxophone, Alto Saxophone†, Tenor Saxophone†, Baritone Saxophone, Bass Saxophone*
-- Piccolo Trumpet in Bb*, Trumpet in C, Trumpet in Bb†, Cornet in Bb, Flugelhorn
-- Single F Horn, Single Bb Horn, Double F/Bb Horn†
+- Piccolo, **Flute***
+- Oboe*, English Horn, Bassoon*, Contrabassoon
+- Clarinet in Eb, **Clarinet in Bb***, Clarinet in A, _Basset Horn_, Alto Clarinet, Bass Clarinet, _Contrabass Clarinet_
+- _Sopranino Saxophone_, Soprano Saxophone, **Alto Saxophone***, Tenor Saxophone*, Baritone Saxophone, _Bass Saxophone_
+- _Piccolo Trumpet in Bb_, Trumpet in C, **Trumpet in Bb***, Cornet in Bb, Flugelhorn
+- Single F Horn, Single Bb Horn, Double F/Bb Horn*
 - Tenor Trombone, Bass Trombone
-- Tenor Horn, Baritone Horn, Euphonium†, F Tuba, Eb Tuba, CC Tuba, BBb Tuba†
+- Tenor Horn, Baritone Horn, Euphonium*, F Tuba, Eb Tuba, CC Tuba, BBb Tuba*
 
 ### Standard collections
-The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones marked with an asterisk (*). The instruments marked with a dagger (†) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
+The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones in _italics_. The instruments marked with an asterisk (*) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
+
+### Scales collections
+The instruments in **bold** also contain templates of scales and arpeggios, including:
+- maj-scale (major scales, 2 octaves)
+- min-scale (natural minor scales, 2 octaves)
+- harmin-scale (harmonic minor scales, 2 octaves)
+- melmin-scale (melodic minor scales, 2 octaves)
+- maj-arp (major arpeggios, 2 octaves)
+- min-arp (minor arpeggios, 2 octaves)
+- dom-arp (dominant 7th arpeggios, 2 octaves)
+- other (chromatic scale 3 octaves, diminished 7th arpeggios)
+Once again, there may be a few errors.
 
 ## Fingering section
 To select a fingering, click on the keys in the fingering diagram on the top left corner. Right-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, middle-click on a key to trill it (which will change the color of the key to bright green).
@@ -98,18 +110,19 @@ This search works similarly to "Filter for pitches in TET", except instead of se
 - All pitches match: a fingering will only remain if all of its pitches can individually match up with a searched pitch. For example, if searching for 392 Hz and 440 Hz, a multiphonic consisting of 392 Hz, 440 Hz, and 475 Hz will remain (as both 392 Hz and 440 Hz are present), but a trill between 440 Hz and 475 Hz will not, because the 475 Hz doesn't match either the searched 392 Hz or 440 Hz. 
 
 ## Version overview
-- 1.0 — first version of WindFingerings
-- 1.1 — added "standard" collection
+- 1.0 — **first version of WindFingerings**
+- 1.1 — **added "standard" collection**
 - 1.1.1 — bug fixes
 - 1.1.2 — partially fixed trills and multiphonics sorting bug
 - 1.1.3 — fixed trills and multiphonics sorting bug
 - 1.1.4 — more bug fixes
-- 1.1.5 — added some trills to "standard" collection, fixed more bugs
+- 1.1.5 — **added trills to "standard" collection**, fixed more bugs
 - 1.1.6 — bug fixed with copying to clipboard, added Contrabass Clarinet
 - 1.1.7 — bug fixes
 - 1.1.8 — bug fixes
 - 1.1.9 — added super-steps to page select for large collections
 - 1.1.10 — bug fixes
 - 1.1.11 — bug fixes
+- 1.2 — **added "scales" collection**, updated "standard" collection, added arrow key scrolling in database
 
 ## Issues
