@@ -1,0 +1,14 @@
+clarinet-in-bb-amaj-arp-2octs.csv
+Instrument: Clarinet in Bb
+Transposition: -200 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,195.997719,A3+0.0,G3+0.0,10\12 0.0%, T 123 | 45-,1573202_0_0_|_0.0:0.0_0.0:0.0,
+note,246.941651,C#4+0.0,B3+0.0,2\12 0.0%, T 123 C# | ---,850_0_0_|_0.0:0.0_0.0:0.0,
+note,293.664768,E4+0.0,D4+0.0,5\12 0.0%, T 1-- | ---,18_0_0_|_0.0:0.0_0.0:0.0,
+note,391.995436,A4+0.0,G4+0.0,10\12 0.0%, A --- | ---,8_0_0_|_0.0:0.0_0.0:0.0,
+note,493.8833,C#5+0.0,B4+0.0,2\12 -0.0%, R T 123 | 456 F#,39321939_0_0_|_0.0:0.0_0.0:0.0,
+note,587.329534,E5+0.0,D5+0.0,5\12 -0.0%, R T 123 | 45-,1573203_0_0_|_0.0:0.0_0.0:0.0,
+note,783.990869,A5+0.0,G5+0.0,10\12 -0.0%, R T 12- | ---,83_0_0_|_0.0:0.0_0.0:0.0,
