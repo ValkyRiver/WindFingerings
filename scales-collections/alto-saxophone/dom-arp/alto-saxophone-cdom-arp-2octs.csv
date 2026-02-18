@@ -1,0 +1,16 @@
+alto-saxophone-cdom-arp-2octs.csv
+Instrument: Alto Saxophone
+Transposition: -900 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,155.563492,C4+0.0,Eb3+0.0,6\12 0.0%, 1Bb23 | 456 C,705693376_0_0_|_0.0:0.0_0.0:0.0,
+note,195.997718,E4+0.0,G3+0.0,10\12 0.0%, 1Bb23 | 45-,34604736_0_0_|_0.0:0.0_0.0:0.0,
+note,233.081881,G4+0.0,Bb3+0.0,1\12 0.0%, 1Bb23 | ---,1728_0_0_|_0.0:0.0_0.0:0.0,
+note,277.182631,Bb4+0.0,C#4+0.0,4\12 0.0%, 1Bb-- | ---,192_0_0_|_0.0:0.0_0.0:0.0,
+note,311.126984,C5+0.0,Eb4+0.0,6\12 0.0%, -2- | ---,512_0_0_|_0.0:0.0_0.0:0.0,
+note,391.995436,E5+0.0,G4+0.0,10\12 0.0%, o 1Bb23 | 45-,34604737_0_0_|_0.0:0.0_0.0:0.0,
+note,466.163762,G5+0.0,Bb4+0.0,1\12 0.0%, o 1Bb23 | ---,1729_0_0_|_0.0:0.0_0.0:0.0,
+note,554.365263,Bb5+0.0,C#5+0.0,4\12 0.0%, o 1Bb-- | ---,193_0_0_|_0.0:0.0_0.0:0.0,
+note,622.253967,C6+0.0,Eb5+0.0,6\12 -0.0%, o -2- | ---,513_0_0_|_0.0:0.0_0.0:0.0,

@@ -1,0 +1,14 @@
+alto-saxophone-bbmaj-arp-2octs.csv
+Instrument: Alto Saxophone
+Transposition: -900 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: In $scales$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
+note,138.591316,Bb3+0.0,C#3+0.0,4\12 0.0%, 123 Bb || 456 C,705742400_0_0_|_0.0:0.0_0.0:0.0,
+note,174.614115,D4+0.0,F3+0.0,8\12 -0.0%, 123 | 456,168822336_0_0_|_0.0:0.0_0.0:0.0,
+note,207.652349,F4+0.0,Ab3+0.0,11\12 0.0%, 123 | 4--,1050176_0_0_|_0.0:0.0_0.0:0.0,
+note,277.182631,Bb4+0.0,C#4+0.0,4\12 0.0%, 1-- || 4--,1081408_0_0_|_0.0:0.0_0.0:0.0,
+note,349.228232,D5+0.0,F4+0.0,8\12 0.0%, o 123 | 456,168822337_0_0_|_0.0:0.0_0.0:0.0,
+note,415.304698,F5+0.0,Ab4+0.0,11\12 0.0%, o 123 | 4--,1050177_0_0_|_0.0:0.0_0.0:0.0,
+note,554.365261,Bb5+0.0,C#5+0.0,4\12 -0.0%, o 1-- || 4--,1081409_0_0_|_0.0:0.0_0.0:0.0,
