@@ -1,12 +1,13 @@
-# WindFingerings 1.2 by Valky River
+# WindFingerings 1.2.1 by Valky River
 
-version = "1.2"
+version = "1.2.1"
 
 from tkinter import *
 from tkinter import filedialog as fd
 import math
 import colorsys
 import copy
+import platform
 
 class CodeIncompleteError(Exception):
     def __init__(s, message="This functionality has not been coded yet"):
@@ -27,6 +28,10 @@ colors = {
 }
 
 scale = 8
+textscale = 1
+
+if platform.system() == "Darwin": # On Mac, text size is shrunk
+    textscale = 4/3
 
 horizontalscale = 1536
 verticalscale = 792
@@ -70,7 +75,7 @@ SETINSTRUMENT = False
 
 # DESCRIPTION
 C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0)
-C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(1.5*scale), "bold"), fill="#FFFFFF")
+C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF")
 DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", 10))
 DESCRIPTION.delete(1.0, END)
 DESCRIPTION.insert(END, FINGERING[-1])
@@ -81,8 +86,8 @@ DATABASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], fo
 DATABASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
 
 C.create_rectangle(2*scale, 90*scale, 76*scale, 97*scale, fill="#000000", width=0)
-C.create_text(39*scale, 92.5*scale, text="WindFingerings "+version, font=("Arial", int(scale*1.75), "bold"), fill="#FFFFFF")
-C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(scale*1.25), "bold"), fill="#FFFFFF")
+C.create_text(39*scale, 92.5*scale, text="WindFingerings "+version, font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF")
+C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(textscale*scale*1.25), "bold"), fill="#FFFFFF")
 
 try:
     C.clipboard_get()
@@ -1820,11 +1825,11 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
                 keycolor = key_colors["main"][0]
                 textcolor = "#000000"
             C.create_oval(x1, y1, x2, y2, fill=keycolor, width=0, tags=("clickable", "partial", str(p)))
-            C.create_text((x1+x2)/2, (y1+y2)/2, text=text_string, font=("Arial", int(text_size*scale), "bold"), fill=textcolor, tags=("clickable", "partial", str(p)))
+            C.create_text((x1+x2)/2, (y1+y2)/2, text=text_string, font=("Arial", int(textscale*text_size*scale), "bold"), fill=textcolor, tags=("clickable", "partial", str(p)))
             if p >= 8 and p <= 15:
-                C.create_text((x1+x2)/2, (key["y"] + offsety + shifty + partialscale*4.2)*scale, text=str(int(round(1200*math.log(p/8, 2), 0)))+"c", font=("Arial", int(text_size*scale*(5/6)), "bold"), fill="#FFFFFF", tags=("partial"))
+                C.create_text((x1+x2)/2, (key["y"] + offsety + shifty + partialscale*4.2)*scale, text=str(int(round(1200*math.log(p/8, 2), 0)))+"c", font=("Arial", int(textscale*text_size*scale*(5/6)), "bold"), fill="#FFFFFF", tags=("partial"))
             elif p == 0:
-                C.create_text((key["x"]+offsetx+shiftx+partialscale*4)*scale, (key["y"]+offsety+shifty+partialscale*-0.5)*scale, text="partials", font=("Arial", int(text_size*scale*2), "bold"), fill="#FFFFFF", tags=("partial"))
+                C.create_text((key["x"]+offsetx+shiftx+partialscale*4)*scale, (key["y"]+offsety+shifty+partialscale*-0.5)*scale, text="partials", font=("Arial", int(textscale*text_size*scale*2), "bold"), fill="#FFFFFF", tags=("partial"))
 
     elif "sposition" in key["type"]:
         minimum = key["min"]
@@ -1842,16 +1847,16 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
                 C.create_rectangle(x1, y1, tr_position, y2, fill=key_colors["trilled"], width=0, tags=("clickable", key["type"], key["type"]+"trill", str(x1), str(x2), minimum, maximum))
 
             C.create_rectangle((x1+x2)/2 + 0.25*scale, y2 + 0.5*scale, (x1+x2)/2 + 5.5*scale, y2 + 3.5*scale, fill=(key_colors["model"][0] if key["type"]+"number" in select else key_colors["main"][0]), width=0, tags=("clickable", key["type"], key["type"]+"number", minimum, maximum))
-            C.create_text((x1+x2)/2 + 2.875*scale, y2 + 2*scale, text=tempvar if key["type"]+"number" in select and tempvar != "" in select else round(state.real, 2), font=("Arial", int(scale*1.25), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"number", minimum, maximum))
+            C.create_text((x1+x2)/2 + 2.875*scale, y2 + 2*scale, text=tempvar if key["type"]+"number" in select and tempvar != "" in select else round(state.real, 2), font=("Arial", int(textscale*scale*1.25), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"number", minimum, maximum))
             C.create_rectangle((x1+x2)/2 - 5.5*scale, y2 + 0.5*scale, (x1+x2)/2 - 0.25*scale, y2 + 3.5*scale, fill=(key_colors["model"][0] if key["type"]+"trillnum" in select else key_colors["main"][0]), width=0, tags=("clickable", key["type"], key["type"]+"trillnum", minimum, maximum))
-            C.create_text((x1+x2)/2 - 2.875*scale, y2 + 2*scale, text=tempvar if key["type"]+"trillnum" in select and tempvar != "" in select else round(state.imag, 2), font=("Arial", int(scale*1.25), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"trillnum", minimum, maximum))
+            C.create_text((x1+x2)/2 - 2.875*scale, y2 + 2*scale, text=tempvar if key["type"]+"trillnum" in select and tempvar != "" in select else round(state.imag, 2), font=("Arial", int(textscale*scale*1.25), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"trillnum", minimum, maximum))
 
         else:
             x_position = x1 + ((x2-x1)/(maximum-minimum))*(state.real - minimum)
             C.create_rectangle(x1, y1, x_position, y2, fill=key_colors["main"][1], width=0, tags=("clickable", key["type"], key["type"]+"left", str(x1), str(x2), minimum, maximum))
 
             C.create_rectangle((x1+x2)/2 - 3*scale, y2 + 0.5*scale, (x1+x2)/2 + 3*scale, y2 + 3.5*scale, fill=(key_colors["model"][0] if key["type"]+"number" in select else key_colors["main"][0]), width=0, tags=("clickable", key["type"], key["type"]+"number", minimum, maximum))
-            C.create_text((x1+x2)/2, y2 + 2*scale, text=tempvar if key["type"]+"number" in select and tempvar != "" in select else round(state.real, 2), font=("Arial", int(scale*1.25), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"number", minimum, maximum))
+            C.create_text((x1+x2)/2, y2 + 2*scale, text=tempvar if key["type"]+"number" in select and tempvar != "" in select else round(state.real, 2), font=("Arial", int(textscale*scale*1.25), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"number", minimum, maximum))
 
         if key["preset"] == "trombone":
             t = 1
@@ -1901,7 +1906,7 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
                 xpos = x1 + ((x2-x1)/(maximum-minimum))*(pos - minimum)
                 
                 C.create_oval(xpos - 1.5*scale, y1 - 0.5*scale, xpos + 1.5*scale, y1 - 3.5*scale, fill=key_colors["main"][0], width=0, tags=("clickable", key["type"], key["type"]+"setto", pos))
-                C.create_text(xpos, y1 - 2*scale, text=position_text, font=("Arial", int(scale*1.15), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"setto", pos))
+                C.create_text(xpos, y1 - 2*scale, text=position_text, font=("Arial", int(textscale*scale*1.15), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"setto", pos))
                 
                 t += 1
                 pos += multiplier
@@ -1912,7 +1917,7 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
                 pos /= 4
                 xpos = x1 + ((x2-x1)/(maximum-minimum))*(pos - minimum) 
                 C.create_oval(xpos - 1*scale, y1 - 0.5*scale, xpos + 1*scale, y1 - 2.5*scale, fill=key_colors["main"][0], width=0, tags=("clickable", key["type"], key["type"]+"setto", pos))
-                C.create_text(xpos, y1 - 1.5*scale, text=position_text, font=("Arial", int(scale*1.15), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"setto", pos))
+                C.create_text(xpos, y1 - 1.5*scale, text=position_text, font=("Arial", int(textscale*scale*1.15), "bold"), fill="#000000", tags=("clickable", key["type"], key["type"]+"setto", pos))
     
     else:
         if state == 3:
@@ -1930,10 +1935,10 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
         y2 = (key["y2"] + offsety + shifty)*scale
         if key["halfable"]:
             C.create_oval(x1, y1, x2, y2, fill=keycolor, width=0, tags=("clickable", "key", str(keynum), "halfable"))
-            C.create_text((x1+x2)/2, (y1+y2)/2, text=key["label"], font=("Arial", int(key["labelsize"]*scale*1.25), "bold"), fill=textcolor, tags=("clickable", "key", str(keynum), "halfable"))
+            C.create_text((x1+x2)/2, (y1+y2)/2, text=key["label"], font=("Arial", int(textscale*key["labelsize"]*scale*1.25), "bold"), fill=textcolor, tags=("clickable", "key", str(keynum), "halfable"))
         else:
             C.create_oval(x1, y1, x2, y2, fill=keycolor, width=0, tags=("clickable", "key", str(keynum)))
-            C.create_text((x1+x2)/2, (y1+y2)/2, text=key["label"], font=("Arial", int(key["labelsize"]*scale*1.25), "bold"), fill=textcolor, tags=("clickable", "key", str(keynum)))
+            C.create_text((x1+x2)/2, (y1+y2)/2, text=key["label"], font=("Arial", int(textscale*key["labelsize"]*scale*1.25), "bold"), fill=textcolor, tags=("clickable", "key", str(keynum)))
     
     
 def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEMPVAR):
@@ -2007,11 +2012,11 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
         desc_string += circlednums[fingering[3]]
     elif fingering[3] <= -2:
         desc_string += "[" + circlednums[-fingering[3]-1] + circlednums[-fingering[3]] + "]"
-    C.create_text((Lx+Rx)/2, (Ry+Descy)/2, text=desc_string, font=("Arial", int(scale*1.5*min(1, 75/len(desc_string))), "bold"), fill="#FFFFFF", tags=("key"))
+    C.create_text((Lx+Rx)/2, (Ry+Descy)/2, text=desc_string, font=("Arial", int(textscale*scale*1.5*min(1, 75/len(desc_string))), "bold"), fill="#FFFFFF", tags=("key"))
 
-    C.create_text((parameters["Lx"]+parameters["offsetx"]+8.4)*scale, (parameters["Ly"]+parameters["offsety"]+1.9)*scale, text="Right-click to half-press\nMiddle-click to trill", font=("Arial", int(scale*1), "bold"), fill="#FFFFFF", tags=("key"))
+    C.create_text((parameters["Lx"]+parameters["offsetx"]+8.4)*scale, (parameters["Ly"]+parameters["offsety"]+1.9)*scale, text="Right-click to half-press\nMiddle-click to trill", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF", tags=("key"))
     C.create_oval(72*scale, 3*scale, 75*scale, 6*scale, fill=colors["dark_description_background"], width=0, tags=("clickable", "fingeringhelp"))
-    C.create_text(73.5*scale, 4.5*scale, text="?", font=("Arial", int(scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "fingeringhelp"))
+    C.create_text(73.5*scale, 4.5*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "fingeringhelp"))
     
 
 def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", transpose=0, tonic=440.0, tet=12):
@@ -2021,43 +2026,43 @@ def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", tran
     C.create_rectangle(2*scale, 65*scale, 76*scale, 70*scale, fill="#000000", width=0, tags=("pitch"))
 
     # FINGERING TYPE
-    C.create_text(10*scale, 48.5*scale, text="Fingering type:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("fingtype"))
+    C.create_text(10*scale, 48.5*scale, text="Fingering type:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("fingtype"))
     C.create_rectangle(18*scale, 47*scale, 30*scale, 50*scale, fill=("#000000" if fingtype == "note" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "note"))
-    C.create_text(24*scale, 48.5*scale, text="Note/Microtone", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if fingtype == "note" else "#000000"), tags=("clickable", "fingtype", "note"))
+    C.create_text(24*scale, 48.5*scale, text="Note/Microtone", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if fingtype == "note" else "#000000"), tags=("clickable", "fingtype", "note"))
     C.create_rectangle(30.5*scale, 47*scale, 42.5*scale, 50*scale, fill=("#000000" if fingtype == "trill" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "trill"))
-    C.create_text(36.5*scale, 48.5*scale, text="Trill/Tremolo", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if fingtype == "trill" else "#000000"), tags=("clickable", "fingtype", "trill"))
+    C.create_text(36.5*scale, 48.5*scale, text="Trill/Tremolo", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if fingtype == "trill" else "#000000"), tags=("clickable", "fingtype", "trill"))
     C.create_rectangle(43*scale, 47*scale, 55*scale, 50*scale, fill=("#000000" if "multi" in fingtype else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "multi"))
-    C.create_text(49*scale, 48.5*scale, text="Multiphonic", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if "multi" in fingtype else "#000000"), tags=("clickable", "fingtype", "multi"))
+    C.create_text(49*scale, 48.5*scale, text="Multiphonic", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if "multi" in fingtype else "#000000"), tags=("clickable", "fingtype", "multi"))
     if "multi" in fingtype:
-        C.create_text(60.5*scale, 48.5*scale, text="Pitches:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("fingtype"))
+        C.create_text(60.5*scale, 48.5*scale, text="Pitches:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("fingtype"))
         C.create_rectangle(65*scale, 47*scale, 68*scale, 50*scale, fill=("#000000" if fingtype == "multi2" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "multi2"))
-        C.create_text(66.5*scale, 48.5*scale, text="2", font=("Arial", int(scale*4/3), "bold"), fill=("#FFFFFF" if fingtype == "multi2" else "#000000"), tags=("clickable", "fingtype", "multi2"))
+        C.create_text(66.5*scale, 48.5*scale, text="2", font=("Arial", int(textscale*scale*4/3), "bold"), fill=("#FFFFFF" if fingtype == "multi2" else "#000000"), tags=("clickable", "fingtype", "multi2"))
         C.create_rectangle(68.5*scale, 47*scale, 71.5*scale, 50*scale, fill=("#000000" if fingtype == "multi3" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "multi3"))
-        C.create_text(70*scale, 48.5*scale, text="3", font=("Arial", int(scale*4/3), "bold"), fill=("#FFFFFF" if fingtype == "multi3" else "#000000"), tags=("clickable", "fingtype", "multi3"))
+        C.create_text(70*scale, 48.5*scale, text="3", font=("Arial", int(textscale*scale*4/3), "bold"), fill=("#FFFFFF" if fingtype == "multi3" else "#000000"), tags=("clickable", "fingtype", "multi3"))
         C.create_rectangle(72*scale, 47*scale, 75*scale, 50*scale, fill=("#000000" if fingtype == "multi4" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "multi4"))
-        C.create_text(73.5*scale, 48.5*scale, text="4", font=("Arial", int(scale*4/3), "bold"), fill=("#FFFFFF" if fingtype == "multi4" else "#000000"), tags=("clickable", "fingtype", "multi4"))
+        C.create_text(73.5*scale, 48.5*scale, text="4", font=("Arial", int(textscale*scale*4/3), "bold"), fill=("#FFFFFF" if fingtype == "multi4" else "#000000"), tags=("clickable", "fingtype", "multi4"))
     else:
-         C.create_text(66*scale, 48.5*scale, text=" Select a box to change pitch by\ntyping it in or using arrow keys", font=("Arial", int(scale*0.95), "bold"), fill="#FFFFFF", tags=("fingtype"))
+         C.create_text(66*scale, 48.5*scale, text=" Select a box to change pitch by\ntyping it in or using arrow keys", font=("Arial", int(textscale*scale*0.95), "bold"), fill="#FFFFFF", tags=("fingtype"))
         
     # PITCHES
     for p, pitch in enumerate(pitches):
-        C.create_text((7.1*scale if fingtype == "note" else 6.4*scale), (52 + 3.5*p)*scale, text=("Pitch:" if fingtype == "note" else "Pitch "+str(p+1)+":"), font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+        C.create_text((7.1*scale if fingtype == "note" else 6.4*scale), (52 + 3.5*p)*scale, text=("Pitch:" if fingtype == "note" else "Pitch "+str(p+1)+":"), font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
 
         C.create_rectangle(10.5*scale, (50.5 + 3.5*p)*scale, 17.5*scale, (53.5 + 3.5*p)*scale, fill=(colors["pitch_selected"] if select == "freq"+str(p+1) else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "freq"+str(p+1)))
-        C.create_text(14*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "freq"+str(p+1) and tempvar != "" else round(pitch, 2)), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "freq"+str(p+1)))
-        C.create_text(19.3*scale, (52 + 3.5*p)*scale, text="Hz", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+        C.create_text(14*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "freq"+str(p+1) and tempvar != "" else round(pitch, 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "freq"+str(p+1)))
+        C.create_text(19.3*scale, (52 + 3.5*p)*scale, text="Hz", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
 
         C.create_rectangle(22*scale, (50.5 + 3.5*p)*scale, 26*scale, (53.5 + 3.5*p)*scale, fill=(colors["pitch_selected"] if select == "notename"+str(p+1) else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "notename"+str(p+1)))
-        C.create_text(24*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "notename"+str(p+1) and tempvar != "" else notename(pitch, transpose)[0]), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "notename"+str(p+1)))
+        C.create_text(24*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "notename"+str(p+1) and tempvar != "" else notename(pitch, transpose)[0]), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "notename"+str(p+1)))
         C.create_rectangle(26.5*scale, (50.5 + 3.5*p)*scale, 32.5*scale, (53.5 + 3.5*p)*scale, fill=(colors["pitch_selected"] if select == "centsdev"+str(p+1) else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "centsdev"+str(p+1)))
-        C.create_text(29.5*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "centsdev"+str(p+1) and tempvar != "" else plusminus(round(notename(pitch, transpose)[1], 2))), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "centsdev"+str(p+1)))
+        C.create_text(29.5*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "centsdev"+str(p+1) and tempvar != "" else plusminus(round(notename(pitch, transpose)[1], 2))), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "centsdev"+str(p+1)))
 
-        C.create_text(37.5*scale, (52 + 3.5*p)*scale, text="(concert", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+        C.create_text(37.5*scale, (52 + 3.5*p)*scale, text="(concert", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
         C.create_rectangle(42.5*scale, (50.5 + 3.5*p)*scale, 46.5*scale, (53.5 + 3.5*p)*scale, fill=(colors["pitch_selected"] if select == "concertname"+str(p+1) else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "concertname"+str(p+1)))
-        C.create_text(44.5*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "concertname"+str(p+1) and tempvar != "" else notename(pitch, 0)[0]), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertname"+str(p+1)))
+        C.create_text(44.5*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "concertname"+str(p+1) and tempvar != "" else notename(pitch, 0)[0]), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertname"+str(p+1)))
         C.create_rectangle(47*scale, (50.5 + 3.5*p)*scale, 53*scale, (53.5 + 3.5*p)*scale, fill=(colors["pitch_selected"] if select == "concertdev"+str(p+1) else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "concertdev"+str(p+1)))
-        C.create_text(50*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "concertdev"+str(p+1) and tempvar != "" else plusminus(round(notename(pitch, 0)[1], 2))), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertdev"+str(p+1)))
-        C.create_text(53.5*scale, (52 + 3.5*p)*scale, text=")", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+        C.create_text(50*scale, (52 + 3.5*p)*scale, text=(tempvar if select == "concertdev"+str(p+1) and tempvar != "" else plusminus(round(notename(pitch, 0)[1], 2))), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertdev"+str(p+1)))
+        C.create_text(53.5*scale, (52 + 3.5*p)*scale, text=")", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
 
         tup = colorsys.hsv_to_rgb(math.log(pitch/tonic, 2) % 1, 0.5, (math.sin(2*math.pi*(math.log(pitch/tonic, 2) % 1 - 3/5))/12) + (5/12))
         hx = []
@@ -2069,33 +2074,33 @@ def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", tran
         pitchcolor = "#"+"".join(hx)
 
         C.create_rectangle(55*scale, (50.5 + 3.5*p)*scale, 75*scale, (53.5 + 3.5*p)*scale, fill=pitchcolor, width=0, tags=("pitch"))
-        C.create_text(65*scale, (52 + 3.5*p)*scale, text=str(int(round(tet*math.log(pitch/tonic, 2), 0)) % tet) + "\\" + str(TET) + " " + plusminus(round(100 * (tet*math.log(pitch/tonic, 2) - round(tet*math.log(pitch/tonic, 2), 0) + 0.0000000001), 2)) + "%", font=("Arial", int(scale*7/4), "bold"), fill="#FFFFFF", tags=("pitch"))
+        C.create_text(65*scale, (52 + 3.5*p)*scale, text=str(int(round(tet*math.log(pitch/tonic, 2), 0)) % tet) + "\\" + str(TET) + " " + plusminus(round(100 * (tet*math.log(pitch/tonic, 2) - round(tet*math.log(pitch/tonic, 2), 0) + 0.0000000001), 2)) + "%", font=("Arial", int(textscale*scale*7/4), "bold"), fill="#FFFFFF", tags=("pitch"))
 
     # TONIC
-    C.create_text(6.9*scale, 67.5*scale, text=("Tonic:"), font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+    C.create_text(6.9*scale, 67.5*scale, text=("Tonic:"), font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
 
     C.create_rectangle(10.5*scale, 66*scale, 17.5*scale, 69*scale, fill=(colors["pitch_selected"] if select == "freq0" else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "freq0"))
-    C.create_text(14*scale, 67.5*scale, text=(tempvar if select == "freq0" and tempvar != "" else round(tonic, 2)), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "freq0"))
-    C.create_text(19.3*scale, 67.5*scale, text="Hz", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+    C.create_text(14*scale, 67.5*scale, text=(tempvar if select == "freq0" and tempvar != "" else round(tonic, 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "freq0"))
+    C.create_text(19.3*scale, 67.5*scale, text="Hz", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
 
     C.create_rectangle(22*scale, 66*scale, 26*scale, 69*scale, fill=(colors["pitch_selected"] if select == "notename0" else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "notename0"))
-    C.create_text(24*scale, 67.5*scale, text=(tempvar if select == "notename0" and tempvar != "" else notename(tonic, transpose)[0]), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "notename0"))
+    C.create_text(24*scale, 67.5*scale, text=(tempvar if select == "notename0" and tempvar != "" else notename(tonic, transpose)[0]), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "notename0"))
     C.create_rectangle(26.5*scale, 66*scale, 32.5*scale, 69*scale, fill=(colors["pitch_selected"] if select == "centsdev0" else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "centsdev0"))
-    C.create_text(29.5*scale, 67.5*scale, text=(tempvar if select == "centsdev0" and tempvar != "" else plusminus(round(notename(tonic, transpose)[1], 2))), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "centsdev0"))
+    C.create_text(29.5*scale, 67.5*scale, text=(tempvar if select == "centsdev0" and tempvar != "" else plusminus(round(notename(tonic, transpose)[1], 2))), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "centsdev0"))
 
-    C.create_text(37.5*scale, 67.5*scale, text="(concert", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+    C.create_text(37.5*scale, 67.5*scale, text="(concert", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
     C.create_rectangle(42.5*scale, 66*scale, 46.5*scale, 69*scale, fill=(colors["pitch_selected"] if select == "concertname0" else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "concertname0"))
-    C.create_text(44.5*scale, 67.5*scale, text=(tempvar if select == "concertname0" and tempvar != "" else notename(tonic, 0)[0]), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertname0"))
+    C.create_text(44.5*scale, 67.5*scale, text=(tempvar if select == "concertname0" and tempvar != "" else notename(tonic, 0)[0]), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertname0"))
     C.create_rectangle(47*scale, 66*scale, 53*scale, 69*scale, fill=(colors["pitch_selected"] if select == "concertdev0" else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "concertdev0"))
-    C.create_text(50*scale, 67.5*scale, text=(tempvar if select == "concertdev0" and tempvar != "" else plusminus(round(notename(tonic, 0)[1], 2))), font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertdev0"))
-    C.create_text(53.5*scale, 67.5*scale, text=")", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
+    C.create_text(50*scale, 67.5*scale, text=(tempvar if select == "concertdev0" and tempvar != "" else plusminus(round(notename(tonic, 0)[1], 2))), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "pitch", "concertdev0"))
+    C.create_text(53.5*scale, 67.5*scale, text=")", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("pitch"))
 
     C.create_rectangle(63*scale, 65.75*scale, 69*scale, 69.25*scale, fill=(colors["pitch_selected"] if select == "tet" else colors["pitch_box"]), width=0, tags=("clickable", "pitch", "tet"))
-    C.create_text(66*scale, 67.5*scale, text=(tempvar if select == "tet" and tempvar != "" else tet), font=("Arial", int(scale*7/4), "bold"), fill="#000000", tags=("clickable", "pitch", "tet"))
-    C.create_text(72*scale, 67.5*scale, text="TET", font=("Arial", int(scale*7/4), "bold"), fill="#FFFFFF", tags=("pitch"))
+    C.create_text(66*scale, 67.5*scale, text=(tempvar if select == "tet" and tempvar != "" else tet), font=("Arial", int(textscale*scale*7/4), "bold"), fill="#000000", tags=("clickable", "pitch", "tet"))
+    C.create_text(72*scale, 67.5*scale, text="TET", font=("Arial", int(textscale*scale*7/4), "bold"), fill="#FFFFFF", tags=("pitch"))
 
     C.create_oval(56.75*scale, 66*scale, 59.75*scale, 69*scale, fill=key_colors["second"][0], width=0, tags=("clickable", "pitchhelp"))
-    C.create_text(58.25*scale, 67.5*scale, text="?", font=("Arial", int(scale*1.5), "bold"), fill="#000000", tags=("clickable", "pitchhelp"))
+    C.create_text(58.25*scale, 67.5*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#000000", tags=("clickable", "pitchhelp"))
 
 
 def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False):
@@ -2106,36 +2111,36 @@ def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False
     C.create_rectangle(78*scale, 2*scale, 190*scale, 19.5*scale, fill=colors["options_background"], width=0, tags=("options"))
     
     C.create_rectangle(79*scale, 3*scale, 99*scale, 7*scale, fill=colors["options_database"], width=0, tags=("clickable", "options", "addentry"))
-    C.create_text(89*scale, 5*scale, text="ADD ENTRY", font=("Arial", int(scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "addentry"))
+    C.create_text(89*scale, 5*scale, text="ADD ENTRY", font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "addentry"))
 
     C.create_rectangle(79*scale, 8*scale, 99*scale, 12*scale, fill=colors["options_database"], width=0, tags=("clickable", "options", "removeentry"))
-    C.create_text(89*scale, 10*scale, text="REMOVE ENTRY", font=("Arial", int(scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "removeentry"))
+    C.create_text(89*scale, 10*scale, text="REMOVE ENTRY", font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "removeentry"))
 
     C.create_rectangle(79*scale, 13*scale, 99*scale, 18.5*scale, fill="#AA55CC", width=0, tags=("clickable", "options", "copytoclipboard"))
-    C.create_text(89*scale, 15.75*scale, text="      Copy to\nclipboard", font=("Arial", int(scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "copytoclipboard"))
+    C.create_text(89*scale, 15.75*scale, text="      Copy to\nclipboard", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "copytoclipboard"))
 
     C.create_rectangle(169*scale, 13*scale, 189*scale, 18.5*scale, fill="#AA55CC", width=0, tags=("clickable", "options", "pastefromclipboard"))
-    C.create_text(179*scale, 15.75*scale, text="Paste from\n     clipboard", font=("Arial", int(scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "pastefromclipboard"))
+    C.create_text(179*scale, 15.75*scale, text="Paste from\n     clipboard", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "pastefromclipboard"))
 
     C.create_rectangle(169*scale, 3*scale, 189*scale, 7*scale, fill=colors["options_database"], width=0, tags=("clickable", "options", "loadfile"))
-    C.create_text(179*scale, 5*scale, text="LOAD FILE", font=("Arial", int(scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "loadfile"))
+    C.create_text(179*scale, 5*scale, text="LOAD FILE", font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "loadfile"))
 
     C.create_rectangle(169*scale, 8*scale, 189*scale, 12*scale, fill=colors["options_database"], width=0, tags=("clickable", "options", "savefile"))
-    C.create_text(179*scale, 10*scale, text="SAVE FILE", font=("Arial", int(scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "savefile"))
+    C.create_text(179*scale, 10*scale, text="SAVE FILE", font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags=("clickable", "options", "savefile"))
 
-    C.create_text(134*scale, 5*scale, text=database[0][0], font=("Arial", int(scale*2), "bold"), fill="#FFFFFF", tags=("options"))
+    C.create_text(134*scale, 5*scale, text=database[0][0], font=("Arial", int(textscale*scale*2), "bold"), fill="#FFFFFF", tags=("options"))
 
     if setinstrument:
         C.create_rectangle(100*scale, 8*scale, 133.5*scale, 12*scale, fill=colors["set_instrument"], width=0, tags=("clickable", "options", "cancelsetinstrument"))
-        C.create_text(116.75*scale, 10*scale, text="CANCEL", font=("Arial", int(scale*1.75), "bold"), fill="#000000", tags=("clickable", "options", "cancelsetinstrument"))
+        C.create_text(116.75*scale, 10*scale, text="CANCEL", font=("Arial", int(textscale*scale*1.75), "bold"), fill="#000000", tags=("clickable", "options", "cancelsetinstrument"))
     else:
         C.create_rectangle(100*scale, 8*scale, 133.5*scale, 12*scale, fill=colors["set_instrument"], width=0, tags=("clickable", "options", "selectinstrument"))
-        C.create_text(116.75*scale, 10*scale, text="Instrument: " + instrument, font=("Arial", int(scale*1.5) if len(instrument) <= 15 else int(scale*1.375), "bold"), fill="#000000", tags=("clickable", "options", "selectinstrument"))
+        C.create_text(116.75*scale, 10*scale, text="Instrument: " + instrument, font=("Arial", int(textscale*scale*1.5) if len(instrument) <= 15 else int(scale*1.375), "bold"), fill="#000000", tags=("clickable", "options", "selectinstrument"))
 
     if setinstrument:
-        C.create_text(150.75*scale, 10*scale, text="Warning: changing instruments\nwill erase the current database", font=("Arial", int(scale*1.375), "bold"), fill="#FFFFFF", tags=("clickable", "options", "cancelsetinstrument"))
+        C.create_text(150.75*scale, 10*scale, text="Warning: changing instruments\nwill erase the current database", font=("Arial", int(textscale*scale*1.375), "bold"), fill="#FFFFFF", tags=("clickable", "options", "cancelsetinstrument"))
     else:
-        C.create_text(150.75*scale, 10*scale, text="Transposition: "+plusminus(instruments[instrument][1]*100) + " cents", font=("Arial", int(scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "selectinstrument"))
+        C.create_text(150.75*scale, 10*scale, text="Transposition: "+plusminus(instruments[instrument][1]*100) + " cents", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "selectinstrument"))
 
 
 # FILTERS
@@ -2170,50 +2175,50 @@ def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.create_rectangle(2*scale, 72*scale, 76*scale, 88*scale, fill=colors["filters_background"], width=0, tags=("filterbackground"))
 
     # FINGTYPE FILTER
-    C.create_text(14.5*scale, 74.5*scale, text="Filter for fingering type:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
+    C.create_text(14.5*scale, 74.5*scale, text="Filter for fingering type:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 73*scale, 38.5*scale, 76*scale, fill=("#000000" if "note" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "note"))
-    C.create_text(32.5*scale, 74.5*scale, text="Note/Microtone", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if "note" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "note"))
+    C.create_text(32.5*scale, 74.5*scale, text="Note/Microtone", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if "note" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "note"))
     C.create_rectangle(39*scale, 73*scale, 51*scale, 76*scale, fill=("#000000" if "trill" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "trill"))
-    C.create_text(45*scale, 74.5*scale, text="Trill/Tremolo", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if "trill" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "trill"))
+    C.create_text(45*scale, 74.5*scale, text="Trill/Tremolo", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if "trill" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "trill"))
     C.create_rectangle(51.5*scale, 73*scale, 63.5*scale, 76*scale, fill=("#000000" if "multi" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "multi"))
-    C.create_text(57.5*scale, 74.5*scale, text="Multiphonic", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if "multi" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "multi"))
+    C.create_text(57.5*scale, 74.5*scale, text="Multiphonic", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if "multi" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "multi"))
 
     # TET FILTER
-    C.create_text(14.25*scale, 78*scale, text="Filter for pitches in TET:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
+    C.create_text(14.25*scale, 78*scale, text="Filter for pitches in TET:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 76.5*scale, 38.5*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "none" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "none"))
-    C.create_text(32.5*scale, 78*scale, text="No filter", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "none" else "#000000"), tags=("clickable", "filters", "tetf", "none"))
+    C.create_text(32.5*scale, 78*scale, text="No filter", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "none" else "#000000"), tags=("clickable", "filters", "tetf", "none"))
     C.create_rectangle(39*scale, 76.5*scale, 51*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "part" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "part"))
-    C.create_text(45*scale, 78*scale, text="At least 1 in TET", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "part" else "#000000"), tags=("clickable", "filters", "tetf", "part"))
+    C.create_text(45*scale, 78*scale, text="At least 1 in TET", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "part" else "#000000"), tags=("clickable", "filters", "tetf", "part"))
     C.create_rectangle(51.5*scale, 76.5*scale, 63.5*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "all" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "all"))
-    C.create_text(57.5*scale, 78*scale, text="All in TET", font=("Arial", int(scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "all" else "#000000"), tags=("clickable", "filters", "tetf", "all"))
+    C.create_text(57.5*scale, 78*scale, text="All in TET", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "all" else "#000000"), tags=("clickable", "filters", "tetf", "all"))
 
     # FINGERING SEARCH
-    C.create_text(15.75*scale, 82*scale, text="Search for fingering:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
+    C.create_text(15.75*scale, 82*scale, text="Search for fingering:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 80.5*scale, 44.75*scale, 83.5*scale, fill=colors["searched"] if filters["search"] == "fingering_primary" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "fingering_primary"))
-    C.create_text(35.625*scale, 82*scale, text="Match primary fingering", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_primary"))
+    C.create_text(35.625*scale, 82*scale, text="Match primary fingering", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_primary"))
     C.create_rectangle(45.25*scale, 80.5*scale, 63.5*scale, 83.5*scale, fill=colors["searched"] if filters["search"] == "fingering_exact" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "fingering_exact"))
-    C.create_text(54.375*scale, 82*scale, text="Match exact fingering", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_exact"))
+    C.create_text(54.375*scale, 82*scale, text="Match exact fingering", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_exact"))
 
     # PITCH SEARCH
-    C.create_text(16.5*scale, 85.5*scale, text="Search for pitches:", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
+    C.create_text(16.5*scale, 85.5*scale, text="Search for pitches:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 84*scale, 44.75*scale, 87*scale, fill=colors["searched"] if filters["search"] == "pitch_single" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "pitch_single"))
-    C.create_text(35.625*scale, 85.5*scale, text="At least 1 pitch match", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "pitch_single"))
+    C.create_text(35.625*scale, 85.5*scale, text="At least 1 pitch match", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "pitch_single"))
     C.create_rectangle(45.25*scale, 84*scale, 63.5*scale, 87*scale, fill=colors["searched"] if filters["search"] == "pitch_full" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "pitch_full"))
-    C.create_text(54.375*scale, 85.5*scale, text="All pitches match", font=("Arial", int(scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "pitch_full"))
+    C.create_text(54.375*scale, 85.5*scale, text="All pitches match", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "pitch_full"))
 
     # TOLERANCE
-    C.create_text(70*scale, 79*scale, text="Tolerance", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("tolerance"))
+    C.create_text(70*scale, 79*scale, text="Tolerance", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("tolerance"))
     
     C.create_rectangle(65.5*scale, 80.5*scale, 72.5*scale, 83.5*scale, fill=key_colors["model"][0] if select == "tolerance_cents" else "#FFFFFF", width=0, tags=("clickable", "tolerance", "cents"))
-    C.create_text(69*scale, 82*scale, text=tempvar if select == "tolerance_cents" and tempvar != "" else round((1200/tet)*filters["tolerance"], 2), font=("Arial", int(scale*11/8), "bold"), fill="#000000", tags=("clickable", "tolerance", "cents"))
-    C.create_text(74*scale, 82*scale, text="c", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("tolerance"))
+    C.create_text(69*scale, 82*scale, text=tempvar if select == "tolerance_cents" and tempvar != "" else round((1200/tet)*filters["tolerance"], 2), font=("Arial", int(textscale*scale*11/8), "bold"), fill="#000000", tags=("clickable", "tolerance", "cents"))
+    C.create_text(74*scale, 82*scale, text="c", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("tolerance"))
 
     C.create_rectangle(65.5*scale, 84*scale, 72.5*scale, 87*scale, fill=key_colors["model"][0] if select == "tolerance_percent" else "#FFFFFF", width=0, tags=("clickable", "tolerance", "percent"))
-    C.create_text(69*scale, 85.5*scale, text=tempvar if select == "tolerance_percent" and tempvar != "" else round(100*filters["tolerance"], 2), font=("Arial", int(scale*11/8), "bold"), fill="#000000", tags=("clickable", "tolerance", "percent"))
-    C.create_text(74*scale, 85.5*scale, text="%", font=("Arial", int(scale*3/2), "bold"), fill="#FFFFFF", tags=("tolerance"))
+    C.create_text(69*scale, 85.5*scale, text=tempvar if select == "tolerance_percent" and tempvar != "" else round(100*filters["tolerance"], 2), font=("Arial", int(textscale*scale*11/8), "bold"), fill="#000000", tags=("clickable", "tolerance", "percent"))
+    C.create_text(74*scale, 85.5*scale, text="%", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("tolerance"))
 
     C.create_oval(72*scale, 73*scale, 75*scale, 76*scale, fill=colors["searched"], width=0, tags=("clickable", "filtershelp"))
-    C.create_text(73.5*scale, 74.5*scale, text="?", font=("Arial", int(scale*1.5), "bold"), fill="#000000", tags=("clickable", "filtershelp"))
+    C.create_text(73.5*scale, 74.5*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#000000", tags=("clickable", "filtershelp"))
     
                    
 def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=False, page=0, select=SELECT, filters=FILTERS):
@@ -2242,28 +2247,28 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                     underscored_instrument += letter
             transposition = " (Transpose: " + ("+" + str(transcents) if transcents > 0 else ("−" + str(-transcents) if transcents < 0 else "0")) + " cents)"
             C.create_rectangle((78 + (112/totalcolumns)*int(i/percolumn))*scale, (21.75 + (i%percolumn)*rowexpand)*scale, (78 + (112/totalcolumns)*int(i/percolumn + 1))*scale, (21.75 + ((i%percolumn)+1)*rowexpand)*scale, fill=(colors["set_instrument"] if instrument == INSTRUMENT else "#FFFFFF"), width=1, tags=("clickable", "setinstrument", underscored_instrument))
-            C.create_text((78 + (112/totalcolumns)*(int(i/percolumn)+0.5))*scale, (21.75 + ((i%percolumn)+0.5)*rowexpand)*scale, text=instrument + transposition, font=("Arial", int(scale*11/8), "bold"), fill=("#000000"), tags=("clickable", "setinstrument", underscored_instrument))
+            C.create_text((78 + (112/totalcolumns)*(int(i/percolumn)+0.5))*scale, (21.75 + ((i%percolumn)+0.5)*rowexpand)*scale, text=instrument + transposition, font=("Arial", int(textscale*scale*11/8), "bold"), fill=("#000000"), tags=("clickable", "setinstrument", underscored_instrument))
     else:
         rowspacing = 2.75
         topy = 28
         per_page = 25
 
         C.create_rectangle(122*scale, 21*scale, 125*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage"))
-        C.create_text(123.5*scale, 22.5*scale, text="◀", font=("Arial", int(scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage"))
+        C.create_text(123.5*scale, 22.5*scale, text="◀", font=("Arial", int(textscale*scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage"))
 
         C.create_rectangle(143*scale, 21*scale, 146*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage"))
-        C.create_text(144.5*scale, 22.5*scale, text="▶", font=("Arial", int(scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage"))
+        C.create_text(144.5*scale, 22.5*scale, text="▶", font=("Arial", int(textscale*scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage"))
 
         C.create_rectangle(118.5*scale, 21*scale, 121.5*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage2"))
-        C.create_text(120*scale, 22.5*scale, text="◀◀", font=("Arial", int(scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage2"))
+        C.create_text(120*scale, 22.5*scale, text="◀◀", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage2"))
 
         C.create_rectangle(146.5*scale, 21*scale, 149.5*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage2"))
-        C.create_text(148*scale, 22.5*scale, text="▶▶", font=("Arial", int(scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage2"))
+        C.create_text(148*scale, 22.5*scale, text="▶▶", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage2"))
 
         if filters["search"] != "none":
-            C.create_text(89.75*scale, 22.5*scale, text="SEARCH RESULTS", font=("Arial", int(scale*2), "bold"), fill=("#000000"), tags=("database"))
+            C.create_text(89.75*scale, 22.5*scale, text="SEARCH RESULTS", font=("Arial", int(textscale*scale*2), "bold"), fill=("#000000"), tags=("database"))
             C.create_rectangle(175*scale, 21*scale, 190*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "clearsearch"))
-            C.create_text(182.5*scale, 22.5*scale, text="Clear search", font=("Arial", int(scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "clearsearch"))
+            C.create_text(182.5*scale, 22.5*scale, text="Clear search", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "clearsearch"))
 
         filtered_values = []
         filtered_database = []
@@ -2394,15 +2399,15 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                     page = int(low / per_page)
                     PAGE = page
 
-        C.create_text(134*scale, 22.5*scale, text=("0" if NUM_PAGES == 0 else str(page*per_page + 1)) + "−" + str(min((page+1)*per_page, len(filtered_database))) + " of " + str(len(filtered_database)), font=("Arial", int(scale*1.25), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(134*scale, 22.5*scale, text=("0" if NUM_PAGES == 0 else str(page*per_page + 1)) + "−" + str(min((page+1)*per_page, len(filtered_database))) + " of " + str(len(filtered_database)), font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#000000"), tags=("database"))
 
-        C.create_text(80*scale, (topy-1)*scale, text="Type", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
-        C.create_text(86*scale, (topy-1)*scale, text="Freq (Hz)", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
-        C.create_text(95*scale, (topy-1)*scale, text="Trans Pitch", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
-        C.create_text(105*scale, (topy-1)*scale, text="Concert Pitch", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
-        C.create_text(117.5*scale, (topy-1)*scale, text="Steps of "+str(TET)+"−TET", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
-        C.create_text(140*scale, (topy-1)*scale, text="Fingering", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
-        C.create_text(172.5*scale, (topy-1)*scale, text="Description", font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(80*scale, (topy-1)*scale, text="Type", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(86*scale, (topy-1)*scale, text="Freq (Hz)", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(95*scale, (topy-1)*scale, text="Trans Pitch", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(105*scale, (topy-1)*scale, text="Concert Pitch", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(117.5*scale, (topy-1)*scale, text="Steps of "+str(TET)+"−TET", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(140*scale, (topy-1)*scale, text="Fingering", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
+        C.create_text(172.5*scale, (topy-1)*scale, text="Description", font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("database"))
         
         for f, entry in enumerate(filtered_database[page*per_page : (page+1)*per_page] if len(filtered_database) >= (page+1)*per_page else filtered_database[page*per_page :]):
             
@@ -2418,7 +2423,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
 
             # fingtype
             C.create_rectangle(78*scale, (topy + rowspacing*f)*scale, 82*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(80*scale, (topy + rowspacing*(f+0.5))*scale, text=fingtype, font=("Arial", int(scale*1), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(80*scale, (topy + rowspacing*(f+0.5))*scale, text=fingtype, font=("Arial", int(textscale*scale*1), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
         
             freqs = []
             transposed_pitches = []
@@ -2451,16 +2456,16 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 steptext = ", ".join(tet_steps); stepsize = min(20/len(steptext), 1)
                 
             C.create_rectangle(82*scale, (topy + rowspacing*f)*scale, 90*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(86*scale, (topy + rowspacing*(f+0.5))*scale, text=freqtext, font=("Arial", int(scale*freqsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(86*scale, (topy + rowspacing*(f+0.5))*scale, text=freqtext, font=("Arial", int(textscale*scale*freqsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             C.create_rectangle(90*scale, (topy + rowspacing*f)*scale, 100*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(95*scale, (topy + rowspacing*(f+0.5))*scale, text=notetext, font=("Arial", int(scale*notesize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(95*scale, (topy + rowspacing*(f+0.5))*scale, text=notetext, font=("Arial", int(textscale*scale*notesize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             C.create_rectangle(100*scale, (topy + rowspacing*f)*scale, 110*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(105*scale, (topy + rowspacing*(f+0.5))*scale, text=conctext, font=("Arial", int(scale*concsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(105*scale, (topy + rowspacing*(f+0.5))*scale, text=conctext, font=("Arial", int(textscale*scale*concsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             C.create_rectangle(110*scale, (topy + rowspacing*f)*scale, 125*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(117.5*scale, (topy + rowspacing*(f+0.5))*scale, text=steptext, font=("Arial", int(scale*stepsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(117.5*scale, (topy + rowspacing*(f+0.5))*scale, text=steptext, font=("Arial", int(textscale*scale*stepsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             F = list(bin(entry[1][0]))[2:]
             H = list(bin(entry[1][1]))[2:]
@@ -2516,7 +2521,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 descsize = min(50/max(len(desc_left), len(desc_right)), 0.75)
                 desc_string = desc_left + "|\n[|" + desc_right if "|[|" in desc_string else (desc_left + "||\n" + desc_right if "||" in desc_string else desc_left + "|\n" + desc_right)
             C.create_rectangle(125*scale, (topy + rowspacing*f)*scale, 155*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(140*scale, (topy + rowspacing*(f+0.5))*scale, text=desc_string, font=("Arial", int(scale*descsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(140*scale, (topy + rowspacing*(f+0.5))*scale, text=desc_string, font=("Arial", int(textscale*scale*descsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
 
             descriptionsize = max(min(40/(len(entry[1][-1])+0.000000001), 1), 0.75)
             description = entry[1][-1]
@@ -2525,7 +2530,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             if len(description) > 207:
                 description = description[:205] + "..."
             C.create_rectangle(155*scale, (topy + rowspacing*f)*scale, 190*scale, (topy + rowspacing*(f+1))*scale, fill=key_colors["model"][0] if select == "data"+str(entry_num) else "#FFFFFF", width=1, tags=("clickable", "entry", "data"+str(entry_num)))
-            C.create_text(172.5*scale, (topy + rowspacing*(f+0.5))*scale, text=description, width=34.5*scale, font=("Arial", int(scale*descriptionsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
+            C.create_text(172.5*scale, (topy + rowspacing*(f+0.5))*scale, text=description, width=34.5*scale, font=("Arial", int(textscale*scale*descriptionsize), "bold"), fill=("#000000"), tags=("clickable", "entry", "data"+str(entry_num)))
     
 
 
@@ -2542,52 +2547,52 @@ def fingering_help():
     FH.pack(fill=BOTH, expand=1)
     FH.create_rectangle(0,0,fhx+360,fhy+480, fill=bgcolor, width=0)
 
-    Label(FH, text="Fingering Diagram Help", font=("Arial", int(scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 1*scale)
+    Label(FH, text="Fingering Diagram Help", font=("Arial", int(textscale*scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 1*scale)
 
     FH.create_oval(1.5*scale, 5*scale, 5.5*scale, 9*scale, fill=key_colors["main"][0], width=0)
     FH.create_oval(6*scale, 5*scale, 10*scale, 9*scale, fill=key_colors["main"][1], width=0)
-    Label(FH, text="Main key directly controlling a tone hole / Main valve", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 5.5*scale)
+    Label(FH, text="Main key directly controlling a tone hole / Main valve", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 5.5*scale)
 
     FH.create_oval(1.5*scale, 10*scale, 5.5*scale, 14*scale, fill=key_colors["octave"][0], width=0)
     FH.create_oval(6*scale, 10*scale, 10*scale, 14*scale, fill=key_colors["octave"][1], width=0)
-    Label(FH, text="Key for controlling the register of the instrument", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 10.5*scale)
+    Label(FH, text="Key for controlling the register of the instrument", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 10.5*scale)
 
     FH.create_oval(1.5*scale, 15*scale, 5.5*scale, 19*scale, fill=key_colors["second"][0], width=0)
     FH.create_oval(6*scale, 15*scale, 10*scale, 19*scale, fill=key_colors["second"][1], width=0)
-    Label(FH, text="Key used for some pitch a chromatic from the main keys", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 15.5*scale)
+    Label(FH, text="Key used for some pitch a chromatic from the main keys", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 15.5*scale)
 
     FH.create_oval(1.5*scale, 20*scale, 5.5*scale, 24*scale, fill=key_colors["low"][0], width=0)
     FH.create_oval(6*scale, 20*scale, 10*scale, 24*scale, fill=key_colors["low"][1], width=0)
-    Label(FH, text="Key for notes lower than with all main keys depressed", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 20.5*scale)
+    Label(FH, text="Key for notes lower than with all main keys depressed", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 20.5*scale)
 
     FH.create_oval(1.5*scale, 25*scale, 5.5*scale, 29*scale, fill=key_colors["high"][0], width=0)
     FH.create_oval(6*scale, 25*scale, 10*scale, 29*scale, fill=key_colors["high"][1], width=0)
-    Label(FH, text="Key for notes higher than with all main keys released", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 25.5*scale)
+    Label(FH, text="Key for notes higher than with all main keys released", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 25.5*scale)
 
     FH.create_oval(1.5*scale, 30*scale, 5.5*scale, 34*scale, fill=key_colors["trill"][0], width=0)
     FH.create_oval(6*scale, 30*scale, 10*scale, 34*scale, fill=key_colors["trill"][1], width=0)
-    Label(FH, text="Key primarily used for trills and fast passages", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 30.5*scale)
+    Label(FH, text="Key primarily used for trills and fast passages", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 30.5*scale)
 
     FH.create_oval(1.5*scale, 35*scale, 5.5*scale, 39*scale, fill=key_colors["model"][0], width=0)
     FH.create_oval(6*scale, 35*scale, 10*scale, 39*scale, fill=key_colors["model"][1], width=0)
-    Label(FH, text="Key/valve not present on all models of the instrument", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 35.5*scale)
+    Label(FH, text="Key/valve not present on all models of the instrument", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 35.5*scale)
 
     FH.create_oval(1.5*scale, 40*scale, 5.5*scale, 44*scale, fill=key_colors["special"][0], width=0)
     FH.create_oval(6*scale, 40*scale, 10*scale, 44*scale, fill=key_colors["special"][1], width=0)
-    Label(FH, text="Key part of a mechanism not normally touched", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 40.5*scale)
+    Label(FH, text="Key part of a mechanism not normally touched", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 40.5*scale)
 
     FH.create_oval(6*scale, 45*scale, 10*scale, 49*scale, fill=key_colors["main"][2], width=0)
-    Label(FH, text="Half−hole (e.g. key is pressed but hole is not fully covered)", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 45.5*scale)
+    Label(FH, text="Half−hole (e.g. key is pressed but hole is not fully covered)", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 45.5*scale)
 
     FH.create_oval(6*scale, 50*scale, 10*scale, 54*scale, fill=key_colors["trilled"], width=0)
-    Label(FH, text="Key is being trilled as part of a trill fingering", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 50.5*scale)
+    Label(FH, text="Key is being trilled as part of a trill fingering", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 50.5*scale)
 
     FH.create_rectangle(2.25*scale, 57.5*scale, 9.25*scale, 58.5*scale, fill=key_colors["main"][0], width=0)
     FH.create_rectangle(2.25*scale, 57.5*scale, 5.75*scale, 58.5*scale, fill=key_colors["main"][1], width=0)
     FH.create_oval(1.5*scale, 55.5*scale, 3*scale, 57*scale, fill=key_colors["main"][0], width=0)
     FH.create_oval(5*scale, 55.5*scale, 6.5*scale, 57*scale, fill=key_colors["main"][0], width=0)
     FH.create_oval(8.5*scale, 55.5*scale, 10*scale, 57*scale, fill=key_colors["main"][0], width=0)
-    Label(FH, text="Continuous pitch parameter (e.g. on trombone)", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 55.5*scale)
+    Label(FH, text="Continuous pitch parameter (e.g. on trombone)", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 55.5*scale)
 
     for p in range(17):
         if p == 0:
@@ -2601,7 +2606,7 @@ def fingering_help():
             y = int(math.log(p, 2))
         FH.create_oval((1.75 + x)*scale, (60 + y)*scale, (2.75 + x)*scale, (61 + y)*scale, fill=key_colors["main"][0], width=0)
         
-    Label(FH, text="Partials (notes of the harmonic series); \"other\" for false tones", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 60.5*scale)
+    Label(FH, text="Partials (notes of the harmonic series); \"other\" for false tones", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11*scale, y = 60.5*scale)
 
 def pitch_help():
     H = Toplevel(C)
@@ -2615,39 +2620,39 @@ def pitch_help():
     FH.pack(fill=BOTH, expand=1)
     FH.create_rectangle(0,0,fhx+360,fhy+480, fill=bgcolor, width=0)
 
-    Label(FH, text="Pitch Help", font=("Arial", int(scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 1*scale)
+    Label(FH, text="Pitch Help", font=("Arial", int(textscale*scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 1*scale)
 
     FH.create_rectangle(5*scale, 5*scale, 12*scale, 8*scale, fill="#FFFFFF", width=0)
-    FH.create_text(8.5*scale, 6.5*scale, text="327.68", fill="#000000", font=("Arial", int(scale*1.2), "bold"))
-    Label(FH, text="Frequency of pitch in Hz", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 5*scale)
+    FH.create_text(8.5*scale, 6.5*scale, text="327.68", fill="#000000", font=("Arial", int(textscale*scale*1.2), "bold"))
+    Label(FH, text="Frequency of pitch in Hz", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 5*scale)
 
     FH.create_rectangle(1.5*scale, 9*scale, 5.5*scale, 12*scale, fill="#FFFFFF", width=0)
-    FH.create_text(3.5*scale, 10.5*scale, text="C#5", fill="#000000", font=("Arial", int(scale*1.2), "bold"))
+    FH.create_text(3.5*scale, 10.5*scale, text="C#5", fill="#000000", font=("Arial", int(textscale*scale*1.2), "bold"))
     FH.create_rectangle(6*scale, 9*scale, 12*scale, 12*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9*scale, 10.5*scale, text="−10.26", fill="#000000", font=("Arial", int(scale*1.2), "bold"))
-    Label(FH, text="Transposed pitch, given as note and cent deviation", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 9*scale)
+    FH.create_text(9*scale, 10.5*scale, text="−10.26", fill="#000000", font=("Arial", int(textscale*scale*1.2), "bold"))
+    Label(FH, text="Transposed pitch, given as note and cent deviation", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 9*scale)
 
     FH.create_rectangle(1.5*scale, 13*scale, 5.5*scale, 16*scale, fill="#FFFFFF", width=0)
-    FH.create_text(3.5*scale, 14.5*scale, text="E4", fill="#000000", font=("Arial", int(scale*1.2), "bold"))
+    FH.create_text(3.5*scale, 14.5*scale, text="E4", fill="#000000", font=("Arial", int(textscale*scale*1.2), "bold"))
     FH.create_rectangle(6*scale, 13*scale, 12*scale, 16*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9*scale, 14.5*scale, text="−10.26", fill="#000000", font=("Arial", int(scale*1.2), "bold"))
-    Label(FH, text="Concert pitch, given as note and cent deviation", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 13*scale)
+    FH.create_text(9*scale, 14.5*scale, text="−10.26", fill="#000000", font=("Arial", int(textscale*scale*1.2), "bold"))
+    Label(FH, text="Concert pitch, given as note and cent deviation", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 13*scale)
 
-    Label(FH, text="To change the pitch, select one of these boxes and type in the desired pitch,\nor use arrow keys to shift the pitch by 1 TET−step", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 17*scale)
+    Label(FH, text="To change the pitch, select one of these boxes and type in the desired pitch,\nor use arrow keys to shift the pitch by 1 TET−step", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 17*scale)
 
-    FH.create_text(4*scale, 25*scale, text="Tonic:", fill="#FFFFFF", font=("Arial", int(scale*1.375), "bold"))
+    FH.create_text(4*scale, 25*scale, text="Tonic:", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.375), "bold"))
     FH.create_rectangle(7.5*scale, 23.5*scale, 12*scale, 26.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9.75*scale, 25*scale, text="440.0", fill="#000000", font=("Arial", int(scale*1.2), "bold"))
-    Label(FH, text="Tonic pitch to tune other notes relative to", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 23.5*scale)
+    FH.create_text(9.75*scale, 25*scale, text="440.0", fill="#000000", font=("Arial", int(textscale*scale*1.2), "bold"))
+    Label(FH, text="Tonic pitch to tune other notes relative to", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 23.5*scale)
 
-    FH.create_text(9.75*scale, 29*scale, text="TET", fill="#FFFFFF", font=("Arial", int(scale*1.5), "bold"))
+    FH.create_text(9.75*scale, 29*scale, text="TET", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.5), "bold"))
     FH.create_rectangle(1.5*scale, 27.25*scale, 7*scale, 30.75*scale, fill="#FFFFFF", width=0)
-    FH.create_text(4.25*scale, 29*scale, text="19", fill="#000000", font=("Arial", int(scale*1.75), "bold"))
-    Label(FH, text="Number of evenly-distributed pitches per octave", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 27.5*scale)
+    FH.create_text(4.25*scale, 29*scale, text="19", fill="#000000", font=("Arial", int(textscale*scale*1.75), "bold"))
+    Label(FH, text="Number of evenly-distributed pitches per octave", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 27.5*scale)
 
     FH.create_rectangle(1.5*scale, 31.5*scale, 12*scale, 34.5*scale, fill="#334F66", width=0)
-    FH.create_text(6.75*scale, 33*scale, text="11\\19 −7.91%", fill="#FFFFFF", font=("Arial", int(scale*1.25), "bold"))
-    Label(FH, text="Pitch class within TET (built on tonic) and deviation in % of 1 TET−step", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 31.5*scale)
+    FH.create_text(6.75*scale, 33*scale, text="11\\19 −7.91%", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
+    Label(FH, text="Pitch class within TET (built on tonic) and deviation in % of 1 TET−step", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 13*scale, y = 31.5*scale)
 
 
 def filters_help():
@@ -2662,41 +2667,41 @@ def filters_help():
     FH.pack(fill=BOTH, expand=1)
     FH.create_rectangle(0,0,fhx+360,fhy+480, fill=bgcolor, width=0)
 
-    Label(FH, text="Filters and Search Help", font=("Arial", int(scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 1*scale)
+    Label(FH, text="Filters and Search Help", font=("Arial", int(textscale*scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 1*scale)
 
-    Label(FH, text="When filtering for TET or searching for pitches, \"Tolerance\" indicates the maximum pitch deviation\nfrom the TET/pitch (specified in the \"pitch\" section) that can show up in the search/filtered results", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 5*scale)
+    Label(FH, text="When filtering for TET or searching for pitches, \"Tolerance\" indicates the maximum pitch deviation\nfrom the TET/pitch (specified in the \"pitch\" section) that can show up in the search/filtered results", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 5*scale)
 
     FH.create_rectangle(1.5*scale, 11.5*scale, 8.5*scale, 14.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(5*scale, 13*scale, text="7.89", fill="#000000", font=("Arial", int(scale*1.375), "bold"))
-    FH.create_text(10*scale, 13*scale, text="c", fill="#FFFFFF", font=("Arial", int(scale*1.5), "bold"))
-    Label(FH, text="(Absolute) tolerance in cents", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11.5*scale, y = 11.5*scale)
+    FH.create_text(5*scale, 13*scale, text="7.89", fill="#000000", font=("Arial", int(textscale*scale*1.375), "bold"))
+    FH.create_text(10*scale, 13*scale, text="c", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.5), "bold"))
+    Label(FH, text="(Absolute) tolerance in cents", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11.5*scale, y = 11.5*scale)
 
     FH.create_rectangle(1.5*scale, 15.5*scale, 8.5*scale, 18.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(5*scale, 17*scale, text="12.5", fill="#000000", font=("Arial", int(scale*1.375), "bold"))
-    FH.create_text(10*scale, 17*scale, text="%", fill="#FFFFFF", font=("Arial", int(scale*1.5), "bold"))
-    Label(FH, text="(Relative) tolerance in percentage of 1 TET−step", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11.5*scale, y = 15.5*scale)
+    FH.create_text(5*scale, 17*scale, text="12.5", fill="#000000", font=("Arial", int(textscale*scale*1.375), "bold"))
+    FH.create_text(10*scale, 17*scale, text="%", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.5), "bold"))
+    Label(FH, text="(Relative) tolerance in percentage of 1 TET−step", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 11.5*scale, y = 15.5*scale)
 
     FH.create_rectangle(1.5*scale, 19.5*scale, 16.5*scale, 22*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9*scale, 20.75*scale, text="At least 1 in TET", fill="#000000", font=("Arial", int(scale*1), "bold"))
+    FH.create_text(9*scale, 20.75*scale, text="At least 1 in TET", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
     FH.create_rectangle(1.5*scale, 22.5*scale, 16.5*scale, 25*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9*scale, 23.75*scale, text="At least 1 pitch match", fill="#000000", font=("Arial", int(scale*1), "bold"))
-    Label(FH, text="A fingering will show up if at least ONE of its pitches is in the TET within tolerance\nor if at least ONE of its pitches matches any of the specified pitches", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 17*scale, y = 19.5*scale)
+    FH.create_text(9*scale, 23.75*scale, text="At least 1 pitch match", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
+    Label(FH, text="A fingering will show up if at least ONE of its pitches is in the TET within tolerance\nor if at least ONE of its pitches matches any of the specified pitches", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 17*scale, y = 19.5*scale)
 
     FH.create_rectangle(1.5*scale, 26*scale, 16.5*scale, 28.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9*scale, 27.25*scale, text="All in TET", fill="#000000", font=("Arial", int(scale*1), "bold"))
+    FH.create_text(9*scale, 27.25*scale, text="All in TET", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
     FH.create_rectangle(1.5*scale, 29*scale, 16.5*scale, 31.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(9*scale, 30.25*scale, text="All pitches match", fill="#000000", font=("Arial", int(scale*1), "bold"))
-    Label(FH, text="A fingering will only show up if ALL of its pitches are in the TET within tolerance\nor if ALL of its pitches can be matched with one of the specified pitches", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 17*scale, y = 26*scale)
+    FH.create_text(9*scale, 30.25*scale, text="All pitches match", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
+    Label(FH, text="A fingering will only show up if ALL of its pitches are in the TET within tolerance\nor if ALL of its pitches can be matched with one of the specified pitches", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 17*scale, y = 26*scale)
 
-    Label(FH, text="In a fingering search, input the fingering to be searched in the diagram on the top left\nNote: \"Tolerance\" also indicates the maximum deviation when searching trombone positions", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 32.5*scale)
+    Label(FH, text="In a fingering search, input the fingering to be searched in the diagram on the top left\nNote: \"Tolerance\" also indicates the maximum deviation when searching trombone positions", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 32.5*scale)
 
     FH.create_rectangle(1.5*scale, 39*scale, 13.5*scale, 43*scale, fill="#FFFFFF", width=0)
-    FH.create_text(7.5*scale, 41*scale, text="Match primary\n        fingering", fill="#000000", font=("Arial", int(scale*1), "bold"))
-    Label(FH, text="A fingering will show up if its keys match (half−holes and partials are ignored)\nor for trills, if either of the 2 result fingerings matches either specified fingering", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 14*scale, y = 38.25*scale)
+    FH.create_text(7.5*scale, 41*scale, text="Match primary\n        fingering", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
+    Label(FH, text="A fingering will show up if its keys match (half−holes and partials are ignored)\nor for trills, if either of the 2 result fingerings matches either specified fingering", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 14*scale, y = 38.25*scale)
 
     FH.create_rectangle(1.5*scale, 44.5*scale, 13.5*scale, 48.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(7.5*scale, 46.5*scale, text="Match exact\n     fingering", fill="#000000", font=("Arial", int(scale*1), "bold"))
-    Label(FH, text="A fingering will only show up if all aspects match (keys, half−holes, partials etc.)\nor for trills, if both of the result fingerings match the two specified fingerings", justify="left", font=("Arial", int(scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 14*scale, y = 43.75*scale)
+    FH.create_text(7.5*scale, 46.5*scale, text="Match exact\n     fingering", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
+    Label(FH, text="A fingering will only show up if all aspects match (keys, half−holes, partials etc.)\nor for trills, if both of the result fingerings match the two specified fingerings", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 14*scale, y = 43.75*scale)
     
 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
 render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
@@ -2705,6 +2710,3 @@ render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 render_filters(FILTERS, TET, SELECT, TEMPVAR)
 
 root.mainloop()
-
-
-
