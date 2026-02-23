@@ -1,6 +1,6 @@
-# WindFingerings 1.3.1 by Valky River
+# WindFingerings 1.3.2 by Valky River
 
-version = "1.3.1"
+version = "1.3.2"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -56,14 +56,14 @@ def onresize(event):
             render_filters(FILTERS, TET, SELECT, TEMPVAR)
 
 if platform.system() == "Darwin": # On Mac, text size is shrunk
-    textscale = 4/3
+    textscale = 7/4
 
 root = Tk()
 C = Canvas(root)
 C.pack(fill=BOTH, expand=1)
 root.geometry(str(horizontalsize) + "x" + str(verticalsize))
 root.title("WindFingerings "+version)
-C.create_rectangle(0,0,horizontalsize+480,verticalsize+360, outline="#FFFFFF", fill="#FFFFFF", width=0)
+C.create_rectangle(0,0,horizontalsize*16,verticalsize*16, outline="#FFFFFF", fill="#FFFFFF", width=0)
 
 # GLOBAL VARIABLES
 
