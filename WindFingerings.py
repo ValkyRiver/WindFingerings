@@ -1,6 +1,6 @@
-# WindFingerings 1.2.1 by Valky River
+# WindFingerings 1.3 by Valky River
 
-version = "1.2.1"
+version = "1.3"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -27,24 +27,43 @@ colors = {
     "searched": "#FFEE88"
 }
 
-scale = 8
+horizontalsize = 1536
+verticalsize = 792
+
+scale = min(horizontalsize/192, verticalsize/99)
 textscale = 1
+
+def onresize(event):
+    global horizontalsize
+    global verticalsize
+    global scale
+    
+    if not (event.width == horizontalsize and event.height == verticalsize):
+
+        horizontalsize = event.width
+        verticalsize = event.height
+
+        if event.widget is root:
+            scale = min(horizontalsize/192, verticalsize/99)
+            DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
+            create_description()
+            create_databasedesc()
+            render_version_info()
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
 
 if platform.system() == "Darwin": # On Mac, text size is shrunk
     textscale = 4/3
 
-horizontalscale = 1536
-verticalscale = 792
-
-h = horizontalscale # total horizontal
-v = verticalscale # total vertical
-
 root = Tk()
 C = Canvas(root)
 C.pack(fill=BOTH, expand=1)
-root.geometry(str(h) + "x" + str(v))
+root.geometry(str(horizontalsize) + "x" + str(verticalsize))
 root.title("WindFingerings "+version)
-C.create_rectangle(0,0,horizontalscale+480,verticalscale+360, outline="#FFFFFF", fill="#FFFFFF", width=0)
+C.create_rectangle(0,0,horizontalsize+480,verticalsize+360, outline="#FFFFFF", fill="#FFFFFF", width=0)
 
 # GLOBAL VARIABLES
 
@@ -73,21 +92,62 @@ DATABASE = [["new-database.csv", INSTRUMENT, TONIC, TET, ""]]
 
 SETINSTRUMENT = False
 
-# DESCRIPTION
-C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0)
-C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF")
-DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", 10))
+C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
+C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
+DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", int(scale * 1.25)))
 DESCRIPTION.delete(1.0, END)
 DESCRIPTION.insert(END, FINGERING[-1])
 DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
 
-# DATABASE DESC
-DATABASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", 12))
-DATABASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
+DATABASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
+DATABASEDESC.delete(1.0, END)
+DATABASEDESC.insert(END, DATABASE[0][-1])
 
-C.create_rectangle(2*scale, 90*scale, 76*scale, 97*scale, fill="#000000", width=0)
-C.create_text(39*scale, 92.5*scale, text="WindFingerings "+version, font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF")
-C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(textscale*scale*1.25), "bold"), fill="#FFFFFF")
+def descriptionclick(event):
+    onclick(["description"])
+
+def databasedescclick(event):
+    onclick(["databasedesc"])
+
+# DESCRIPTION
+def create_description():
+    global DESCRIPTION
+    try:
+        DESCRIPTION.place_forget()
+    except:
+        pass
+    C.delete("create_description")
+    C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
+    C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
+
+    DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", int(scale * 1.25)))
+    DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
+    DESCRIPTION.bind("<Button-1>", descriptionclick)
+    
+
+# DATABASE DESC
+def create_databasedesc():
+    global scale
+    global DATABASEDESC
+    try:
+        DATABASEDESC.place_forget()
+    except:
+        pass
+    
+    DATABASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
+    DATABASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
+    DATABASEDESC.bind("<Button-1>", databasedescclick)
+
+def render_version_info():
+    C.delete("render_version_info")
+
+    C.create_rectangle(2*scale, 90*scale, 76*scale, 97*scale, fill="#000000", width=0, tags="render_version_info")
+    C.create_text(39*scale, 92.5*scale, text="WindFingerings "+version, font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags="render_version_info")
+    C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(textscale*scale*1.25), "bold"), fill="#FFFFFF", tags="render_version_info")
+
+create_description()
+create_databasedesc()
+render_version_info()
 
 try:
     C.clipboard_get()
@@ -167,7 +227,7 @@ def onclick(event):
                 SELECT = ""
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                 
-        elif "data" in SELECT:
+        elif "data" in SELECT and SELECT != "databasedesc":
             if "filters" in tags:
                 pass
             else:
@@ -528,12 +588,6 @@ def onclick(event):
       
     elif "description" in tags or "databasedesc" in tags:
         SELECT = tags[0]
-            
-def descriptionclick(event):
-    onclick(["description"])
-
-def databasedescclick(event):
-    onclick(["databasedesc"])
 
 def middleclick(event):
 
@@ -808,10 +862,6 @@ C.bind("<Button-2>", middleclick)
 C.bind("<B2-Motion>", spositiontrillclick)
 C.bind("<Button-3>", rightclick)
 
-DESCRIPTION.bind("<Button-1>", descriptionclick)
-DATABASEDESC.bind("<Button-1>", databasedescclick)
-
-
 root.bind("<BackSpace>", onkey)
 root.bind("<Return>", onkey)
 root.bind("<Up>", onkey)
@@ -823,7 +873,9 @@ root.bind("<plus>", onkey)
 root.bind("<minus>", onkey)
 root.bind("<equal>", onkey)
 
-for key in list("abcdefghijklmnopqrstuvwxyz."):
+root.bind("<Configure>", onresize)
+
+for key in list("abcdefghijklmnopqrstuvwxy."):
     root.bind("<" + key + ">", onkey)
 for key in list("0123457689"):
     root.bind("<Key-" + key + ">", onkey)
@@ -837,11 +889,6 @@ key_replacements = {
     "minus": "-",
     "equal": "+"
 }
-    
-
-
-
-
 
 
 # PRESETS
@@ -2022,6 +2069,7 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
 def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", transpose=0, tonic=440.0, tet=12):
     C.delete("pitch")
     C.delete("fingtype")
+    C.delete("pitchhelp")
     C.create_rectangle(2*scale, 46*scale, 76*scale, 65*scale, fill=colors["pitch_background"], width=0, tags=("pitch"))
     C.create_rectangle(2*scale, 65*scale, 76*scale, 70*scale, fill="#000000", width=0, tags=("pitch"))
 
@@ -2171,6 +2219,7 @@ def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False
 def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.delete("filters")
     C.delete("filterbackground")
+    C.delete("filtershelp")
     C.delete("tolerance")
     C.create_rectangle(2*scale, 72*scale, 76*scale, 88*scale, fill=colors["filters_background"], width=0, tags=("filterbackground"))
 
