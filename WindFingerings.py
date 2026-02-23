@@ -1,6 +1,6 @@
-# WindFingerings 1.3 by Valky River
+# WindFingerings 1.3.1 by Valky River
 
-version = "1.3"
+version = "1.3.1"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -854,13 +854,18 @@ def spositiontrillclick(event):
                     render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             
             
-
-
-C.bind("<Button-1>", onclick)
-C.bind("<B1-Motion>", spositionclick)
-C.bind("<Button-2>", middleclick)
-C.bind("<B2-Motion>", spositiontrillclick)
-C.bind("<Button-3>", rightclick)
+if platform.system == "Darwin": # On Mac, Button-2 and Button-3 are flipped
+    C.bind("<Button-1>", onclick)
+    C.bind("<B1-Motion>", spositionclick)
+    C.bind("<Button-3>", middleclick)
+    C.bind("<B3-Motion>", spositiontrillclick)
+    C.bind("<Button-2>", rightclick)
+else:
+    C.bind("<Button-1>", onclick)
+    C.bind("<B1-Motion>", spositionclick)
+    C.bind("<Button-2>", middleclick)
+    C.bind("<B2-Motion>", spositiontrillclick)
+    C.bind("<Button-3>", rightclick)
 
 root.bind("<BackSpace>", onkey)
 root.bind("<Return>", onkey)
