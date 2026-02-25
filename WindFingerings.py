@@ -1,6 +1,6 @@
-# WindFingerings 1.4 by Valky River
+# WindFingerings 1.4.1 by Valky River
 
-version = "1.4"
+version = "1.4.1"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -832,14 +832,10 @@ def onclick(event):
             temp_trill = FINGERING[2] & ~(2**int(tags[2]))
             FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             
         elif "partial" in tags: # set new partial
             FINGERING[3] = int(tags[2])
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             
         elif "fingtype" in tags: # set new fingtype
             if (tags[2] != "multi" or "multi" not in FINGTYPE) and (tags[2] != FINGTYPE):
@@ -893,8 +889,6 @@ def onclick(event):
             else:
                 FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS) 
 
         elif "sposition" in tags[1]:
             new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
@@ -903,8 +897,6 @@ def onclick(event):
             else:
                 FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
 
         # OPTIONS
@@ -1029,8 +1021,6 @@ def onclick(event):
                 FINGTYPE = imported_fingering[2]
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                 render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             except Exception as e:
                 E = Toplevel(C)
                 E.geometry("800x50")
@@ -1111,13 +1101,9 @@ def middleclick(event):
                 temp_trill = FINGERING[2] ^ (2**int(tags[2]))
                 FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             elif "partial" in tags:
                 FINGERING[3] = -int(tags[2])-1
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
             elif "sposition" in tags[2] and ("setto" in tags[2]):
                 new_pos = float(tags[3])
@@ -1126,8 +1112,6 @@ def middleclick(event):
                 else:
                     FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
                 
             elif "sposition" in tags[1]:
                 new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
@@ -1136,8 +1120,6 @@ def middleclick(event):
                 else:
                     FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
                     
 # RIGHT CLICK
 def rightclick(event):
@@ -1156,8 +1138,6 @@ def rightclick(event):
             temp_trill = FINGERING[2] & ~(2**int(tags[2]))
             FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
 # WHEN KEY PRESSED
 def onkey(event):
@@ -1335,8 +1315,6 @@ def spositionclick(event):
             else:
                 FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
 # WHEN SPOSITION IS MIDDLE-CLICKED
 def spositiontrillclick(event):
@@ -1359,8 +1337,6 @@ def spositiontrillclick(event):
                     new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
                     FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
             
 # KEY AND MOUSE BINDS            
 if platform.system == "Darwin": # On Mac, Button-2 and Button-3 are flipped
