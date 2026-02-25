@@ -1,6 +1,6 @@
-# WindFingerings 1.3.2 by Valky River
+# WindFingerings 1.3.3 by Valky River
 
-version = "1.3.2"
+version = "1.3.3"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -47,7 +47,7 @@ def onresize(event):
             scale = min(horizontalsize/192, verticalsize/99)
             DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
             create_description()
-            create_databasedesc()
+            create_dbasedesc()
             render_version_info()
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
@@ -99,15 +99,15 @@ DESCRIPTION.delete(1.0, END)
 DESCRIPTION.insert(END, FINGERING[-1])
 DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
 
-DATABASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
-DATABASEDESC.delete(1.0, END)
-DATABASEDESC.insert(END, DATABASE[0][-1])
+DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
+DBASEDESC.delete(1.0, END)
+DBASEDESC.insert(END, DATABASE[0][-1])
 
 def descriptionclick(event):
     onclick(["description"])
 
-def databasedescclick(event):
-    onclick(["databasedesc"])
+def dbasedescclick(event):
+    onclick(["dbasedesc"])
 
 # DESCRIPTION
 def create_description():
@@ -126,17 +126,17 @@ def create_description():
     
 
 # DATABASE DESC
-def create_databasedesc():
+def create_dbasedesc():
     global scale
-    global DATABASEDESC
+    global DBASEDESC
     try:
-        DATABASEDESC.place_forget()
+        DBASEDESC.place_forget()
     except:
         pass
     
-    DATABASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
-    DATABASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
-    DATABASEDESC.bind("<Button-1>", databasedescclick)
+    DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
+    DBASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
+    DBASEDESC.bind("<Button-1>", dbasedescclick)
 
 def render_version_info():
     C.delete("render_version_info")
@@ -146,7 +146,7 @@ def render_version_info():
     C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(textscale*scale*1.25), "bold"), fill="#FFFFFF", tags="render_version_info")
 
 create_description()
-create_databasedesc()
+create_dbasedesc()
 render_version_info()
 
 try:
@@ -227,7 +227,7 @@ def onclick(event):
                 SELECT = ""
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                 
-        elif "data" in SELECT and SELECT != "databasedesc":
+        elif "data" in SELECT:
             if "filters" in tags:
                 pass
             else:
@@ -266,8 +266,8 @@ def onclick(event):
                     pass
             elif SELECT == "description":
                 FINGERING[-1] = DESCRIPTION.get("1.0", "end-1c")
-            elif SELECT == "databasedesc":
-                DATABASE[0][-1] = DATABASEDESC.get("1.0", "end-1c")
+            elif SELECT == "dbasedesc":
+                DATABASE[0][-1] = DBASEDESC.get("1.0", "end-1c")
             elif SELECT[:-1] == "freq":
                 try:
                     temp_pitch = float(TEMPVAR)
@@ -473,7 +473,7 @@ def onclick(event):
             )
             if file:
                 DATABASE[0][0] = file.split("/")[-1]
-                DATABASE[0][-1] = DATABASEDESC.get("1.0", "end-1c")
+                DATABASE[0][-1] = DBASEDESC.get("1.0", "end-1c")
                 try:
                     with open(file, "w", encoding="utf-8") as f:
                         f.write(exportfile(DATABASE))
@@ -586,7 +586,7 @@ def onclick(event):
             SELECT = "tolerance_" + tags[2]
             render_filters(FILTERS, TET, SELECT, TEMPVAR)
       
-    elif "description" in tags or "databasedesc" in tags:
+    elif "description" in tags or "dbasedesc" in tags:
         SELECT = tags[0]
 
 def middleclick(event):
@@ -2157,8 +2157,8 @@ def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", tran
 
 
 def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False):
-    DATABASEDESC.delete(1.0, END)
-    DATABASEDESC.insert(END, DATABASE[0][4])
+    DBASEDESC.delete(1.0, END)
+    DBASEDESC.insert(END, DATABASE[0][4])
 
     C.delete("options")
     C.create_rectangle(78*scale, 2*scale, 190*scale, 19.5*scale, fill=colors["options_background"], width=0, tags=("options"))
