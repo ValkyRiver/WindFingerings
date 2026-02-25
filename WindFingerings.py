@@ -1,6 +1,6 @@
-# WindFingerings 1.3.4 by Valky River
+# WindFingerings 1.4 by Valky River
 
-version = "1.3.4"
+version = "1.4"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -13,6 +13,7 @@ class CodeIncompleteError(Exception):
     def __init__(s, message="This functionality has not been coded yet"):
         super().__init__(message)
 
+# PRESETS
 colors = {
     "pitch_background": "#008844",
     "pitch_box": "#FFFFFF",
@@ -27,878 +28,6 @@ colors = {
     "searched": "#FFEE88"
 }
 
-horizontalsize = 1536
-verticalsize = 792
-
-scale = min(horizontalsize/192, verticalsize/99)
-textscale = 1
-
-def onresize(event):
-    global horizontalsize
-    global verticalsize
-    global scale
-    
-    if not (event.width == horizontalsize and event.height == verticalsize):
-
-        horizontalsize = event.width
-        verticalsize = event.height
-
-        if event.widget is root:
-            scale = min(horizontalsize/192, verticalsize/99)
-            DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
-            create_description()
-            create_dbasedesc()
-            render_version_info()
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            render_filters(FILTERS, TET, SELECT, TEMPVAR)
-
-if platform.system() == "Darwin": # On Mac, text size is shrunk
-    textscale = 7/4
-
-root = Tk()
-C = Canvas(root)
-C.pack(fill=BOTH, expand=1)
-root.geometry(str(horizontalsize) + "x" + str(verticalsize))
-root.title("WindFingerings "+version)
-C.create_rectangle(0,0,horizontalsize*16,verticalsize*16, outline="#FFFFFF", fill="#FFFFFF", width=0)
-
-# GLOBAL VARIABLES
-
-INSTRUMENT = "Alto Saxophone"
-SELECT = ""
-
-# FINGERING: main, half, trill, partial, description
-FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
-FINGTYPE = "note"
-
-PITCHES = [440.0]
-TEMPVAR = ""
-
-TONIC = 440.0
-TET = 12
-PAGE = 0
-NUM_PAGES = 0
-FILTERS = {
-    "tolerance": 0.15,
-    "fingtype": ["note", "trill", "multi"],
-    "tet": "none",
-    "search": "none"
-}
-
-DATABASE = [["new-database.csv", INSTRUMENT, TONIC, TET, ""]]
-
-SETINSTRUMENT = False
-
-C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
-C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
-DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", int(scale * 1.25)))
-DESCRIPTION.delete(1.0, END)
-DESCRIPTION.insert(END, FINGERING[-1])
-DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
-
-DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
-DBASEDESC.delete(1.0, END)
-DBASEDESC.insert(END, DATABASE[0][-1])
-
-FILTERS_TEMP_FINGERING = list(FINGERING)
-FILTERS_TEMP_PITCHES = list(PITCHES)
-
-def descriptionclick(event):
-    onclick(["description"])
-
-def dbasedescclick(event):
-    onclick(["dbasedesc"])
-
-# DESCRIPTION
-def create_description():
-    global DESCRIPTION
-    try:
-        DESCRIPTION.place_forget()
-    except:
-        pass
-    C.delete("create_description")
-    C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
-    C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
-
-    DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", int(scale * 1.25)))
-    DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
-    DESCRIPTION.bind("<Button-1>", descriptionclick)
-    
-
-# DATABASE DESC
-def create_dbasedesc():
-    global scale
-    global DBASEDESC
-    try:
-        DBASEDESC.place_forget()
-    except:
-        pass
-    
-    DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
-    DBASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
-    DBASEDESC.bind("<Button-1>", dbasedescclick)
-
-def render_version_info():
-    C.delete("render_version_info")
-
-    C.create_rectangle(2*scale, 90*scale, 76*scale, 97*scale, fill="#000000", width=0, tags="render_version_info")
-    C.create_text(39*scale, 92.5*scale, text="WindFingerings "+version, font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags="render_version_info")
-    C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(textscale*scale*1.25), "bold"), fill="#FFFFFF", tags="render_version_info")
-
-create_description()
-create_dbasedesc()
-render_version_info()
-
-try:
-    C.clipboard_get()
-except:
-    pass
-
-
-def onclick(event):
-    
-    root.focus_set()
-
-    global INSTRUMENT
-    global FINGERING
-    global SELECT
-    global FINGTYPE
-    global PITCHES
-    global TEMPVAR
-    global DATABASE
-    global TONIC
-    global TET
-    global SETINSTRUMENT
-    global PAGE
-    global FILTERS
-    global FILTERS_TEMP_FINGERING
-    global FILTERS_TEMP_PITCHES
-
-    if isinstance(event, Event):
-        item = C.find_closest(event.x, event.y)
-        tags = C.itemcget(item, "tags").split(" ")
-    else:
-        tags = event
-        
-    #print(tags)
-    #print(SELECT)
-
-    if "removeentry" in tags and "data" in SELECT:
-        SETINSTRUMENT = False
-        index = int(SELECT[4:])
-        DATABASE.pop(index)
-        SELECT = ""
-        render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-    if SELECT != "":
-        if "fingeringhelp" in tags or "pitchhelp" in tags or "filtershelp" in tags:
-            pass
-        elif "sposition" in SELECT:
-            if "number" in SELECT:
-                try:
-                    temp_sposition = float(TEMPVAR)
-                    if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
-                        if FINGTYPE == "trill":
-                            if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
-                                FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
-                            else:
-                                FINGERING[int(SELECT[9])+3] = complex(temp_sposition, FINGERING[int(SELECT[9])+3].imag)
-                        else:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
-                except Exception:
-                    pass
-                TEMPVAR = ""
-                SELECT = ""
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            elif "trillnum" in SELECT:
-                try:
-                    temp_sposition = float(TEMPVAR)
-                    if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
-                        if FINGTYPE == "trill":
-                            if temp_sposition >= FINGERING[int(SELECT[9])+3].real:
-                                FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
-                            else:
-                                FINGERING[int(SELECT[9])+3] = complex(FINGERING[int(SELECT[9])+3].real, temp_sposition)
-                        else:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
-                except Exception:
-                    pass
-                TEMPVAR = ""
-                SELECT = ""
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                
-        elif "data" in SELECT:
-            if "filters" in tags:
-                pass
-            else:
-                SELECT = ""
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            
-        elif "tolerance" in SELECT:
-            if SELECT == "tolerance_percent":
-                try:
-                    tolerance = float(TEMPVAR)/100
-                    if tolerance >= 0 and tolerance <= 0.5:
-                        FILTERS["tolerance"] = tolerance
-                except Exception:
-                    pass
-            elif SELECT == "tolerance_cents":
-                try:
-                    tolerance = float(TEMPVAR)/(1200/TET)
-                    if tolerance >= 0 and tolerance <= 0.5:
-                        FILTERS["tolerance"] = tolerance
-                except Exception:
-                    pass
-            SELECT = ""
-            TEMPVAR = ""
-            render_filters(FILTERS, TET, SELECT, TEMPVAR)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            
-        else:
-            if SELECT == "tet":
-                try:
-                    temp_tet = int(TEMPVAR)
-                    if temp_tet >= 1 and temp_tet <= 342:
-                        TET = temp_tet
-                        DATABASE[0][3] = TET
-                        render_filters(FILTERS, TET, SELECT, TEMPVAR)
-                except Exception:
-                    pass
-            elif SELECT == "description":
-                FINGERING[-1] = DESCRIPTION.get("1.0", "end-1c")
-            elif SELECT == "dbasedesc":
-                DATABASE[0][-1] = DBASEDESC.get("1.0", "end-1c")
-            elif SELECT[:-1] == "freq":
-                try:
-                    temp_pitch = float(TEMPVAR)
-                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                        if SELECT[-1] == "0":
-                            TONIC = temp_pitch
-                            DATABASE[0][2] = temp_pitch
-                        else:
-                            PITCHES[int(SELECT[-1])-1] = temp_pitch
-                except Exception:
-                    pass
-            elif SELECT[:-1] == "notename":
-                if SELECT[-1] == "0":
-                    temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(DATABASE[0][2], instruments[INSTRUMENT][1])[1]/1200)
-                else:
-                    temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1]/1200)
-                if temp_pitch:
-                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                        if SELECT[-1] == "0":
-                            TONIC = temp_pitch
-                            DATABASE[0][2] = temp_pitch
-                        else:
-                            PITCHES[int(SELECT[-1])-1] = temp_pitch
-            elif SELECT[:-1] == "centsdev":
-                try:
-                    if SELECT[-1] == "0":
-                        temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], instruments[INSTRUMENT][1])[1])/1200)
-                    else:
-                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1])/1200)
-                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                        if SELECT[-1] == "0":
-                            TONIC = temp_pitch
-                            DATABASE[0][2] = temp_pitch
-                        else:
-                            PITCHES[int(SELECT[-1])-1] = temp_pitch
-                except Exception:
-                    pass
-            elif SELECT[:-1] == "concertname":
-                if SELECT[-1] == "0":
-                    temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(DATABASE[0][2], 0)[1]/1200)
-                else:
-                    temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(PITCHES[int(SELECT[-1])-1], 0)[1]/1200)
-                if temp_pitch:
-                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                        if SELECT[-1] == "0":
-                            TONIC = temp_pitch
-                            DATABASE[0][2] = temp_pitch
-                        else:
-                            PITCHES[int(SELECT[-1])-1] = temp_pitch
-            elif SELECT[:-1] == "concertdev":
-                try:
-                    if SELECT[-1] == "0":
-                        temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], 0)[1])/1200)
-                    else:
-                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**(float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)/1200)
-                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                        if SELECT[-1] == "0":
-                            TONIC = temp_pitch
-                            DATABASE[0][2] = temp_pitch
-                        else:
-                            PITCHES[int(SELECT[-1])-1] = temp_pitch
-                except Exception:
-                    pass
-            TEMPVAR = ""
-            SELECT = ""
-            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-        
-    if "clickable" in tags:
-        if "key" in tags: # set new fingering
-            temp_fingering = ((2**int(tags[2])) ^ FINGERING[0]) | FINGERING[1]
-            temp_half = FINGERING[0] & FINGERING[1] & ~(2**int(tags[2]))
-            temp_trill = FINGERING[2] & ~(2**int(tags[2]))
-            FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            
-        elif "partial" in tags: # set new partial
-            FINGERING[3] = int(tags[2])
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            
-        elif "fingtype" in tags: # set new fingtype
-            if (tags[2] != "multi" or "multi" not in FINGTYPE) and (tags[2] != FINGTYPE):
-                prev_fingtype = FINGTYPE
-                FINGTYPE = ("multi2" if tags[2] == "multi" else tags[2])
-                if fingtypes[FINGTYPE] > fingtypes[prev_fingtype]:
-                    while len(PITCHES) < fingtypes[FINGTYPE]:
-                        PITCHES.append(PITCHES[0])
-                elif fingtypes[FINGTYPE] < fingtypes[prev_fingtype]:
-                    PITCHES = sorted(PITCHES[:fingtypes[FINGTYPE]])
-                if prev_fingtype == "trill" and FINGTYPE != "trill":
-                    FINGERING[2] = 0
-                    if FINGERING[3] <= -1:
-                        FINGERING[3] = -FINGERING[3] - 1
-                    FINGERING[4] = complex(FINGERING[4].real, 0)
-                    FINGERING[5] = complex(FINGERING[5].real, 0)
-                elif FINGTYPE == "trill":
-                    FINGERING[4] = complex(FINGERING[4].real, FINGERING[4].real)
-                    FINGERING[5] = complex(FINGERING[5].real, FINGERING[5].real)
-                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                
-        elif "pitch" in tags:
-            if tags[2] == "tet":
-                SELECT = tags[2]
-                TEMPVAR = ""
-                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-            elif tags[2][:-1] in ["freq", "notename", "centsdev", "concertname", "concertdev"]:
-                SELECT = tags[2]
-                TEMPVAR = ""
-                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-
-        # HELP
-        elif "fingeringhelp" in tags:
-            fingering_help()
-        elif "pitchhelp" in tags:
-            pitch_help()
-        elif "filtershelp" in tags:
-            filters_help()
-
-
-        # SPOSITIONS
-        elif "sposition" in tags[2] and ("number" in tags[2] or "trillnum" in tags[2]):
-            SELECT = tags[2] + " " + tags[3] + " " + tags[4]
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-
-        elif "sposition" in tags[2] and ("setto" in tags[2]):
-            new_pos = float(tags[3])
-            if new_pos <= FINGERING[int(tags[1][-1])+3].imag:     
-                FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
-            else:
-                FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS) 
-
-        elif "sposition" in tags[1]:
-            new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
-            if "trill" in tags[2]:
-                FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
-            else:
-                FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-
-        # OPTIONS
-        elif "setinstrument" in tags:
-            instrument = ""
-            for letter in tags[2]:
-                if letter == "_":
-                    instrument += " "
-                else:
-                    instrument += letter
-            if "partial" in key_systems[instruments[instrument][0]]["special"]:
-                FINGERING = [0, 0, 0, 1]
-            else:
-                FINGERING = [0, 0, 0, -0.5]
-            if "trombone" in key_systems[instruments[instrument][0]]["special"]:
-                if FINGTYPE == "trill":
-                    FINGERING += [complex(1, 1), complex(0)]
-                else:
-                    FINGERING += [complex(1), complex(0)]
-            else:
-                FINGERING += [complex(0), complex(0)]
-            FINGERING.append("")
-            INSTRUMENT = instrument
-            FILTERS["search"] = "none"
-            DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, ""]])
-            SETINSTRUMENT = False
-            FILTERS_TEMP_FINGERING = list(FINGERING)
-            FILTERS_TEMP_PITCHES = list(PITCHES)
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-            render_filters(FILTERS, TET, SELECT, TEMPVAR)
-            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "selectinstrument" in tags:
-            SETINSTRUMENT = True
-            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-   
-        elif "cancelsetinstrument" in tags:
-            SETINSTRUMENT = False
-            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "addentry" in tags:
-            SETINSTRUMENT = False
-            added = addentry((list(PITCHES), list(FINGERING), FINGTYPE), DATABASE)
-            DATABASE = added[1]
-            SELECT = "data"+str(added[0])
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "savefile" in tags:
-            file = fd.asksaveasfilename(
-                title="Save file as .csv",
-                defaultextension=".csv",
-                filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*"))
-            )
-            if file:
-                DATABASE[0][0] = file.split("/")[-1]
-                DATABASE[0][-1] = DBASEDESC.get("1.0", "end-1c")
-                try:
-                    with open(file, "w", encoding="utf-8") as f:
-                        f.write(exportfile(DATABASE))
-                    render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
-                except Exception as e:
-                    E = Toplevel(C)
-                    E.geometry("800x50")
-                    E.title("Error saving file")
-                    Label(E, text="Error saving file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
-                    
-
-        elif "loadfile" in tags:
-            file = fd.askopenfilename(
-                title="Select .csv file",
-                filetypes=(("Comma-Separated Values File", "*.csv"), ("All files", "*.*"))
-            )
-            if file:
-                try:
-                    with open(file, "r", encoding="utf-8") as f:
-                        DATABASE = importfile(f.read().strip().split("\n"))
-                    PAGE = 0
-                    INSTRUMENT = DATABASE[0][1]
-                    TONIC = DATABASE[0][2]
-                    TET = DATABASE[0][3]
-                    FILTERS["search"] = "none"
-                    if "partial" in key_systems[instruments[INSTRUMENT][0]]["special"]:
-                        FINGERING = [0, 0, 0, 1]
-                    else:
-                        FINGERING = [0, 0, 0, -0.5]
-                    if "trombone" in key_systems[instruments[INSTRUMENT][0]]["special"]:
-                        if FINGTYPE == "trill":
-                            FINGERING += [complex(1, 1), complex(0)]
-                        else:
-                            FINGERING += [complex(1), complex(0)]
-                    else:
-                        FINGERING += [complex(0), complex(0)]
-                    FINGERING.append("")
-                    FILTERS_TEMP_FINGERING = list(FINGERING)
-                    FILTERS_TEMP_PITCHES = list(PITCHES)
-                    render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                    render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-                    render_filters(FILTERS, TET, SELECT, TEMPVAR)
-                    render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                except Exception as e:
-                    E = Toplevel(C)
-                    E.geometry("800x50")
-                    E.title("Error loading file")
-                    Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
-
-        elif "copytoclipboard" in tags:
-            C.clipboard_clear()
-            C.clipboard_append(copytoclipboard(sorted(PITCHES), FINGERING, FINGTYPE))
-
-        elif "pastefromclipboard" in tags:
-            try:
-                imported_fingering = pastefromclipboard(C.clipboard_get())
-                PITCHES = list(imported_fingering[0])
-                FINGERING = list(imported_fingering[1])
-                FINGTYPE = imported_fingering[2]
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            except Exception as e:
-                E = Toplevel(C)
-                E.geometry("800x50")
-                E.title("Error loading from clipboard")
-                Label(E, text="Error loading from clipboard: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
-
-        # DATABASE — each entry is in the form (pitches, fingering, fingtype)
-        elif "prevpage" in tags and NUM_PAGES != 0:
-            PAGE = (PAGE - 1) % NUM_PAGES
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-        elif "nextpage" in tags and NUM_PAGES != 0:
-            PAGE = (PAGE + 1) % NUM_PAGES 
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            
-        elif "prevpage2" in tags and NUM_PAGES != 0:
-            PAGE = NUM_PAGES - 1 if PAGE == 0 else max(0, PAGE - 10) % NUM_PAGES
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-        elif "nextpage2" in tags and NUM_PAGES != 0:
-            PAGE = 0 if PAGE == NUM_PAGES - 1 else min(PAGE + 10, NUM_PAGES - 1) % NUM_PAGES 
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "entry" in tags:
-            SELECT = tags[2]
-            PITCHES = sorted(list(DATABASE[int(tags[2][4:])][0]))
-            FINGERING = list(DATABASE[int(tags[2][4:])][1])
-            FINGTYPE = DATABASE[int(tags[2][4:])][2]
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "filters" in tags:
-            if tags[2] == "fingtypef":
-                if tags[3] in FILTERS["fingtype"]:
-                    FILTERS["fingtype"].remove(tags[3])
-                else:
-                    FILTERS["fingtype"].append(tags[3])
-            else:
-                FILTERS[tags[2][:-1]] = tags[3]
-                
-            if "search" in tags[2]:
-                FILTERS_TEMP_FINGERING = list(FINGERING)
-                FILTERS_TEMP_PITCHES = list(PITCHES)
-                
-            render_filters(FILTERS, TET, SELECT, TEMPVAR)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "clearsearch" in tags:
-            FILTERS["search"] = "none"
-            FILTERS_TEMP_FINGERING = list(FINGERING)
-            FILTERS_TEMP_PITCHES = list(PITCHES)
-            render_filters(FILTERS, TET, SELECT, TEMPVAR)
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-        elif "tolerance" in tags:
-            SELECT = "tolerance_" + tags[2]
-            render_filters(FILTERS, TET, SELECT, TEMPVAR)
-      
-    elif "description" in tags or "dbasedesc" in tags:
-        SELECT = tags[0]
-
-def middleclick(event):
-
-    global INSTRUMENT
-    global FINGERING
-    
-    item = C.find_closest(event.x, event.y)
-    tags = C.itemcget(item, "tags").split(" ")
-
-    if "clickable" in tags:
-
-        if FINGTYPE == "trill":
-            if "key" in tags:
-                temp_fingering = FINGERING[0] & ~(2**int(tags[2]))
-                temp_half = FINGERING[1] & ~(2**int(tags[2]))
-                temp_trill = FINGERING[2] ^ (2**int(tags[2]))
-                FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            elif "partial" in tags:
-                FINGERING[3] = -int(tags[2])-1
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-            elif "sposition" in tags[2] and ("setto" in tags[2]):
-                new_pos = float(tags[3])
-                if new_pos >= FINGERING[int(tags[1][-1])+3].real:
-                    FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
-                else:
-                    FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                
-            elif "sposition" in tags[1]:
-                new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
-                if "left" in tags[2] or "trill" in tags[2]:
-                    FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
-                else:
-                    FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-                    
-
-def rightclick(event):
-
-    global INSTRUMENT
-    global FINGERING
-
-    item = C.find_closest(event.x, event.y)
-    tags = C.itemcget(item, "tags").split(" ")
-    
-    if "clickable" in tags:
-            
-        if "key" in tags and "halfable" in tags:
-            temp_fingering = ((2**int(tags[2])) ^ FINGERING[0]) | (FINGERING[0] ^ FINGERING[1])
-            temp_half = FINGERING[1] ^ (2**int(tags[2]))
-            temp_trill = FINGERING[2] & ~(2**int(tags[2]))
-            FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-
-def onkey(event):
-
-    global INSTRUMENT
-    global FINGERING
-    global SELECT
-    global FINGTYPE
-    global PITCHES
-    global TEMPVAR
-    global DATABASE
-    global TONIC
-    global TET
-    
-    if event.keysym != "??":
-        pressed = event.keysym.lower()
-        if pressed in key_replacements.keys():
-            pressed = key_replacements[pressed]
-    else:
-        pressed = ""
-
-    if SELECT[:-1] in ["freq", "notename", "centsdev", "concertname", "concertdev"] or SELECT == "tet":
-        if pressed in tempvarparams[SELECT[:-1]][1] and len(TEMPVAR) < tempvarparams[SELECT[:-1]][0]:
-            if len(TEMPVAR) != 0 and pressed == "b":
-                TEMPVAR += "b"
-            else:
-                TEMPVAR += pressed.upper()
-        elif pressed == "backspace":
-            TEMPVAR = TEMPVAR[:-1]
-        elif pressed == "up" or pressed == "right":
-            if SELECT == "tet":
-                if TET < 342:
-                    TET += 1
-                    DATABASE[0][3] = TET
-            else:
-                if SELECT[-1] == "0":
-                    temp_pitch = TONIC * 2**(1/TET)
-                else:
-                    temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**(1/TET)
-                if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                    if SELECT[-1] == "0":
-                        TONIC = temp_pitch
-                        DATABASE[0][2] = temp_pitch
-                    else:
-                        PITCHES[int(SELECT[-1])-1] = temp_pitch
-                TEMPVAR = ""
-        elif pressed == "down" or pressed == "left":
-            if SELECT == "tet":
-                if TET > 1:
-                    TET -= 1
-                    DATABASE[0][3] = TET
-            else:
-                if SELECT[-1] == "0":
-                    temp_pitch = TONIC / 2**(1/TET)
-                else:
-                    temp_pitch = PITCHES[int(SELECT[-1])-1] / 2**(1/TET)
-                if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
-                    if SELECT[-1] == "0":
-                        TONIC = temp_pitch
-                        DATABASE[0][2] = temp_pitch
-                    else:
-                        PITCHES[int(SELECT[-1])-1] = temp_pitch
-                TEMPVAR = ""
-        render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-        render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-        
-    elif "sposition" in SELECT:
-        if pressed in "0123456789." and len(TEMPVAR) < 5:
-            TEMPVAR += pressed
-        elif pressed == "backspace":
-            TEMPVAR = TEMPVAR[:-1]
-
-        if "number" in SELECT:
-            if pressed == "up" or pressed == "right":
-                temp_sposition = FINGERING[int(SELECT[9])+3].real + (3/TET if instruments[INSTRUMENT][0] == "trumpet" else 12/TET)
-                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
-                    if FINGTYPE == "trill":
-                        if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
-                        else:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, FINGERING[int(SELECT[9])+3].imag)
-                    else:
-                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
-                TEMPVAR = ""
-            elif pressed == "down" or pressed == "left":
-                temp_sposition = FINGERING[int(SELECT[9])+3].real - (3/TET if instruments[INSTRUMENT][0] == "trumpet" else 12/TET)
-                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
-                    if FINGTYPE == "trill":
-                        if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
-                        else:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, FINGERING[int(SELECT[9])+3].imag)
-                    else:
-                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
-                TEMPVAR = ""
-        elif "trillnum" in SELECT:
-            if pressed == "up" or pressed == "right":
-                temp_sposition = FINGERING[int(SELECT[9])+3].imag + 12/TET
-                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
-                    if FINGTYPE == "trill":
-                        if temp_sposition >= FINGERING[int(SELECT[9])+3].real:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
-                        else:
-                            FINGERING[int(SELECT[9])+3] = complex(FINGERING[int(SELECT[9])+3].real, temp_sposition)
-                    else:
-                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
-                TEMPVAR = ""
-            elif pressed == "down" or pressed == "left":
-                temp_sposition = FINGERING[int(SELECT[9])+3].imag - 12/TET
-                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
-                    if FINGTYPE == "trill":
-                        if temp_sposition >= FINGERING[int(SELECT[9])+3].real:
-                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
-                        else:
-                            FINGERING[int(SELECT[9])+3] = complex(FINGERING[int(SELECT[9])+3].real, temp_sposition)
-                    else:
-                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
-                TEMPVAR = ""
-            
-        render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-
-    elif SELECT == "tolerance_cents" or SELECT == "tolerance_percent":
-        if pressed in "0123456789." and len(TEMPVAR) < 6:
-            TEMPVAR += pressed
-        elif pressed == "backspace":
-            TEMPVAR = TEMPVAR[:-1]
-        elif pressed == "up" or pressed == "right":
-            tolerance = round(FILTERS["tolerance"] + 0.01, 6)
-            if tolerance >= 0 and tolerance <= 0.5:
-                FILTERS["tolerance"] = tolerance
-        elif pressed == "down" or pressed == "left":
-            tolerance = round(FILTERS["tolerance"] - 0.01, 6)
-            if tolerance >= 0 and tolerance <= 0.5:
-                FILTERS["tolerance"] = tolerance
-        render_filters(FILTERS, TET, SELECT, TEMPVAR)
-
-    elif "data" in SELECT:
-        if pressed == "down":
-            SELECT = "data+" + SELECT.split(" ")[0][4:]
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            PITCHES = sorted(list(DATABASE[int(SELECT[4:])][0]))
-            FINGERING = list(DATABASE[int(SELECT[4:])][1])
-            FINGTYPE = DATABASE[int(SELECT[4:])][2]
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-        elif pressed == "up":
-            SELECT = "data-" + SELECT.split(" ")[0][4:]
-            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            PITCHES = sorted(list(DATABASE[int(SELECT[4:])][0]))
-            FINGERING = list(DATABASE[int(SELECT[4:])][1])
-            FINGTYPE = DATABASE[int(SELECT[4:])][2]
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
-
-
-def spositionclick(event):
-
-    global SELECT
-    global FINGERING
-    global INSTRUMENT
-    global TEMPVAR
-    
-    item = C.find_closest(event.x, event.y)
-    tags = C.itemcget(item, "tags").split(" ")
-    
-    if "clickable" in tags:
-        if "sposition" in tags[1] and "number" not in tags[2] and "trillnum" not in tags[2] and "setto" not in tags[2]:
-            new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
-            if "trill" in tags[2]:
-                FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
-            else:
-                FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
-            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-            if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-
-
-def spositiontrillclick(event):
-
-    global SELECT
-    global FINGERING
-    global INSTRUMENT
-    global TEMPVAR
-    
-    item = C.find_closest(event.x, event.y)
-    tags = C.itemcget(item, "tags").split(" ")
-    
-    if "clickable" in tags:
-        if FINGTYPE == "trill":
-            if "sposition" in tags[1] and "number" not in tags[2] and "trillnum" not in tags[2] and "setto" not in tags[2]:
-                new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
-                if "left" in tags[2] or "trill" in tags[2]:
-                    FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
-                else:
-                    new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
-                    FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
-                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
-                if "fingering" in FILTERS["search"]:
-                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
-            
-            
-if platform.system == "Darwin": # On Mac, Button-2 and Button-3 are flipped
-    C.bind("<Button-1>", onclick)
-    C.bind("<B1-Motion>", spositionclick)
-    C.bind("<Button-3>", middleclick)
-    C.bind("<B3-Motion>", spositiontrillclick)
-    C.bind("<Button-2>", rightclick)
-else:
-    C.bind("<Button-1>", onclick)
-    C.bind("<B1-Motion>", spositionclick)
-    C.bind("<Button-2>", middleclick)
-    C.bind("<B2-Motion>", spositiontrillclick)
-    C.bind("<Button-3>", rightclick)
-
-root.bind("<BackSpace>", onkey)
-root.bind("<Return>", onkey)
-root.bind("<Up>", onkey)
-root.bind("<Down>", onkey)
-root.bind("<Left>", onkey)
-root.bind("<Right>", onkey)
-root.bind("<numbersign>", onkey)
-root.bind("<plus>", onkey)
-root.bind("<minus>", onkey)
-root.bind("<equal>", onkey)
-
-root.bind("<Configure>", onresize)
-
-for key in list("abcdefghijklmnopqrstuvwxy."):
-    root.bind("<" + key + ">", onkey)
-for key in list("0123457689"):
-    root.bind("<Key-" + key + ">", onkey)
-
 key_replacements = {
     "period": ".",
     "numbersign": "#",
@@ -908,9 +37,6 @@ key_replacements = {
     "minus": "-",
     "equal": "+"
 }
-
-
-# PRESETS
 
 tempvarparams = {
     "freq": [7, "0123457689."],
@@ -1033,7 +159,7 @@ instruments = { # key system, transpose
 #   descname, descoff
 
 key_systems = {
-    "piccolo": { # needs confirmation
+    "piccolo": {
         "parameters": {"keys":16, "LR_split":7, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":3, "shifty":0.5, "Lx":6, "Ly":3, "Mx":39, "My":13, "Bx":36, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":8, "y1":22, "x2":10.5, "y2":26, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
@@ -1383,10 +509,895 @@ key_systems = {
 }
 
 
+# SIZE OF APPLICATION WINDOW
+horizontalsize = 1536
+verticalsize = 792
+
+scale = min(horizontalsize/192, verticalsize/99)
+textscale = 1
+
+def onresize(event):
+    global horizontalsize
+    global verticalsize
+    global scale
+    
+    if not (event.width == horizontalsize and event.height == verticalsize):
+
+        horizontalsize = event.width
+        verticalsize = event.height
+
+        if event.widget is root:
+            scale = min(horizontalsize/192, verticalsize/99)
+            DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
+            create_description()
+            create_dbasedesc()
+            render_version_info()
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
+
+if platform.system() == "Darwin": # On Mac, text size is shrunk
+    textscale = 7/4
+
+root = Tk()
+C = Canvas(root)
+C.pack(fill=BOTH, expand=1)
+root.geometry(str(horizontalsize) + "x" + str(verticalsize))
+root.title("WindFingerings "+version)
+C.create_rectangle(0,0,horizontalsize*16,verticalsize*16, outline="#FFFFFF", fill="#FFFFFF", width=0)
+
+
+# GLOBAL VARIABLES
+INSTRUMENT = "Alto Saxophone"
+SELECT = ""
+
+# FINGERING: main, half, trill, partial, description
+FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
+FINGTYPE = "note"
+
+PITCHES = [440.0]
+TEMPVAR = ""
+
+TONIC = 440.0
+TET = 12
+PAGE = 0
+NUM_PAGES = 0
+FILTERS = {
+    "tolerance": 0.15,
+    "fingtype": ["note", "trill", "multi"],
+    "tet": "none",
+    "search": "none"
+}
+
+# DATABASE
+DATABASE = [["new-database.csv", INSTRUMENT, TONIC, TET, ""]]
+
+SETINSTRUMENT = False
+
+C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
+C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
+DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", int(scale * 1.25)))
+DESCRIPTION.delete(1.0, END)
+DESCRIPTION.insert(END, FINGERING[-1])
+DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
+
+DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
+DBASEDESC.delete(1.0, END)
+DBASEDESC.insert(END, DATABASE[0][-1])
+
+FILTERS_TEMP_FINGERING = list(FINGERING)
+FILTERS_TEMP_PITCHES = list(PITCHES)
+FILTERS_TEMP_FINGTYPE = FINGTYPE
+
+def descriptionclick(event):
+    onclick(["description"])
+
+def dbasedescclick(event):
+    onclick(["dbasedesc"])
+
+# DESCRIPTION
+def create_description():
+    global DESCRIPTION
+    try:
+        DESCRIPTION.place_forget()
+    except:
+        pass
+    C.delete("create_description")
+    C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
+    C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
+
+    DESCRIPTION = Text(root, fg="#FFFFFF", bg=colors["dark_description_background"], font=("Arial", int(scale * 1.25)))
+    DESCRIPTION.place(x=15*scale, y=36*scale, width=60*scale, height=7*scale)
+    DESCRIPTION.bind("<Button-1>", descriptionclick)
+    
+
+# DATABASE DESC
+def create_dbasedesc():
+    global scale
+    global DBASEDESC
+    try:
+        DBASEDESC.place_forget()
+    except:
+        pass
+    
+    DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=("Arial", int(scale * 1.5)))
+    DBASEDESC.place(x=100*scale, y=13*scale, width=68*scale, height=5.5*scale)
+    DBASEDESC.bind("<Button-1>", dbasedescclick)
+
+def render_version_info():
+    C.delete("render_version_info")
+
+    C.create_rectangle(2*scale, 90*scale, 76*scale, 97*scale, fill="#000000", width=0, tags="render_version_info")
+    C.create_text(39*scale, 92.5*scale, text="WindFingerings "+version, font=("Arial", int(textscale*scale*1.75), "bold"), fill="#FFFFFF", tags="render_version_info")
+    C.create_text(39*scale, 95*scale, text="by Valky River", font=("Arial", int(textscale*scale*1.25), "bold"), fill="#FFFFFF", tags="render_version_info")
+
+create_description()
+create_dbasedesc()
+render_version_info()
+
+try:
+    C.clipboard_get()
+except:
+    pass
+
+# ON CLICK
+def onclick(event):
+    
+    root.focus_set()
+
+    global INSTRUMENT
+    global FINGERING
+    global SELECT
+    global FINGTYPE
+    global PITCHES
+    global TEMPVAR
+    global DATABASE
+    global TONIC
+    global TET
+    global SETINSTRUMENT
+    global PAGE
+    global FILTERS
+    global FILTERS_TEMP_FINGERING
+    global FILTERS_TEMP_PITCHES
+    global FILTERS_TEMP_FINGTYPE
+
+    if isinstance(event, Event):
+        item = C.find_closest(event.x, event.y)
+        tags = C.itemcget(item, "tags").split(" ")
+    else:
+        tags = event
+        
+    #print(tags)
+    #print(SELECT)
+
+    if "removeentry" in tags and "data" in SELECT:
+        SETINSTRUMENT = False
+        index = int(SELECT[4:])
+        DATABASE.pop(index)
+        SELECT = ""
+        render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+    if SELECT != "":
+        if "fingeringhelp" in tags or "pitchhelp" in tags or "filtershelp" in tags:
+            pass
+        elif "sposition" in SELECT:
+            if "number" in SELECT:
+                try:
+                    temp_sposition = float(TEMPVAR)
+                    if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
+                        if FINGTYPE == "trill":
+                            if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
+                                FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
+                            else:
+                                FINGERING[int(SELECT[9])+3] = complex(temp_sposition, FINGERING[int(SELECT[9])+3].imag)
+                        else:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
+                except Exception:
+                    pass
+                TEMPVAR = ""
+                SELECT = ""
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            elif "trillnum" in SELECT:
+                try:
+                    temp_sposition = float(TEMPVAR)
+                    if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
+                        if FINGTYPE == "trill":
+                            if temp_sposition >= FINGERING[int(SELECT[9])+3].real:
+                                FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
+                            else:
+                                FINGERING[int(SELECT[9])+3] = complex(FINGERING[int(SELECT[9])+3].real, temp_sposition)
+                        else:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
+                except Exception:
+                    pass
+                TEMPVAR = ""
+                SELECT = ""
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                
+        elif "data" in SELECT:
+            if "filters" in tags:
+                pass
+            else:
+                SELECT = ""
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+        elif "tolerance" in SELECT:
+            if SELECT == "tolerance_percent":
+                try:
+                    tolerance = float(TEMPVAR)/100
+                    if tolerance >= 0 and tolerance <= 0.5:
+                        FILTERS["tolerance"] = tolerance
+                except Exception:
+                    pass
+            elif SELECT == "tolerance_cents":
+                try:
+                    tolerance = float(TEMPVAR)/(1200/TET)
+                    if tolerance >= 0 and tolerance <= 0.5:
+                        FILTERS["tolerance"] = tolerance
+                except Exception:
+                    pass
+            SELECT = ""
+            TEMPVAR = ""
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+        else:
+            if SELECT == "tet":
+                try:
+                    temp_tet = int(TEMPVAR)
+                    if temp_tet >= 1 and temp_tet <= 342:
+                        TET = temp_tet
+                        DATABASE[0][3] = TET
+                        render_filters(FILTERS, TET, SELECT, TEMPVAR)
+                except Exception:
+                    pass
+            elif SELECT == "description":
+                FINGERING[-1] = DESCRIPTION.get("1.0", "end-1c")
+            elif SELECT == "dbasedesc":
+                DATABASE[0][-1] = DBASEDESC.get("1.0", "end-1c")
+            elif SELECT[:-1] == "freq":
+                try:
+                    temp_pitch = float(TEMPVAR)
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                        if SELECT[-1] == "0":
+                            TONIC = temp_pitch
+                            DATABASE[0][2] = temp_pitch
+                        else:
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
+                except Exception:
+                    pass
+            elif SELECT[:-1] == "notename":
+                if SELECT[-1] == "0":
+                    temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(DATABASE[0][2], instruments[INSTRUMENT][1])[1]/1200)
+                else:
+                    temp_pitch = notetofreq(TEMPVAR, instruments[INSTRUMENT][1]) * 2**(notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1]/1200)
+                if temp_pitch:
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                        if SELECT[-1] == "0":
+                            TONIC = temp_pitch
+                            DATABASE[0][2] = temp_pitch
+                        else:
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
+            elif SELECT[:-1] == "centsdev":
+                try:
+                    if SELECT[-1] == "0":
+                        temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], instruments[INSTRUMENT][1])[1])/1200)
+                    else:
+                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], instruments[INSTRUMENT][1])[1])/1200)
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                        if SELECT[-1] == "0":
+                            TONIC = temp_pitch
+                            DATABASE[0][2] = temp_pitch
+                        else:
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
+                except Exception:
+                    pass
+            elif SELECT[:-1] == "concertname":
+                if SELECT[-1] == "0":
+                    temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(DATABASE[0][2], 0)[1]/1200)
+                else:
+                    temp_pitch = notetofreq(TEMPVAR, 0) * 2**(notename(PITCHES[int(SELECT[-1])-1], 0)[1]/1200)
+                if temp_pitch:
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                        if SELECT[-1] == "0":
+                            TONIC = temp_pitch
+                            DATABASE[0][2] = temp_pitch
+                        else:
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
+            elif SELECT[:-1] == "concertdev":
+                try:
+                    if SELECT[-1] == "0":
+                        temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], 0)[1])/1200)
+                    else:
+                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**(float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)/1200)
+                    if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                        if SELECT[-1] == "0":
+                            TONIC = temp_pitch
+                            DATABASE[0][2] = temp_pitch
+                        else:
+                            PITCHES[int(SELECT[-1])-1] = temp_pitch
+                except Exception:
+                    pass
+            TEMPVAR = ""
+            SELECT = ""
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+        
+    if "clickable" in tags:
+        if "key" in tags: # set new fingering
+            temp_fingering = ((2**int(tags[2])) ^ FINGERING[0]) | FINGERING[1]
+            temp_half = FINGERING[0] & FINGERING[1] & ~(2**int(tags[2]))
+            temp_trill = FINGERING[2] & ~(2**int(tags[2]))
+            FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            if "fingering" in FILTERS["search"]:
+                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+        elif "partial" in tags: # set new partial
+            FINGERING[3] = int(tags[2])
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            if "fingering" in FILTERS["search"]:
+                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+        elif "fingtype" in tags: # set new fingtype
+            if (tags[2] != "multi" or "multi" not in FINGTYPE) and (tags[2] != FINGTYPE):
+                prev_fingtype = FINGTYPE
+                FINGTYPE = ("multi2" if tags[2] == "multi" else tags[2])
+                if fingtypes[FINGTYPE] > fingtypes[prev_fingtype]:
+                    while len(PITCHES) < fingtypes[FINGTYPE]:
+                        PITCHES.append(PITCHES[0])
+                elif fingtypes[FINGTYPE] < fingtypes[prev_fingtype]:
+                    PITCHES = sorted(PITCHES[:fingtypes[FINGTYPE]])
+                if prev_fingtype == "trill" and FINGTYPE != "trill":
+                    FINGERING[2] = 0
+                    if FINGERING[3] <= -1:
+                        FINGERING[3] = -FINGERING[3] - 1
+                    FINGERING[4] = complex(FINGERING[4].real, 0)
+                    FINGERING[5] = complex(FINGERING[5].real, 0)
+                elif FINGTYPE == "trill":
+                    FINGERING[4] = complex(FINGERING[4].real, FINGERING[4].real)
+                    FINGERING[5] = complex(FINGERING[5].real, FINGERING[5].real)
+                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                
+        elif "pitch" in tags:
+            if tags[2] == "tet":
+                SELECT = tags[2]
+                TEMPVAR = ""
+                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            elif tags[2][:-1] in ["freq", "notename", "centsdev", "concertname", "concertdev"]:
+                SELECT = tags[2]
+                TEMPVAR = ""
+                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+
+        # HELP
+        elif "fingeringhelp" in tags:
+            fingering_help()
+        elif "pitchhelp" in tags:
+            pitch_help()
+        elif "filtershelp" in tags:
+            filters_help()
+
+
+        # SPOSITIONS
+        elif "sposition" in tags[2] and ("number" in tags[2] or "trillnum" in tags[2]):
+            SELECT = tags[2] + " " + tags[3] + " " + tags[4]
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+
+        elif "sposition" in tags[2] and ("setto" in tags[2]):
+            new_pos = float(tags[3])
+            if new_pos <= FINGERING[int(tags[1][-1])+3].imag:     
+                FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
+            else:
+                FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            if "fingering" in FILTERS["search"]:
+                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS) 
+
+        elif "sposition" in tags[1]:
+            new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
+            if "trill" in tags[2]:
+                FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
+            else:
+                FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            if "fingering" in FILTERS["search"]:
+                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+
+        # OPTIONS
+        elif "setinstrument" in tags:
+            instrument = ""
+            for letter in tags[2]:
+                if letter == "_":
+                    instrument += " "
+                else:
+                    instrument += letter
+            if "partial" in key_systems[instruments[instrument][0]]["special"]:
+                FINGERING = [0, 0, 0, 1]
+            else:
+                FINGERING = [0, 0, 0, -0.5]
+            if "trombone" in key_systems[instruments[instrument][0]]["special"]:
+                if FINGTYPE == "trill":
+                    FINGERING += [complex(1, 1), complex(0)]
+                else:
+                    FINGERING += [complex(1), complex(0)]
+            else:
+                FINGERING += [complex(0), complex(0)]
+            FINGERING.append("")
+            INSTRUMENT = instrument
+            FILTERS["search"] = "none"
+            DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, ""]])
+            SETINSTRUMENT = False
+            FILTERS_TEMP_FINGERING = list(FINGERING)
+            FILTERS_TEMP_PITCHES = list(PITCHES)
+            FILTERS_TEMP_FINGTYPE = FINGTYPE
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
+            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "selectinstrument" in tags:
+            SETINSTRUMENT = True
+            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+   
+        elif "cancelsetinstrument" in tags:
+            SETINSTRUMENT = False
+            render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "addentry" in tags:
+            SETINSTRUMENT = False
+            added = addentry((list(PITCHES), list(FINGERING), FINGTYPE), DATABASE)
+            DATABASE = added[1]
+            SELECT = "data"+str(added[0])
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "savefile" in tags:
+            file = fd.asksaveasfilename(
+                title="Save file as .csv",
+                defaultextension=".csv",
+                filetypes=(("Comma-Separated Values File", "*.csv"), ("WindFingerings Collection", "*.wfc"), ("All files", "*.*"))
+            )
+            if file:
+                DATABASE[0][0] = file.split("/")[-1]
+                DATABASE[0][-1] = DBASEDESC.get("1.0", "end-1c")
+                try:
+                    with open(file, "w", encoding="utf-8") as f:
+                        f.write(exportfile(DATABASE))
+                    render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+                except Exception as e:
+                    E = Toplevel(C)
+                    E.geometry("800x50")
+                    E.title("Error saving file")
+                    Label(E, text="Error saving file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+                    
+
+        elif "loadfile" in tags:
+            file = fd.askopenfilename(
+                title="Select .csv file",
+                filetypes=(("Comma-Separated Values File", "*.csv"), ("WindFingerings Collection", "*.wfc"), ("All files", "*.*"))
+            )
+            if file:
+                try:
+                    with open(file, "r", encoding="utf-8") as f:
+                        DATABASE = importfile(f.read().strip().split("\n"))
+                    PAGE = 0
+                    INSTRUMENT = DATABASE[0][1]
+                    TONIC = DATABASE[0][2]
+                    TET = DATABASE[0][3]
+                    FILTERS["search"] = "none"
+                    if "partial" in key_systems[instruments[INSTRUMENT][0]]["special"]:
+                        FINGERING = [0, 0, 0, 1]
+                    else:
+                        FINGERING = [0, 0, 0, -0.5]
+                    if "trombone" in key_systems[instruments[INSTRUMENT][0]]["special"]:
+                        if FINGTYPE == "trill":
+                            FINGERING += [complex(1, 1), complex(0)]
+                        else:
+                            FINGERING += [complex(1), complex(0)]
+                    else:
+                        FINGERING += [complex(0), complex(0)]
+                    FINGERING.append("")
+                    FILTERS_TEMP_FINGERING = list(FINGERING)
+                    FILTERS_TEMP_PITCHES = list(PITCHES)
+                    FILTERS_TEMP_FINGTYPE = FINGTYPE
+                    render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                    render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+                    render_filters(FILTERS, TET, SELECT, TEMPVAR)
+                    render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+                except Exception as e:
+                    E = Toplevel(C)
+                    E.geometry("800x50")
+                    E.title("Error loading file")
+                    Label(E, text="Error loading file: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+
+        elif "copytoclipboard" in tags:
+            C.clipboard_clear()
+            C.clipboard_append(copytoclipboard(sorted(PITCHES), FINGERING, FINGTYPE))
+
+        elif "pastefromclipboard" in tags:
+            try:
+                imported_fingering = pastefromclipboard(C.clipboard_get())
+                PITCHES = list(imported_fingering[0])
+                FINGERING = list(imported_fingering[1])
+                FINGTYPE = imported_fingering[2]
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            except Exception as e:
+                E = Toplevel(C)
+                E.geometry("800x50")
+                E.title("Error loading from clipboard")
+                Label(E, text="Error loading from clipboard: "+str(e), font=("Arial", 12, "bold")).place(x=10, y=10)
+
+        # DATABASE — each entry is in the form (pitches, fingering, fingtype)
+        elif "prevpage" in tags and NUM_PAGES != 0:
+            PAGE = (PAGE - 1) % NUM_PAGES
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+        elif "nextpage" in tags and NUM_PAGES != 0:
+            PAGE = (PAGE + 1) % NUM_PAGES 
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+        elif "prevpage2" in tags and NUM_PAGES != 0:
+            PAGE = NUM_PAGES - 1 if PAGE == 0 else max(0, PAGE - 10) % NUM_PAGES
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+        elif "nextpage2" in tags and NUM_PAGES != 0:
+            PAGE = 0 if PAGE == NUM_PAGES - 1 else min(PAGE + 10, NUM_PAGES - 1) % NUM_PAGES 
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "entry" in tags:
+            SELECT = tags[2]
+            PITCHES = sorted(list(DATABASE[int(tags[2][4:])][0]))
+            FINGERING = list(DATABASE[int(tags[2][4:])][1])
+            FINGTYPE = DATABASE[int(tags[2][4:])][2]
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "filters" in tags:
+            if tags[2] == "fingtypef":
+                if tags[3] in FILTERS["fingtype"]:
+                    FILTERS["fingtype"].remove(tags[3])
+                else:
+                    FILTERS["fingtype"].append(tags[3])
+            else:
+                FILTERS[tags[2][:-1]] = tags[3]
+                
+            if "search" in tags[2]:
+                FILTERS_TEMP_FINGERING = list(FINGERING)
+                FILTERS_TEMP_PITCHES = list(PITCHES)
+                FILTERS_TEMP_FINGTYPE = FINGTYPE
+                
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "clearsearch" in tags:
+            FILTERS["search"] = "none"
+            FILTERS_TEMP_FINGERING = list(FINGERING)
+            FILTERS_TEMP_PITCHES = list(PITCHES)
+            FILTERS_TEMP_FINGTYPE = FINGTYPE
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+        elif "tolerance" in tags:
+            SELECT = "tolerance_" + tags[2]
+            render_filters(FILTERS, TET, SELECT, TEMPVAR)
+      
+    elif "description" in tags or "dbasedesc" in tags:
+        SELECT = tags[0]
+
+# MIDDLE CLICK
+def middleclick(event):
+
+    global INSTRUMENT
+    global FINGERING
+    
+    item = C.find_closest(event.x, event.y)
+    tags = C.itemcget(item, "tags").split(" ")
+
+    if "clickable" in tags:
+
+        if FINGTYPE == "trill":
+            if "key" in tags:
+                temp_fingering = FINGERING[0] & ~(2**int(tags[2]))
+                temp_half = FINGERING[1] & ~(2**int(tags[2]))
+                temp_trill = FINGERING[2] ^ (2**int(tags[2]))
+                FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            elif "partial" in tags:
+                FINGERING[3] = -int(tags[2])-1
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+            elif "sposition" in tags[2] and ("setto" in tags[2]):
+                new_pos = float(tags[3])
+                if new_pos >= FINGERING[int(tags[1][-1])+3].real:
+                    FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
+                else:
+                    FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+                
+            elif "sposition" in tags[1]:
+                new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
+                if "left" in tags[2] or "trill" in tags[2]:
+                    FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
+                else:
+                    FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+                    
+# RIGHT CLICK
+def rightclick(event):
+
+    global INSTRUMENT
+    global FINGERING
+
+    item = C.find_closest(event.x, event.y)
+    tags = C.itemcget(item, "tags").split(" ")
+    
+    if "clickable" in tags:
+            
+        if "key" in tags and "halfable" in tags:
+            temp_fingering = ((2**int(tags[2])) ^ FINGERING[0]) | (FINGERING[0] ^ FINGERING[1])
+            temp_half = FINGERING[1] ^ (2**int(tags[2]))
+            temp_trill = FINGERING[2] & ~(2**int(tags[2]))
+            FINGERING[0] = temp_fingering; FINGERING[1] = temp_half; FINGERING[2] = temp_trill
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            if "fingering" in FILTERS["search"]:
+                render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+# WHEN KEY PRESSED
+def onkey(event):
+
+    global INSTRUMENT
+    global FINGERING
+    global SELECT
+    global FINGTYPE
+    global PITCHES
+    global TEMPVAR
+    global DATABASE
+    global TONIC
+    global TET
+    
+    if event.keysym != "??":
+        pressed = event.keysym.lower()
+        if pressed in key_replacements.keys():
+            pressed = key_replacements[pressed]
+    else:
+        pressed = ""
+
+    # PITCH OR TET INPUT
+    if SELECT[:-1] in ["freq", "notename", "centsdev", "concertname", "concertdev"] or SELECT == "tet":
+        if pressed in tempvarparams[SELECT[:-1]][1] and len(TEMPVAR) < tempvarparams[SELECT[:-1]][0]:
+            if len(TEMPVAR) != 0 and pressed == "b":
+                TEMPVAR += "b"
+            else:
+                TEMPVAR += pressed.upper()
+        elif pressed == "backspace":
+            TEMPVAR = TEMPVAR[:-1]
+        elif pressed == "up" or pressed == "right":
+            if SELECT == "tet":
+                if TET < 342:
+                    TET += 1
+                    DATABASE[0][3] = TET
+            else:
+                if SELECT[-1] == "0":
+                    temp_pitch = TONIC * 2**(1/TET)
+                else:
+                    temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**(1/TET)
+                if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                    if SELECT[-1] == "0":
+                        TONIC = temp_pitch
+                        DATABASE[0][2] = temp_pitch
+                    else:
+                        PITCHES[int(SELECT[-1])-1] = temp_pitch
+                TEMPVAR = ""
+        elif pressed == "down" or pressed == "left":
+            if SELECT == "tet":
+                if TET > 1:
+                    TET -= 1
+                    DATABASE[0][3] = TET
+            else:
+                if SELECT[-1] == "0":
+                    temp_pitch = TONIC / 2**(1/TET)
+                else:
+                    temp_pitch = PITCHES[int(SELECT[-1])-1] / 2**(1/TET)
+                if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
+                    if SELECT[-1] == "0":
+                        TONIC = temp_pitch
+                        DATABASE[0][2] = temp_pitch
+                    else:
+                        PITCHES[int(SELECT[-1])-1] = temp_pitch
+                TEMPVAR = ""
+        render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+        render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+    # SPOSITION INPUT
+    elif "sposition" in SELECT:
+        if pressed in "0123456789." and len(TEMPVAR) < 5:
+            TEMPVAR += pressed
+        elif pressed == "backspace":
+            TEMPVAR = TEMPVAR[:-1]
+
+        if "number" in SELECT:
+            if pressed == "up" or pressed == "right":
+                temp_sposition = FINGERING[int(SELECT[9])+3].real + (3/TET if instruments[INSTRUMENT][0] == "trumpet" else 12/TET)
+                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
+                    if FINGTYPE == "trill":
+                        if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
+                        else:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, FINGERING[int(SELECT[9])+3].imag)
+                    else:
+                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
+                TEMPVAR = ""
+            elif pressed == "down" or pressed == "left":
+                temp_sposition = FINGERING[int(SELECT[9])+3].real - (3/TET if instruments[INSTRUMENT][0] == "trumpet" else 12/TET)
+                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
+                    if FINGTYPE == "trill":
+                        if temp_sposition <= FINGERING[int(SELECT[9])+3].imag:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
+                        else:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, FINGERING[int(SELECT[9])+3].imag)
+                    else:
+                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
+                TEMPVAR = ""
+        elif "trillnum" in SELECT:
+            if pressed == "up" or pressed == "right":
+                temp_sposition = FINGERING[int(SELECT[9])+3].imag + 12/TET
+                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
+                    if FINGTYPE == "trill":
+                        if temp_sposition >= FINGERING[int(SELECT[9])+3].real:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
+                        else:
+                            FINGERING[int(SELECT[9])+3] = complex(FINGERING[int(SELECT[9])+3].real, temp_sposition)
+                    else:
+                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
+                TEMPVAR = ""
+            elif pressed == "down" or pressed == "left":
+                temp_sposition = FINGERING[int(SELECT[9])+3].imag - 12/TET
+                if temp_sposition >= float(SELECT.split(" ")[1]) and temp_sposition <= float(SELECT.split(" ")[2]):
+                    if FINGTYPE == "trill":
+                        if temp_sposition >= FINGERING[int(SELECT[9])+3].real:
+                            FINGERING[int(SELECT[9])+3] = complex(temp_sposition, temp_sposition)
+                        else:
+                            FINGERING[int(SELECT[9])+3] = complex(FINGERING[int(SELECT[9])+3].real, temp_sposition)
+                    else:
+                        FINGERING[int(SELECT[9])+3] = complex(temp_sposition, 0)
+                TEMPVAR = ""
+            
+        render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+
+    # FILTER TOLERANCE INPUT
+    elif SELECT == "tolerance_cents" or SELECT == "tolerance_percent":
+        if pressed in "0123456789." and len(TEMPVAR) < 6:
+            TEMPVAR += pressed
+        elif pressed == "backspace":
+            TEMPVAR = TEMPVAR[:-1]
+        elif pressed == "up" or pressed == "right":
+            tolerance = round(FILTERS["tolerance"] + 0.01, 6)
+            if tolerance >= 0 and tolerance <= 0.5:
+                FILTERS["tolerance"] = tolerance
+        elif pressed == "down" or pressed == "left":
+            tolerance = round(FILTERS["tolerance"] - 0.01, 6)
+            if tolerance >= 0 and tolerance <= 0.5:
+                FILTERS["tolerance"] = tolerance
+        render_filters(FILTERS, TET, SELECT, TEMPVAR)
+
+    # SCROLLING THROUGH DATABASE
+    elif "data" in SELECT:
+        if pressed == "down":
+            SELECT = "data+" + SELECT.split(" ")[0][4:]
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            PITCHES = sorted(list(DATABASE[int(SELECT[4:])][0]))
+            FINGERING = list(DATABASE[int(SELECT[4:])][1])
+            FINGTYPE = DATABASE[int(SELECT[4:])][2]
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+        elif pressed == "up":
+            SELECT = "data-" + SELECT.split(" ")[0][4:]
+            render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            PITCHES = sorted(list(DATABASE[int(SELECT[4:])][0]))
+            FINGERING = list(DATABASE[int(SELECT[4:])][1])
+            FINGTYPE = DATABASE[int(SELECT[4:])][2]
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+
+# WHEN SPOSITION IS CLICKED
+def spositionclick(event):
+
+    global SELECT
+    global FINGERING
+    global INSTRUMENT
+    global TEMPVAR
+    
+    item = C.find_closest(event.x, event.y)
+    tags = C.itemcget(item, "tags").split(" ")
+    
+    if "clickable" in tags:
+        if "sposition" in tags[1] and "number" not in tags[2] and "trillnum" not in tags[2] and "setto" not in tags[2]:
+            new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
+            if "trill" in tags[2]:
+                FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
+            else:
+                FINGERING[int(tags[1][-1])+3] = complex(new_pos, FINGERING[int(tags[1][-1])+3].imag)
+            render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+            if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+
+# WHEN SPOSITION IS MIDDLE-CLICKED
+def spositiontrillclick(event):
+
+    global SELECT
+    global FINGERING
+    global INSTRUMENT
+    global TEMPVAR
+    
+    item = C.find_closest(event.x, event.y)
+    tags = C.itemcget(item, "tags").split(" ")
+    
+    if "clickable" in tags:
+        if FINGTYPE == "trill":
+            if "sposition" in tags[1] and "number" not in tags[2] and "trillnum" not in tags[2] and "setto" not in tags[2]:
+                new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
+                if "left" in tags[2] or "trill" in tags[2]:
+                    FINGERING[int(tags[1][-1])+3] = complex(FINGERING[int(tags[1][-1])+3].real, new_pos)
+                else:
+                    new_pos = (event.x - float(tags[3])) / ((float(tags[4])-float(tags[3]))/(float(tags[6])-float(tags[5]))) + float(tags[5])
+                    FINGERING[int(tags[1][-1])+3] = complex(new_pos, new_pos)
+                render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+                if "fingering" in FILTERS["search"]:
+                    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+            
+# KEY AND MOUSE BINDS            
+if platform.system == "Darwin": # On Mac, Button-2 and Button-3 are flipped
+    C.bind("<Button-1>", onclick)
+    C.bind("<B1-Motion>", spositionclick)
+    C.bind("<Button-3>", middleclick)
+    C.bind("<B3-Motion>", spositiontrillclick)
+    C.bind("<Button-2>", rightclick)
+else:
+    C.bind("<Button-1>", onclick)
+    C.bind("<B1-Motion>", spositionclick)
+    C.bind("<Button-2>", middleclick)
+    C.bind("<B2-Motion>", spositiontrillclick)
+    C.bind("<Button-3>", rightclick)
+
+root.bind("<BackSpace>", onkey)
+root.bind("<Return>", onkey)
+root.bind("<Up>", onkey)
+root.bind("<Down>", onkey)
+root.bind("<Left>", onkey)
+root.bind("<Right>", onkey)
+root.bind("<numbersign>", onkey)
+root.bind("<plus>", onkey)
+root.bind("<minus>", onkey)
+root.bind("<equal>", onkey)
+
+root.bind("<Configure>", onresize)
+
+for key in list("abcdefghijklmnopqrstuvwxy."):
+    root.bind("<" + key + ">", onkey)
+for key in list("0123457689"):
+    root.bind("<Key-" + key + ">", onkey)
 
 
 # FUNCTIONS
 
+# RENDER + and - SIGNS (e.g. 32 becomes +32)
 def styleminus(number):
     if round(number, 6) < 0:
         return "−" + str(abs(number))
@@ -1417,6 +1428,7 @@ def plusminus(number):
     else:
         return styleminus(number)
 
+# FREQUENCY TO NOTE NAME AND CENTS DEV
 def notename(pitch, transpose=0):
     pitch /= 2**(transpose/12)
     C0 = (55/4) * 2**(1/4)
@@ -1426,7 +1438,7 @@ def notename(pitch, transpose=0):
     name = str(notenames[notenum % 12]) + styleminus(math.floor(notenum / 12))
     return name, centsdev
 
-
+# NOTE NAME TO FREQUENCY
 def notetofreq(notename, transpose=0):
     if notename == "":
         return False
@@ -1466,7 +1478,7 @@ def notetofreq(notename, transpose=0):
     else:
         return False
 
-
+# ADD ENTRY TO DATABASE
 def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingering, fingtype)
     entry[0].sort()
     entry = ([round(e, 6) for e in entry[0]], entry[1], entry[2])
@@ -1580,7 +1592,7 @@ def addentry(entry, database=DATABASE): # entry is a tuple — (pitches, fingeri
                     multiphonics.insert(low, entry)
                     return low+1+len(notes)+len(trills), [database[0]] + notes + trills + multiphonics
 
-
+# EXPORT FILE
 def exportfile(database=DATABASE):
 
     no_comma_databasedesc = ""
@@ -1684,7 +1696,7 @@ def exportfile(database=DATABASE):
         
     return csv_string + "\n" + header + "\n" + csv
 
-
+# IMPORT FILE
 def importfile(file):
 
     comma_databasedesc = ""
@@ -1722,7 +1734,7 @@ def importfile(file):
 
     return database
 
-
+# COPY CO CLIPBOARD
 def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
 
     global TET
@@ -1824,7 +1836,7 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
         
     return csv
 
-
+# PASTE FROM CLIPBOARD
 def pastefromclipboard(f):
 
     f = f.split(",")
@@ -1848,16 +1860,15 @@ def pastefromclipboard(f):
     return (pitches, fingering, fingtype)
     
     
-
-
-
 # RENDERING
 
+# RENDER KEY
 def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, partial=0, select=SELECT, tempvar=TEMPVAR):
 
     global FINGTYPE
     global FINGERING
-    
+
+    # IF DIAGRAM HAS PARTIALS
     if key["type"] == "partial":
         for p in range(17):
             partialscale = 4
@@ -1897,6 +1908,7 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
             elif p == 0:
                 C.create_text((key["x"]+offsetx+shiftx+partialscale*4)*scale, (key["y"]+offsety+shifty+partialscale*-0.5)*scale, text="partials", font=("Arial", int(textscale*text_size*scale*2), "bold"), fill="#FFFFFF", tags=("partial"))
 
+    # IF DIAGRAM HAS SPOSITIONS
     elif "sposition" in key["type"]:
         minimum = key["min"]
         maximum = key["max"]
@@ -2006,7 +2018,7 @@ def render_key(key, keynum, offsetx=0, offsety=0, shiftx=0, shifty=0, state=0, p
             C.create_oval(x1, y1, x2, y2, fill=keycolor, width=0, tags=("clickable", "key", str(keynum)))
             C.create_text((x1+x2)/2, (y1+y2)/2, text=key["label"], font=("Arial", int(textscale*key["labelsize"]*scale*1.25), "bold"), fill=textcolor, tags=("clickable", "key", str(keynum)))
     
-    
+# RENDER FINGERING
 def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEMPVAR):
     global FINGTYPE
     C.delete("key")
@@ -2084,7 +2096,7 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
     C.create_oval(72*scale, 3*scale, 75*scale, 6*scale, fill=colors["dark_description_background"], width=0, tags=("clickable", "fingeringhelp"))
     C.create_text(73.5*scale, 4.5*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "fingeringhelp"))
     
-
+# RENDER PITCHES
 def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", transpose=0, tonic=440.0, tet=12):
     C.delete("pitch")
     C.delete("fingtype")
@@ -2169,7 +2181,7 @@ def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", tran
     C.create_oval(56.75*scale, 66*scale, 59.75*scale, 69*scale, fill=key_colors["second"][0], width=0, tags=("clickable", "pitchhelp"))
     C.create_text(58.25*scale, 67.5*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#000000", tags=("clickable", "pitchhelp"))
 
-
+# RENDER OPTIONS
 def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False):
     DBASEDESC.delete(1.0, END)
     DBASEDESC.insert(END, DATABASE[0][4])
@@ -2227,13 +2239,6 @@ def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False
 # Pitch search:
 #   at least one pitch matches
 #   all pitches match
-
-#FILTERS = {
-    #"tolerance": 0.15,
-    #"fingtype": ["note", "trill", "multi"],
-    #"tet": "none",
-    #"search": "none"  
-#}
 
 def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.delete("filters")
@@ -2299,8 +2304,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
     global SELECT
     global FILTERS_TEMP_FINGERING
     global FILTERS_TEMP_PITCHES
-
-    #print(FILTERS_TEMP_FINGERING)
+    global FILTERS_TEMP_FINGTYPE
     
     C.delete("database")
     C.delete("setinstrument")
@@ -2374,9 +2378,9 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 if instruments[database[0][1]][0] == "trombone":
                     sposmatch = False
                     if (round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].real) * 12/database[0][3]), 3) <= FILTERS["tolerance"] or
-                        (round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and FINGTYPE == "trill") or
+                        (round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and FILTERS_TEMP_FINGTYPE == "trill") or
                         (round(abs((fingering[1][4].imag - FILTERS_TEMP_FINGERING[4].real) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and fingering[2] == "trill") or
-                        (round(abs((fingering[1][4].imag - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and FINGTYPE == "trill" and fingering[2] == "trill")):
+                        (round(abs((fingering[1][4].imag - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and FILTERS_TEMP_FINGTYPE == "trill" and fingering[2] == "trill")):
                         sposmatch = True
                     if not sposmatch:
                         include = False
@@ -2399,7 +2403,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 include = False
                 for pitch in fingering[0]:
                     match = False
-                    for searchpitch in PITCHES:
+                    for searchpitch in FILTERS_TEMP_PITCHES:
                         if abs(database[0][3]*math.log(pitch/database[0][2], 2) - database[0][3]*math.log(searchpitch/database[0][2], 2)) <= filters["tolerance"]:
                             match = True
                             break
@@ -2408,7 +2412,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                         break
             elif filters["search"] == "pitch_full":
                 include = True
-                for searchpitch in PITCHES:
+                for searchpitch in FILTERS_TEMP_PITCHES:
                     match = False
                     for pitch in fingering[0]:
                         if abs(database[0][3]*math.log(pitch/database[0][2], 2) - database[0][3]*math.log(searchpitch/database[0][2], 2)) <= filters["tolerance"]:
@@ -2774,7 +2778,47 @@ def filters_help():
     FH.create_rectangle(1.5*scale, 44.5*scale, 13.5*scale, 48.5*scale, fill="#FFFFFF", width=0)
     FH.create_text(7.5*scale, 46.5*scale, text="Match exact\n     fingering", fill="#000000", font=("Arial", int(textscale*scale*1), "bold"))
     Label(FH, text="A fingering will only show up if all aspects match (keys, half−holes, partials etc.)\nor for trills, if both of the result fingerings match the two specified fingerings", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 14*scale, y = 43.75*scale)
-    
+
+# WHEN APPLICATION OPENED
+try:
+    with open("temp.wfc", "r", encoding="utf-8") as f:
+        DATABASE = importfile(f.read().strip().split("\n"))
+    PAGE = 0
+    INSTRUMENT = DATABASE[0][1]
+    TONIC = DATABASE[0][2]
+    TET = DATABASE[0][3]
+    FILTERS["search"] = "none"
+    if "partial" in key_systems[instruments[INSTRUMENT][0]]["special"]:
+        FINGERING = [0, 0, 0, 1]
+    else:
+        FINGERING = [0, 0, 0, -0.5]
+    if "trombone" in key_systems[instruments[INSTRUMENT][0]]["special"]:
+        if FINGTYPE == "trill":
+            FINGERING += [complex(1, 1), complex(0)]
+        else:
+            FINGERING += [complex(1), complex(0)]
+    else:
+        FINGERING += [complex(0), complex(0)]
+    FINGERING.append("")
+    FILTERS_TEMP_FINGERING = list(FINGERING)
+    FILTERS_TEMP_PITCHES = list(PITCHES)
+    FILTERS_TEMP_FINGTYPE = FINGTYPE
+    render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+    render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
+    render_filters(FILTERS, TET, SELECT, TEMPVAR)
+    render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
+    render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
+except:
+    pass
+
+# WHEN APPLICATION CLOSED
+def onclose():
+    with open("temp.wfc", "w", encoding="utf-8") as f:
+        f.write(exportfile(DATABASE))
+    root.destroy()
+root.protocol("WM_DELETE_WINDOW", onclose)
+
+# APPLICATION START
 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
 render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
 render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
