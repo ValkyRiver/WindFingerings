@@ -1,6 +1,6 @@
-# WindFingerings 1.3.3 by Valky River
+# WindFingerings 1.3.4 by Valky River
 
-version = "1.3.3"
+version = "1.3.4"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -103,6 +103,9 @@ DBASEDESC = Text(root, fg="#FFFFFF", bg=colors["dark_options_background"], font=
 DBASEDESC.delete(1.0, END)
 DBASEDESC.insert(END, DATABASE[0][-1])
 
+FILTERS_TEMP_FINGERING = list(FINGERING)
+FILTERS_TEMP_PITCHES = list(PITCHES)
+
 def descriptionclick(event):
     onclick(["description"])
 
@@ -155,8 +158,6 @@ except:
     pass
 
 
-
-
 def onclick(event):
     
     root.focus_set()
@@ -173,6 +174,8 @@ def onclick(event):
     global SETINSTRUMENT
     global PAGE
     global FILTERS
+    global FILTERS_TEMP_FINGERING
+    global FILTERS_TEMP_PITCHES
 
     if isinstance(event, Event):
         item = C.find_closest(event.x, event.y)
@@ -442,6 +445,8 @@ def onclick(event):
             FILTERS["search"] = "none"
             DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, ""]])
             SETINSTRUMENT = False
+            FILTERS_TEMP_FINGERING = list(FINGERING)
+            FILTERS_TEMP_PITCHES = list(PITCHES)
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
             render_filters(FILTERS, TET, SELECT, TEMPVAR)
@@ -511,6 +516,8 @@ def onclick(event):
                     else:
                         FINGERING += [complex(0), complex(0)]
                     FINGERING.append("")
+                    FILTERS_TEMP_FINGERING = list(FINGERING)
+                    FILTERS_TEMP_PITCHES = list(PITCHES)
                     render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
                     render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
                     render_filters(FILTERS, TET, SELECT, TEMPVAR)
@@ -574,11 +581,18 @@ def onclick(event):
                     FILTERS["fingtype"].append(tags[3])
             else:
                 FILTERS[tags[2][:-1]] = tags[3]
+                
+            if "search" in tags[2]:
+                FILTERS_TEMP_FINGERING = list(FINGERING)
+                FILTERS_TEMP_PITCHES = list(PITCHES)
+                
             render_filters(FILTERS, TET, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
         elif "clearsearch" in tags:
             FILTERS["search"] = "none"
+            FILTERS_TEMP_FINGERING = list(FINGERING)
+            FILTERS_TEMP_PITCHES = list(PITCHES)
             render_filters(FILTERS, TET, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
@@ -2283,6 +2297,10 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
     global FINGTYPE
     global PITCHES
     global SELECT
+    global FILTERS_TEMP_FINGERING
+    global FILTERS_TEMP_PITCHES
+
+    #print(FILTERS_TEMP_FINGERING)
     
     C.delete("database")
     C.delete("setinstrument")
@@ -2349,16 +2367,16 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
 
             # FILTER SEARCH
             if filters["search"] == "fingering_primary":
-                if fingering[1][0] != FINGERING[0] and fingering[1][0] != (FINGERING[0] | FINGERING[2]) and (fingering[1][0] | fingering[1][2]) != FINGERING[0] and (fingering[1][0] | fingering[1][2]) != (FINGERING[0] | FINGERING[2]):
+                if fingering[1][0] != FILTERS_TEMP_FINGERING[0] and fingering[1][0] != (FILTERS_TEMP_FINGERING[0] | FILTERS_TEMP_FINGERING[2]) and (fingering[1][0] | fingering[1][2]) != FILTERS_TEMP_FINGERING[0] and (fingering[1][0] | fingering[1][2]) != (FILTERS_TEMP_FINGERING[0] | FILTERS_TEMP_FINGERING[2]):
                     include = False
 
                 # special case: trombone
                 if instruments[database[0][1]][0] == "trombone":
                     sposmatch = False
-                    if (abs((fingering[1][4].real - FINGERING[4].real) * 12/database[0][3]) <= FILTERS["tolerance"] or
-                        (abs((fingering[1][4].real - FINGERING[4].imag) * 12/database[0][3]) <= FILTERS["tolerance"] and FINGTYPE == "trill") or
-                        (abs((fingering[1][4].imag - FINGERING[4].real) * 12/database[0][3]) <= FILTERS["tolerance"] and fingering[2] == "trill") or
-                        (abs((fingering[1][4].imag - FINGERING[4].imag) * 12/database[0][3]) <= FILTERS["tolerance"] and FINGTYPE == "trill" and fingering[2] == "trill")):
+                    if (round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].real) * 12/database[0][3]), 3) <= FILTERS["tolerance"] or
+                        (round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and FINGTYPE == "trill") or
+                        (round(abs((fingering[1][4].imag - FILTERS_TEMP_FINGERING[4].real) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and fingering[2] == "trill") or
+                        (round(abs((fingering[1][4].imag - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and FINGTYPE == "trill" and fingering[2] == "trill")):
                         sposmatch = True
                     if not sposmatch:
                         include = False
@@ -2370,9 +2388,9 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                 # special case: trombone
                 if instruments[database[0][1]][0] == "trombone":
                     sposmatch = False
-                    if ((abs((fingering[1][4].real - FINGERING[4].real) * 12/database[0][3]) <= FILTERS["tolerance"] and fingering[2] != "trill") or
-                        (abs((fingering[1][4].real - FINGERING[4].real) * 12/database[0][3]) <= FILTERS["tolerance"] and
-                        abs((fingering[1][4].imag - FINGERING[4].imag) * 12/database[0][3]) <= FILTERS["tolerance"] and fingering[2] == "trill")):
+                    if ((round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].real) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and fingering[2] != "trill") or
+                        (round(abs((fingering[1][4].real - FILTERS_TEMP_FINGERING[4].real) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and
+                        round(abs((fingering[1][4].imag - FILTERS_TEMP_FINGERING[4].imag) * 12/database[0][3]), 3) <= FILTERS["tolerance"] and fingering[2] == "trill")):
                         sposmatch = True
                     if not sposmatch:
                         include = False
