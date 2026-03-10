@@ -1,6 +1,6 @@
-# WindFingerings 1.4.1 by Valky River
+# WindFingerings 1.4.2 by Valky River
 
-version = "1.4.1"
+version = "1.4.2"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -539,7 +539,7 @@ def onresize(event):
             render_filters(FILTERS, TET, SELECT, TEMPVAR)
 
 if platform.system() == "Darwin": # On Mac, text size is shrunk
-    textscale = 7/4
+    textscale = 4/3
 
 root = Tk()
 C = Canvas(root)
@@ -1339,7 +1339,7 @@ def spositiontrillclick(event):
                 render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             
 # KEY AND MOUSE BINDS            
-if platform.system == "Darwin": # On Mac, Button-2 and Button-3 are flipped
+if platform.system() == "Darwin": # On Mac, Button-2 and Button-3 are flipped
     C.bind("<Button-1>", onclick)
     C.bind("<B1-Motion>", spositionclick)
     C.bind("<Button-3>", middleclick)
@@ -2305,17 +2305,22 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
         topy = 28
         per_page = 25
 
+        if platform.system() == "Darwin": # On Mac, the arrows are rendered too large
+            extra_scale = 0.75
+        else:
+            extra_scale = 1
+
         C.create_rectangle(122*scale, 21*scale, 125*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage"))
-        C.create_text(123.5*scale, 22.5*scale, text="◀", font=("Arial", int(textscale*scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage"))
+        C.create_text(123.5*scale, 22.5*scale, text="◀", font=("Arial", int(textscale*scale*extra_scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage"))
 
         C.create_rectangle(143*scale, 21*scale, 146*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage"))
-        C.create_text(144.5*scale, 22.5*scale, text="▶", font=("Arial", int(textscale*scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage"))
+        C.create_text(144.5*scale, 22.5*scale, text="▶", font=("Arial", int(textscale*scale*extra_scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage"))
 
         C.create_rectangle(118.5*scale, 21*scale, 121.5*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "prevpage2"))
-        C.create_text(120*scale, 22.5*scale, text="◀◀", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage2"))
+        C.create_text(120*scale, 22.5*scale, text="◀◀", font=("Arial", int(textscale*scale*extra_scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "prevpage2"))
 
         C.create_rectangle(146.5*scale, 21*scale, 149.5*scale, 24*scale, fill="#FFFFFF", width=1, tags=("clickable", "database", "nextpage2"))
-        C.create_text(148*scale, 22.5*scale, text="▶▶", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage2"))
+        C.create_text(148*scale, 22.5*scale, text="▶▶", font=("Arial", int(textscale*scale*extra_scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "database", "nextpage2"))
 
         if filters["search"] != "none":
             C.create_text(89.75*scale, 22.5*scale, text="SEARCH RESULTS", font=("Arial", int(textscale*scale*2), "bold"), fill=("#000000"), tags=("database"))
