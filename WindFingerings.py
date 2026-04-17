@@ -550,7 +550,7 @@ C.create_rectangle(0,0,horizontalsize*16,verticalsize*16, outline="#FFFFFF", fil
 
 
 # GLOBAL VARIABLES
-INSTRUMENT = "Alto Saxophone"
+INSTRUMENT = "Flute"
 SELECT = ""
 
 # FINGERING: main, half, trill, partial, description
