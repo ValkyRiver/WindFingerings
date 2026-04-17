@@ -1,6 +1,6 @@
-# WindFingerings 1.4.3 by Valky River
+# WindFingerings 1.5 by Valky River
 
-version = "1.4.3"
+version = "1.5"
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -58,7 +58,7 @@ fingtypes = {
 key_colors = {
     "main": ["#FFFFFF", "#000000", "#999999"],
     "octave": ["#DDDDDD", "#555555"],
-    "second": ["#99EEBB", "#006633"],
+    "second": ["#99EEBB", "#006633", "#66AA88"],
     "low": ["#FFCCCC", "#770022"],
     "high": ["#CCEE77", "#556600"],
     "trill": ["#BBDDFF", "#002288"],
@@ -75,9 +75,11 @@ instruments = { # key system, transpose
 
     # FLUTES
     "Piccolo": ["piccolo", 12],
+    #"Eb Flute": ["?", 3],
     "Flute": ["flute", 0],
-    #"Alto Flute": ["?", -5],
-    #"Bass Flute": ["?", -12],
+    "Alto Flute": ["flute", -5],
+    "Bass Flute": ["flute", -12],
+    #"Contrabass Flute": ["flute", -24],
 
     # DOUBLE REEDS
     "Oboe": ["oboe", 0],
@@ -96,7 +98,7 @@ instruments = { # key system, transpose
     "Basset Horn": ["bassclar", -7],
     "Alto Clarinet": ["clarinet", -9],
     "Bass Clarinet": ["bassclar", -14],
-    #"Contra-alto Cl": ["?", -21],
+    "Contra-alto Clarinet": ["clarinet", -21],
     "Contrabass Clarinet": ["bassclar", -26],
 
     # SAXOPHONES
@@ -106,14 +108,15 @@ instruments = { # key system, transpose
     "Tenor Saxophone": ["saxophone", -14],
     "Baritone Saxophone": ["saxophone", -21],
     "Bass Saxophone": ["saxophone", -26],
-    #"Contrabass Saxophone": ["?", -33],
+    "Contrabass Saxophone": ["saxophone", -33],
 
     # HIGHER BRASS
     "Bb Piccolo Trumpet": ["4valve", 10],
+    #"Trumpet in D": ["trumpet", +2],
     "Trumpet in C": ["trumpet", 0],
     "Trumpet in Bb": ["trumpet", -2],
-    #"Bass Trumpet": ["?", -14],
-    #"Eb Soprano Cornet": ["?", 3],
+    #"Bass Trumpet": ["trumpet", -14],
+    #"Eb Soprano Cornet": ["trumpet", 3],
     "Cornet in Bb": ["trumpet", -2],
     "Flugelhorn": ["4valve", -2],
 
@@ -138,6 +141,14 @@ instruments = { # key system, transpose
     "Eb Tuba": ["tuba", 0],
     "CC Tuba": ["tuba", 0],
     "BBb Tuba": ["tuba", 0],
+
+    # OTHERS
+    "Sopranino Recorder": ["recorder", 12],
+    "Soprano Recorder": ["recorder", 12],
+    "Alto Recorder": ["recorder", 0],
+    "Tenor Recorder": ["recorder", 0],
+    "Bass Recorder": ["recorder", -12],
+    "Great Bass Recorder": ["recorder", -12],
 
 }
 
@@ -185,7 +196,7 @@ key_systems = {
         "special": [],
         0: {"x1":8, "y1":22, "x2":10.5, "y2":26, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
         1: {"x1":11, "y1":22, "x2":13.5, "y2":26, "type":"main", "halfable":False, "label":"T", "labelsize":1, "descname":"T ", "descoff":""},
-        2: {"x1":8, "y1":12, "x2":15, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
+        2: {"x1":8, "y1":12, "x2":15, "y2":19, "type":"main", "halfable":True, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
         3: {"x1":15.5, "y1":13.5, "x2":19.5, "y2":17.5, "type":"special", "halfable":False, "label":"Bb*", "labelsize":6/5, "descname":"Bb*", "descoff":""},
         4: {"x1":20, "y1":12, "x2":27, "y2":19, "type":"main", "halfable":True, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
         5: {"x1":28, "y1":12, "x2":35, "y2":19, "type":"main", "halfable":True, "label":"3", "labelsize":2, "descname":"3", "descoff":"−"},
@@ -246,7 +257,7 @@ key_systems = {
         1: {"x1":12.5, "y1":23, "x2":17, "y2":26, "type":"octave", "halfable":False, "label":"I", "labelsize":1, "descname":"I ", "descoff":""},
         2: {"x1":8, "y1":9, "x2":14, "y2":12, "type":"octave", "halfable":False, "label":"II", "labelsize":1, "descname":"II ", "descoff":""},
         3: {"x1":12, "y1":12, "x2":19, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
-        4: {"x1":19.5, "y1":13.25, "x2":24, "y2":17.75, "type":"octave", "halfable":False, "label":"½", "labelsize":1.75, "descname":"h", "descoff":""},
+        4: {"x1":19.5, "y1":13.25, "x2":24, "y2":17.75, "type":"octave", "halfable":False, "label":"½", "labelsize":1.75, "descname":"&h", "descoff":""},
         5: {"x1":22.5, "y1":18, "x2":25.5, "y2":20, "type":"trill", "halfable":False, "label":"b", "labelsize":1, "descname":"b", "descoff":""},
         6: {"x1":23, "y1":10, "x2":25, "y2":13.5, "type":"trill", "halfable":False, "label":"d", "labelsize":1, "descname":"d", "descoff":""},
         7: {"x1":24.5, "y1":12, "x2":31.5, "y2":19, "type":"main", "halfable":True, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
@@ -505,7 +516,23 @@ key_systems = {
         4: {"x1":15, "y1":18, "x2":22, "y2":25, "type":"model", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":""},
         5: {"x1":23, "y1":18, "x2":30, "y2":25, "type":"model", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":""},
         6: {"x":43.5, "y":8, "type":"partial", "descname":"", "descoff":""},
-    }
+    },
+
+    "recorder": {
+        "parameters": {"keys":11, "LR_split":4, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-2, "shifty":2, "Lx":6, "Ly":3, "Mx":40.5, "My":32, "Bx":40.5, "By":32, "Rx":80, "Ry":32, "Descy":36},
+        "special": [],
+        0: {"x1":10, "y1":18.5, "x2":15, "y2":23.5, "type":"main", "halfable":True, "label":"0", "labelsize":3/2, "descname":"0 ", "descoff":""},
+        1: {"x1":15, "y1":12, "x2":22, "y2":19, "type":"main", "halfable":True, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
+        2: {"x1":23, "y1":12, "x2":30, "y2":19, "type":"main", "halfable":True, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
+        3: {"x1":31, "y1":12, "x2":38, "y2":19, "type":"main", "halfable":True, "label":"3", "labelsize":2, "descname":"3", "descoff":"−"},
+        4: {"x1":43, "y1":12, "x2":50, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
+        5: {"x1":51, "y1":12, "x2":58, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
+        6: {"x1":59, "y1":12, "x2":66, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
+        7: {"x1":60.5, "y1":19.5, "x2":64.5, "y2":23.5, "type":"second", "halfable":True, "label":"½", "labelsize":3/2, "descname":"&h", "descoff":""},
+        8: {"x1":67, "y1":12, "x2":74, "y2":19, "type":"main", "halfable":True, "label":"7", "labelsize":2, "descname":"7", "descoff":"−"},
+        9: {"x1":68.5, "y1":19.5, "x2":72.5, "y2":23.5, "type":"second", "halfable":True, "label":"½", "labelsize":3/2, "descname":"&h", "descoff":""},
+        10: {"x1":75, "y1":13, "x2":80, "y2":18, "type":"special", "halfable":True, "label":"8*", "labelsize":4/3, "descname":" 8*", "descoff":""},
+    },
 }
 
 
@@ -1765,6 +1792,7 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
             
     desc_string = ""
     for key, state in enumerate(states):
+        descname = key_systems[instruments[INSTRUMENT][0]][key]["descname"]
         if key == key_systems[instruments[INSTRUMENT][0]]["parameters"]["LR_split"]:
             desc_string += key_systems[instruments[INSTRUMENT][0]]["parameters"]["separator"]
         if isinstance(state, complex):
@@ -1773,11 +1801,17 @@ def copytoclipboard(pi=PITCHES, fi=FINGERING, ft=FINGTYPE):
             else:
                 desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
         elif state == 3:
-            desc_string += "["+key_systems[instruments[INSTRUMENT][0]][key]["descname"].strip()+"]"
+            if descname[0] == "&":
+                desc_string = desc_string[:-1] if desc_string[-1] == "−" else desc_string
+                descname = descname[1:]
+            desc_string += "["+descname.strip()+"]"
         elif state == 2:
-            desc_string += "h"
+            desc_string += "h " if descname[-1] == " " else (" h" if descname[0] == " " else "h")
         elif state == 1:
-            desc_string += key_systems[instruments[INSTRUMENT][0]][key]["descname"]
+            if descname[0] == "&":
+                desc_string = desc_string[:-1] if desc_string[-1] == "−" else desc_string
+                descname = descname[1:]
+            desc_string += descname
         elif state == 0:
             if key_systems[instruments[INSTRUMENT][0]][key]["descoff"] == "−":
                 desc_string += "-"
@@ -2043,6 +2077,7 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
     C.create_rectangle(Lx, Ry, Rx, Descy, fill="#000000", width=0, tags=("key"))
     desc_string = ""
     for key, state in enumerate(states):
+        descname = key_systems[key_system][key]["descname"]
         if key == parameters["LR_split"]:
             desc_string += parameters["separator"]
         if isinstance(state, complex):
@@ -2051,11 +2086,17 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
             else:
                 desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
         elif state == 3:
-            desc_string += "["+key_systems[key_system][key]["descname"].strip()+"]"
+            if descname[0] == "&":
+                desc_string = desc_string[:-1] if desc_string[-1] == "−" else desc_string
+                descname = descname[1:]
+            desc_string += "["+descname.strip()+"]"
         elif state == 2:
-            desc_string += "½"
+            desc_string += "½ " if descname[-1] == " " else (" ½" if descname[0] == " " else "½")
         elif state == 1:
-            desc_string += key_systems[key_system][key]["descname"]
+            if descname[0] == "&":
+                desc_string = desc_string[:-1] if desc_string[-1] == "−" else desc_string
+                descname = descname[1:]
+            desc_string += descname
         elif state == 0:
             desc_string += key_systems[key_system][key]["descoff"]
     if fingering[3] == -17:
@@ -2547,6 +2588,7 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                     
             desc_string = ""
             for key, state in enumerate(states):
+                descname = key_systems[instruments[database[0][1]][0]][key]["descname"]
                 if key == key_systems[instruments[database[0][1]][0]]["parameters"]["LR_split"]:
                     desc_string += key_systems[instruments[database[0][1]][0]]["parameters"]["separator"]
                 if isinstance(state, complex):
@@ -2555,11 +2597,17 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                     else:
                         desc_string += "[{"+str(round(state.real, 2))+"}{"+str(round(state.imag, 2))+"}] "
                 elif state == 3:
-                    desc_string += "["+key_systems[instruments[database[0][1]][0]][key]["descname"].strip()+"]"
+                    if descname[0] == "&":
+                        desc_string = desc_string[:-1] if desc_string[-1] == "−" else desc_string
+                        descname = descname[1:]
+                    desc_string += "["+descname.strip()+"]"
                 elif state == 2:
-                    desc_string += "½"
+                    desc_string += "½ " if descname[-1] == " " else (" ½" if descname[0] == " " else "½")
                 elif state == 1:
-                    desc_string += key_systems[instruments[database[0][1]][0]][key]["descname"]
+                    if descname[0] == "&":
+                        desc_string = desc_string[:-1] if desc_string[-1] == "−" else desc_string
+                        descname = descname[1:]
+                    desc_string += descname
                 elif state == 0:
                     desc_string += key_systems[instruments[database[0][1]][0]][key]["descoff"]
             if entry[1][3] == -17:
