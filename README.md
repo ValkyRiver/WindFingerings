@@ -2,14 +2,15 @@
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
-- Piccolo, **Flute***
+- Piccolo, **Flute***, _Alto Flute_, _Bass Flute_
 - Oboe*, English Horn, Bassoon*, Contrabassoon
-- Clarinet in Eb, **Clarinet in Bb***, Clarinet in A, _Basset Horn_, Alto Clarinet, Bass Clarinet, _Contrabass Clarinet_
-- _Sopranino Saxophone_, Soprano Saxophone, **Alto Saxophone***, Tenor Saxophone*, Baritone Saxophone, _Bass Saxophone_
+- Clarinet in Eb, **Clarinet in Bb***, Clarinet in A, _Basset Horn_, Alto Clarinet, Bass Clarinet, _Contra-alto Clarinet_, _Contrabass Clarinet_
+- _Sopranino Saxophone_, Soprano Saxophone, **Alto Saxophone***, Tenor Saxophone*, Baritone Saxophone, _Bass Saxophone_, _Contrabass Saxophone_
 - _Piccolo Trumpet in Bb_, Trumpet in C, **Trumpet in Bb***, Cornet in Bb, Flugelhorn
 - Single F Horn, Single Bb Horn, Double F/Bb Horn*
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium*, F Tuba, Eb Tuba, CC Tuba, BBb Tuba*
+- _Sopranino Recorder_, Soprano Recorder, Alto Recorder, _Tenor Recorder_, _Bass Recorder_, _Great Bass Recorder_
 
 ### Standard collections
 The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones in _italics_. The instruments marked with an asterisk (*) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
@@ -135,5 +136,6 @@ This search works similarly to "Filter for pitches in TET", except instead of se
 - 1.4.1 — bug fixes
 - 1.4.2 — fix Mac scaling issue
 - 1.4.3 — bug fixes
+- 1.5 — **added several new instruments**
 
 ## Issues
