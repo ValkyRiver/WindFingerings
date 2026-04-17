@@ -1,6 +1,6 @@
-# WindFingerings 1.4.2 by Valky River
+# WindFingerings 1.4.3 by Valky River
 
-version = "1.4.2"
+version = "1.4.3"
 
 from tkinter import *
 from tkinter import filedialog as fd
