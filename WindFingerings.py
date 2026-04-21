@@ -1,6 +1,8 @@
-# WindFingerings 1.5 by Valky River
+# WindFingerings 1.5.1 by Valky River
 
-version = "1.5"
+version = "1.5.1"
+
+# UPCOMING TASKS FOR NEXT VERSIONS: Implement InstrumentEditor (for custom instruments)
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -601,7 +603,7 @@ FILTERS = {
 # DATABASE
 DATABASE = [["new-database.csv", INSTRUMENT, TONIC, TET, ""]]
 
-SETINSTRUMENT = False
+SETINSTRUMENT = "not"
 
 C.create_rectangle(2*scale, 35*scale, 76*scale, 44*scale, fill=colors["description_background"], width=0, tags="create_description")
 C.create_text(8.5*scale, 39.5*scale, text="Description", font=("Arial", int(textscale*1.5*scale), "bold"), fill="#FFFFFF", tags="create_description")
@@ -696,11 +698,11 @@ def onclick(event):
     else:
         tags = event
         
-    #print(tags)
-    #print(SELECT)
+    print("tags", tags)
+    print("SELECT", SELECT)
 
     if "removeentry" in tags and "data" in SELECT:
-        SETINSTRUMENT = False
+        SETINSTRUMENT = "not"
         index = int(SELECT[4:])
         DATABASE.pop(index)
         SELECT = ""
@@ -838,7 +840,7 @@ def onclick(event):
                     if SELECT[-1] == "0":
                         temp_pitch = DATABASE[0][2] * 2**((float(TEMPVAR)-notename(DATABASE[0][2], 0)[1])/1200)
                     else:
-                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**(float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)/1200)
+                        temp_pitch = PITCHES[int(SELECT[-1])-1] * 2**((float(TEMPVAR)-notename(PITCHES[int(SELECT[-1])-1], 0)[1])/1200)
                     if temp_pitch >= (55/8) * 2**(5/24) and temp_pitch <= 14080 / 2**(1/8):
                         if SELECT[-1] == "0":
                             TONIC = temp_pitch
@@ -946,10 +948,15 @@ def onclick(event):
             else:
                 FINGERING += [complex(0), complex(0)]
             FINGERING.append("")
-            INSTRUMENT = instrument
+
+            if instrument in instruments.keys():
+                INSTRUMENT = instrument
+            else:
+                pass # implement InstrumentEditor
+            
             FILTERS["search"] = "none"
             DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, ""]])
-            SETINSTRUMENT = False
+            SETINSTRUMENT = "not"
             FILTERS_TEMP_FINGERING = list(FINGERING)
             FILTERS_TEMP_PITCHES = list(PITCHES)
             FILTERS_TEMP_FINGTYPE = FINGTYPE
@@ -960,17 +967,17 @@ def onclick(event):
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
         elif "selectinstrument" in tags:
-            SETINSTRUMENT = True
+            SETINSTRUMENT = "set"
             render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
    
         elif "cancelsetinstrument" in tags:
-            SETINSTRUMENT = False
+            SETINSTRUMENT = "not"
             render_options(INSTRUMENT, DATABASE, SETINSTRUMENT)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, SELECT, FILTERS)
 
         elif "addentry" in tags:
-            SETINSTRUMENT = False
+            SETINSTRUMENT = "not"
             added = addentry((list(PITCHES), list(FINGERING), FINGTYPE), DATABASE)
             DATABASE = added[1]
             SELECT = "data"+str(added[0])
@@ -1006,7 +1013,12 @@ def onclick(event):
                     with open(file, "r", encoding="utf-8") as f:
                         DATABASE = importfile(f.read().strip().split("\n"))
                     PAGE = 0
-                    INSTRUMENT = DATABASE[0][1]
+
+                    if DATABASE[0][1] in instruments.keys():
+                        INSTRUMENT = DATABASE[0][1]
+                    else:
+                        pass # implement InstrumentEditor
+
                     TONIC = DATABASE[0][2]
                     TET = DATABASE[0][3]
                     FILTERS["search"] = "none"
@@ -2226,14 +2238,14 @@ def render_options(instrument=INSTRUMENT, database=DATABASE, setinstrument=False
 
     C.create_text(134*scale, 5*scale, text=database[0][0], font=("Arial", int(textscale*scale*2), "bold"), fill="#FFFFFF", tags=("options"))
 
-    if setinstrument:
+    if setinstrument != "not":
         C.create_rectangle(100*scale, 8*scale, 133.5*scale, 12*scale, fill=colors["set_instrument"], width=0, tags=("clickable", "options", "cancelsetinstrument"))
         C.create_text(116.75*scale, 10*scale, text="CANCEL", font=("Arial", int(textscale*scale*1.75), "bold"), fill="#000000", tags=("clickable", "options", "cancelsetinstrument"))
     else:
         C.create_rectangle(100*scale, 8*scale, 133.5*scale, 12*scale, fill=colors["set_instrument"], width=0, tags=("clickable", "options", "selectinstrument"))
         C.create_text(116.75*scale, 10*scale, text="Instrument: " + instrument, font=("Arial", int(textscale*scale*1.5) if len(instrument) <= 15 else int(scale*1.375), "bold"), fill="#000000", tags=("clickable", "options", "selectinstrument"))
 
-    if setinstrument:
+    if setinstrument != "not":
         C.create_text(150.75*scale, 10*scale, text="Warning: changing instruments\nwill erase the current database", font=("Arial", int(textscale*scale*1.375), "bold"), fill="#FFFFFF", tags=("clickable", "options", "cancelsetinstrument"))
     else:
         C.create_text(150.75*scale, 10*scale, text="Transposition: "+plusminus(instruments[instrument][1]*100) + " cents", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "options", "selectinstrument"))
@@ -2326,7 +2338,8 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
     C.delete("database")
     C.delete("setinstrument")
     C.delete("entry")
-    if setinstrument:
+    
+    if setinstrument == "set":
         percolumn = 25
         rowexpand = 3
         totalcolumns = 2
@@ -2341,7 +2354,11 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
             transposition = " (Transpose: " + ("+" + str(transcents) if transcents > 0 else ("−" + str(-transcents) if transcents < 0 else "0")) + " cents)"
             C.create_rectangle((78 + (112/totalcolumns)*int(i/percolumn))*scale, (21.75 + (i%percolumn)*rowexpand)*scale, (78 + (112/totalcolumns)*int(i/percolumn + 1))*scale, (21.75 + ((i%percolumn)+1)*rowexpand)*scale, fill=(colors["set_instrument"] if instrument == INSTRUMENT else "#FFFFFF"), width=1, tags=("clickable", "setinstrument", underscored_instrument))
             C.create_text((78 + (112/totalcolumns)*(int(i/percolumn)+0.5))*scale, (21.75 + ((i%percolumn)+0.5)*rowexpand)*scale, text=instrument + transposition, font=("Arial", int(textscale*scale*11/8), "bold"), fill=("#000000"), tags=("clickable", "setinstrument", underscored_instrument))
-    else:
+
+    elif setinstrument == "edit":
+        pass # implement InstrumentEditor
+    
+    elif setinstrument == "not":
         rowspacing = 2.75
         topy = 28
         per_page = 25
@@ -2813,7 +2830,13 @@ try:
     with open("temp.wfc", "r", encoding="utf-8") as f:
         DATABASE = importfile(f.read().strip().split("\n"))
     PAGE = 0
-    INSTRUMENT = DATABASE[0][1]
+
+    if DATABASE[0][1] in instruments.keys():
+        INSTRUMENT = DATABASE[0][1]
+    else:
+        pass # implement InstrumentEditor
+
+    
     TONIC = DATABASE[0][2]
     TET = DATABASE[0][3]
     FILTERS["search"] = "none"
