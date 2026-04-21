@@ -1,4 +1,4 @@
-# WindFingerings 1.5
+# WindFingerings 1.5.1
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
@@ -11,6 +11,8 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium*, F Tuba, Eb Tuba, CC Tuba, BBb Tuba*
 - _Sopranino Recorder_, Soprano Recorder, Alto Recorder, _Tenor Recorder_, _Bass Recorder_, _Great Bass Recorder_
+
+Coming in a future version: Customized instruments
 
 ### Standard collections
 The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones in _italics_. The instruments marked with an asterisk (*) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
@@ -137,5 +139,6 @@ This search works similarly to "Filter for pitches in TET", except instead of se
 - 1.4.2 — fix Mac scaling issue
 - 1.4.3 — bug fixes
 - 1.5 — **added several new instruments**
+- 1.5.1 — bug fixes
 
 ## Issues
