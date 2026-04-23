@@ -1,4 +1,4 @@
-# WindFingerings 1.5.1
+# WindFingerings 2.0
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
 
 ## Current supported instruments
@@ -11,8 +11,7 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium*, F Tuba, Eb Tuba, CC Tuba, BBb Tuba*
 - _Sopranino Recorder_, Soprano Recorder, Alto Recorder, _Tenor Recorder_, _Bass Recorder_, _Great Bass Recorder_
-
-Coming in a future version: Customized instruments
+- NEW 2.0 FEATURE: CUSTOMIZED INSTRUMENTS
 
 ### Standard collections
 The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones in _italics_. The instruments marked with an asterisk (*) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
@@ -110,7 +109,12 @@ Exceptions: continuous pitch parameters
 ### Search for pitches
 This search works similarly to "Filter for pitches in TET", except instead of searching for all pitches in a temperament, it only searches for fingerings that contain pitches within tolerance of searched pitches.
 - At least 1 pitch match: a fingering will remain if one of its pitches matches one of the searched pitches. For example, if searching for 392 Hz and 440 Hz, a trill between 440 Hz and 475 Hz will remain, because one of its pitches (440 Hz) matches with one of the searched pitches (440 Hz).
-- All pitches match: a fingering will only remain if all of its pitches can individually match up with a searched pitch. For example, if searching for 392 Hz and 440 Hz, a multiphonic consisting of 392 Hz, 440 Hz, and 475 Hz will remain (as both 392 Hz and 440 Hz are present), but a trill between 440 Hz and 475 Hz will not, because the 475 Hz doesn't match either the searched 392 Hz or 440 Hz. 
+- All pitches match: a fingering will only remain if all of its pitches can individually match up with a searched pitch. For example, if searching for 392 Hz and 440 Hz, a multiphonic consisting of 392 Hz, 440 Hz, and 475 Hz will remain (as both 392 Hz and 440 Hz are present), but a trill between 440 Hz and 475 Hz will not, because the 475 Hz doesn't match either the searched 392 Hz or 440 Hz.
+
+## Custom instruments
+In WindFingerings 2.0, a new feature had ben added — the ability to set custom instruments. If a custom instrument has not already been set this session, the bottom side of the "set instruments" tab will show "SET CUSTOM INSTRUMENT"
+
+### Section TBC
 
 ## Version overview
 - 1.0 — **first version of WindFingerings**
@@ -140,5 +144,6 @@ This search works similarly to "Filter for pitches in TET", except instead of se
 - 1.4.3 — bug fixes
 - 1.5 — **added several new instruments**
 - 1.5.1 — bug fixes
+- 2.0 — **added instrument editor**
 
 ## Issues
