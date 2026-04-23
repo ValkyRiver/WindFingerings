@@ -35,7 +35,7 @@ colors = {
 key_replacements = {
     "period": ".",
     "numbersign": "#",
-    "s": "#"
+    "s": "#",
     "S": "#",
     "plus": "+",
     "minus": "-",
