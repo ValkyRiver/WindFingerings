@@ -1,5 +1,5 @@
-# WindFingerings 2.0
-WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba.
+# WindFingerings 2.0.2
+WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba, as well as an instrument editor for custom instruments.
 
 ## Current supported instruments
 - Piccolo, **Flute***, _Alto Flute_, _Bass Flute_
@@ -11,7 +11,7 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium*, F Tuba, Eb Tuba, CC Tuba, BBb Tuba*
 - _Sopranino Recorder_, Soprano Recorder, Alto Recorder, _Tenor Recorder_, _Bass Recorder_, _Great Bass Recorder_
-- NEW 2.0 FEATURE: CUSTOMIZED INSTRUMENTS
+**NEW 2.0 FEATURE: CUSTOMIZED INSTRUMENTS**
 
 ### Standard collections
 The "standard" collections consist of a template of fingerings for all of the above instruments except for the ones in _italics_. The instruments marked with an asterisk (*) also contain a template of trill fingerings. In these standard collections, all pitches are shown as if they were perfectly in tune to 12−TET, even though this might not be the case on your instrument. Also, there may be a few errors.
@@ -29,7 +29,7 @@ The instruments in **bold** also contain templates of scales and arpeggios, incl
 Once again, there may be a few errors.
 
 ## Fingering section
-To select a fingering, click on the keys in the fingering diagram on the top left corner. Right-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, middle-click on a key to trill it (which will change the color of the key to bright green).
+To select a fingering, click on the keys in the fingering diagram on the top left corner. Middle-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, right-click on a key to trill it (which will change the color of the key to bright green).
 
 The keys in the diagram are colored based on their function on the instrument:
 - White: main key directly controlling a tone hole / main valve
@@ -41,13 +41,25 @@ The keys in the diagram are colored based on their function on the instrument:
 - Orange: key/valve not present on all models of the instrument
 - Purple: key part of a mechanism not normally touched
 
-Brass instruments will also come with a "partials" section, where the partial used for playing a pitch can be selected. "Other" refers to any pitch that is not produced with a partial in the harmonic series (e.g. false tones).
+Some instruments will also come with a "partials" section, where the partial used for playing a pitch can be selected. "Other" refers to any pitch that is not produced with a partial in the harmonic series (e.g. false tones).
 
 The trombone and trumpet contain continuous pitch parameters:
 - for trombone, the number is the position. Note that the fractional values for positions involving triggers might not be exact and might differ between instruments.
 - for trumpet, "¼" corresponds to the position for D4 (1−3 {0.25} {0.0} ③), and "½" corresponds to the position for C#4 (123 {0.5} {0.0} ③). 123 {0.5} {0.5} ② is a low F3.
 
 Note: the fingering diagram doesn't "know" whether pressing down one key automatically presses down another (e.g. pressing down the low C key on a flute will automatically depress the low C# as well). The convention in the "standard" collections is to only include the key being pressed, and not any keys that are automatically depressed as a result of some other key being pressed. So low C on flute is stored as T 123 | 456 C, instead of T 123 | 456 C# C (or T 1Bb\*23 | G*F#*456 C). Note that this convention does not necessarily apply to the "scales" collection.
+
+### Single-line fingering notation (SLFN)
+Fingerings are also notated using the single-line fingering notation (SLFN). This is not how thee fingerings are stored internally, but it provides a readable way of describing a fingering without taking up an entire diagram. While exactly how SLFN is implemented between instruments differs, in general:
+
+- The separator | separates LH and RH keys into two groups (This separator is not present if partials are present)
+- Main keys (1, 2, 3, 4, 5, 6) are written as − when off (e.g. 123 | −5−, not 123 |  5 )
+- Any keys before the first main key in a group is written before with a space (e.g. 12− | Bb −−−, not 12− | Bb−−−)
+- Any keys after the last main key in a group is written after with a space (e.g. 123 G# | −−−, not 123G# | −−−)
+- Any keys between two main keys in the same group is written between without a space (e.g. 1Bb−f3 | −−−, not 1 Bb − f 3 | −−−)
+- If partials are present, they are written using a circled number (e.g. 12− ③, not 12− 3)
+- Any keys that are half-pressed are written as ½, regardless of its original value (e.g. 123 | 4½−, not 123 | 4⁵/₂− )
+- Any keys that are being trilled are written in square brackets with no spaces (e.g. 123 | 45\[6]\[Eb], not 123 | 45\[6] \[Eb])
 
 ### Special: G# cancel on saxophone
 The "G# cancel" refers to the screw on top of the tone-hole key for G#. It serves two purposes:
@@ -112,9 +124,48 @@ This search works similarly to "Filter for pitches in TET", except instead of se
 - All pitches match: a fingering will only remain if all of its pitches can individually match up with a searched pitch. For example, if searching for 392 Hz and 440 Hz, a multiphonic consisting of 392 Hz, 440 Hz, and 475 Hz will remain (as both 392 Hz and 440 Hz are present), but a trill between 440 Hz and 475 Hz will not, because the 475 Hz doesn't match either the searched 392 Hz or 440 Hz.
 
 ## Custom instruments
-In WindFingerings 2.0, a new feature had ben added — the ability to set custom instruments. If a custom instrument has not already been set this session, the bottom side of the "set instruments" tab will show "SET CUSTOM INSTRUMENT"
+In WindFingerings 2.0, a new feature had ben added — the ability to set custom instruments. If a custom instrument has not already been set this session, the bottom side of the "set instruments" tab will show "SET CUSTOM INSTRUMENT" — otherwise it will show the state of the last time the custom instrument had been selected. In order to save custom instruments, just save a database that uses this instrument, as the key information is stored in the .csv / .wfc file.
 
-### Section TBC
+### Section split
+In the SLFN of a fingering, there is a separator symbol | which separate keys into two groups (usually meaning LH and RH). Keys that are placed before the separator are shown below as blue, and keys that are placed after the separator are shown below as red. The position of the separation can be changed by setting the value "Section split" — keys whose number is less than or equal to "Section split" will be in the first group (blue), and keys whose number is greater than "Section split" will be in the second group (red). The presence or absence of a separator | in the SLFN can be toggled on or off.
+
+In the diagram, the boundary between the blue and red regions forms a ┌┘ shape. Mid X1, mid X2, and mid Y refers to the coordinates of the two right-angled corners, which are (M1, Y) and (M2, Y) respectively (note that they have the same Y coordinate). Note that if X1 > X2, then the boundary would instead have a └┐ shape, and if X1 = X2, the boundary is straight. The boundary can also be moved around using the arrow keys after selecting mid X1, mid X2, or mid Y.
+
+### Adding, removing, or ordering keys
+On the right side of each key entry, there is a gray box with four buttons: ▲, ▼, +, and ×.
+- The + button adds a new key to the list of keys, directly above the key entry where + was placed. It will be placed into the same group, and "Section split" will automatically change to ensure none of the previous keys switched groups.
+- The × button removes a key from the list of keys. Once again, "Section split" will automatically change to ensure none of the previous keys switched groups.
+
+The ▲ and ▼ buttons change the relative ordering of the keys. While this doesn't visually affect the fingering diagram on the top left, it will change the SLFN of a fingering. For example:
+- In 123 | 4−−, swapping the order of the keys 2 and 3 would result in a SLFN of 132 | 4−−, even if in the diagram, 2 is to the left of 3.
+- In 123 G# | −5−, swapping the order of keys 3 and G# would result in a SLFN of 12 G#3 | −5−, even if in the diagram, G# comes after 3.
+- In 123 G# | Bb 4−−, swapping the order of keys G# and Bb would result in a SLFN of 123Bb  |  G#4−−.
+
+There is also an ADD KEY button on the top left corner. This will always add a key to the end of the list of keys.
+
+### Key parameters
+#### Label, SLFN on, SLFN off
+The large gray box on the left side is the value for the "label" of the key, i.e. what text is displayed over the key on the diagram. The size of this label can also be changed using the "label size" parameter.
+
+"SLFN on" and "SLFN off" refers to what this key should be shown as in the SLFN when on or off respectively. Setting the label of the key will also automatically set default values for "SLFN on" and "SLFN off", according to SLFN conventions (Example: key is labeled L):
+- If the key is white (i.e. a main key), "SLFN off" will be −
+- If the key comes before the first main key of the group, "SLFN on" will have a trailing space (L )
+- If the key comes after the last main key of the group, "SLFN on" will have a leading space ( L)
+- If the key is between two main keys of the same group, "SLFN on" will not have spaces (L)
+
+If one doesn't want to use the SLFN default for a key (especially for a thumb main key T), edit the "SLFN on/off" value after setting the key.
+
+#### Type
+See **Fingering section** above for an explanation of what each type means.
+
+#### xpos, ypos, width, height
+The position and size of the key in the diagram. When xpos or ypos is selected, one can use the arrow keys to move the key around. When width or height is selected, one can use the arrow keys to resize the key.
+
+#### Halfable
+The parameter toggles whether this key can be half-pressed (by middle-clicking it).
+
+### Partials
+Partials can be toggled on or off with the "Partials" setting on the top. When partials are toggled on, the list of keys will appear to have an additional key of type "partial", though "partial" doesn't behave like any other key — it is fixed to the bottom of the list, and lacks most of the parameters keys have.
 
 ## Version overview
 - 1.0 — **first version of WindFingerings**
@@ -145,5 +196,7 @@ In WindFingerings 2.0, a new feature had ben added — the ability to set custom
 - 1.5 — **added several new instruments**
 - 1.5.1 — bug fixes
 - 2.0 — **added instrument editor**
+- 2.0.1 — bug fixes
+- 2.0.2 — bug fixes
 
 ## Issues
