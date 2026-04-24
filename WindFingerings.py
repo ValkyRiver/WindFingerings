@@ -1266,9 +1266,9 @@ def onclick(event):
                     key_systems["custom"][keynum+1] = temp_key
 
             if "partial" in key_systems["custom"]["special"]:
-                FINGERING = [0, 0, 0, 1, ""]
+                FINGERING = [0, 0, 0, 1, complex(0), complex(0), ""]
             else:
-                FINGERING = [0, 0, 0, -0.5, ""]
+                FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
 
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
@@ -1291,9 +1291,9 @@ def onclick(event):
                 key_systems["custom"]["parameters"]["keys"] -= 1
 
             if "partial" in key_systems["custom"]["special"]:
-                FINGERING = [0, 0, 0, 1, ""]
+                FINGERING = [0, 0, 0, 1, complex(0), complex(0), ""]
             else:
-                FINGERING = [0, 0, 0, -0.5, ""]
+                FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
                 
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
@@ -1312,9 +1312,9 @@ def onclick(event):
         elif "halfableoff" in tags[2]:
             key_systems["custom"][int(tags[2][11:])]["halfable"] = False
             if "partial" in key_systems["custom"]["special"]:
-                FINGERING = [0, 0, 0, 1, ""]
+                FINGERING = [0, 0, 0, 1, complex(0), complex(0), ""]
             else:
-                FINGERING = [0, 0, 0, -0.5, ""]
+                FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
             
@@ -1393,10 +1393,10 @@ def onclick(event):
                     instrument += letter
 
             INSTRUMENT = instrument
-            if "partial" in key_systems[instruments[instrument][0]]["special"]:
-                FINGERING = [0, 0, 0, 1]
+            if "partial" in key_systems["custom"]["special"]:
+                FINGERING = [0, 0, 0, 1, complex(0), complex(0), ""]
             else:
-                FINGERING = [0, 0, 0, -0.5]
+                FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
             if "trombone" in key_systems[instruments[instrument][0]]["special"]:
                 if FINGTYPE == "trill":
                     FINGERING += [complex(1, 1), complex(0)]
