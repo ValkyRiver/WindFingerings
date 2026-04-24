@@ -1,6 +1,6 @@
-# WindFingerings 2.0.1 by Valky River
+# WindFingerings 2.0.2 by Valky River
 
-version = "2.0.1"
+version = "2.0.2"
 
 # VERSION 2.0 — NEW FEATURE: INSTRUMENT EDITOR
 
@@ -2012,15 +2012,15 @@ def spositiontrillclick(event):
 if platform.system() == "Darwin": # On Mac, Button-2 and Button-3 are flipped
     C.bind("<Button-1>", onclick)
     C.bind("<B1-Motion>", spositionclick)
-    C.bind("<Button-3>", middleclick)
-    C.bind("<B3-Motion>", spositiontrillclick)
-    C.bind("<Button-2>", rightclick)
-else:
-    C.bind("<Button-1>", onclick)
-    C.bind("<B1-Motion>", spositionclick)
     C.bind("<Button-2>", middleclick)
     C.bind("<B2-Motion>", spositiontrillclick)
     C.bind("<Button-3>", rightclick)
+else:
+    C.bind("<Button-1>", onclick)
+    C.bind("<B1-Motion>", spositionclick)
+    C.bind("<Button-3>", middleclick)
+    C.bind("<B3-Motion>", spositiontrillclick)
+    C.bind("<Button-2>", rightclick)
 
 root.bind("<BackSpace>", onkey)
 root.bind("<Return>", onkey)
@@ -2758,7 +2758,7 @@ def render_fingering(key_system, fingering=FINGERING, select=SELECT, tempvar=TEM
         desc_string += "[" + circlednums[-fingering[3]-1] + circlednums[-fingering[3]] + "]"
     C.create_text((Lx+Rx)/2, (max(Ly, Ry)+Descy)/2, text=desc_string, font=("Arial", int(textscale*scale*1.5*min(1, 75/max(1, len(desc_string)))), "bold"), fill="#FFFFFF", tags=("key"))
 
-    C.create_text((parameters["Lx"]+parameters["offsetx"]+8.4)*scale, (min(parameters["Ly"], parameters["Ry"])+parameters["offsety"]+1.9)*scale, text="Right-click to half-press\nMiddle-click to trill", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF", tags=("key"))
+    C.create_text((parameters["Lx"]+parameters["offsetx"]+9)*scale, (min(parameters["Ly"], parameters["Ry"])+parameters["offsety"]+1.9)*scale, text="Middle-click to half-press\nRight-click to trill", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF", tags=("key"))
     C.create_oval(72*scale, 3*scale, 75*scale, 6*scale, fill=colors["dark_description_background"], width=0, tags=("clickable", "fingeringhelp"))
     C.create_text(73.5*scale, 4.5*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#FFFFFF", tags=("clickable", "fingeringhelp"))
     
@@ -2773,7 +2773,7 @@ def render_pitches(pitches=[440.0], fingtype="note", select="", tempvar="", tran
     # FINGERING TYPE
     C.create_text(10*scale, 48.5*scale, text="Fingering type:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("fingtype"))
     C.create_rectangle(18*scale, 47*scale, 30*scale, 50*scale, fill=("#000000" if fingtype == "note" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "note"))
-    C.create_text(24*scale, 48.5*scale, text="Note/Microtone", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if fingtype == "note" else "#000000"), tags=("clickable", "fingtype", "note"))
+    C.create_text(24*scale, 48.5*scale, text="Note/Microtone", font=("Arial", int(textscale*scale*8/7), "bold"), fill=("#FFFFFF" if fingtype == "note" else "#000000"), tags=("clickable", "fingtype", "note"))
     C.create_rectangle(30.5*scale, 47*scale, 42.5*scale, 50*scale, fill=("#000000" if fingtype == "trill" else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "trill"))
     C.create_text(36.5*scale, 48.5*scale, text="Trill/Tremolo", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if fingtype == "trill" else "#000000"), tags=("clickable", "fingtype", "trill"))
     C.create_rectangle(43*scale, 47*scale, 55*scale, 50*scale, fill=("#000000" if "multi" in fingtype else "#FFFFFF"), width=0, tags=("clickable", "fingtype", "multi"))
@@ -2938,7 +2938,7 @@ def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     # FINGTYPE FILTER
     C.create_text(14.5*scale, 74.5*scale, text="Filter for fingering type:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 73*scale, 38.5*scale, 76*scale, fill=("#000000" if "note" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "note"))
-    C.create_text(32.5*scale, 74.5*scale, text="Note/Microtone", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if "note" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "note"))
+    C.create_text(32.5*scale, 74.5*scale, text="Note/Microtone", font=("Arial", int(textscale*scale*8/7), "bold"), fill=("#FFFFFF" if "note" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "note"))
     C.create_rectangle(39*scale, 73*scale, 51*scale, 76*scale, fill=("#000000" if "trill" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "trill"))
     C.create_text(45*scale, 74.5*scale, text="Trill/Tremolo", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if "trill" in filters["fingtype"] else "#000000"), tags=("clickable", "filters", "fingtypef", "trill"))
     C.create_rectangle(51.5*scale, 73*scale, 63.5*scale, 76*scale, fill=("#000000" if "multi" in filters["fingtype"] else "#FFFFFF"), width=0, tags=("clickable", "filters", "fingtypef", "multi"))
@@ -2949,14 +2949,14 @@ def render_filters(filters=FILTERS, tet=TET, select=SELECT, tempvar=TEMPVAR):
     C.create_rectangle(26.5*scale, 76.5*scale, 38.5*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "none" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "none"))
     C.create_text(32.5*scale, 78*scale, text="No filter", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "none" else "#000000"), tags=("clickable", "filters", "tetf", "none"))
     C.create_rectangle(39*scale, 76.5*scale, 51*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "part" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "part"))
-    C.create_text(45*scale, 78*scale, text="At least 1 in TET", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "part" else "#000000"), tags=("clickable", "filters", "tetf", "part"))
+    C.create_text(45*scale, 78*scale, text="At least 1 in TET", font=("Arial", int(textscale*scale*8/7), "bold"), fill=("#FFFFFF" if filters["tet"] == "part" else "#000000"), tags=("clickable", "filters", "tetf", "part"))
     C.create_rectangle(51.5*scale, 76.5*scale, 63.5*scale, 79.5*scale, fill=("#000000" if filters["tet"] == "all" else "#FFFFFF"), width=0, tags=("clickable", "filters", "tetf", "all"))
     C.create_text(57.5*scale, 78*scale, text="All in TET", font=("Arial", int(textscale*scale*6/5), "bold"), fill=("#FFFFFF" if filters["tet"] == "all" else "#000000"), tags=("clickable", "filters", "tetf", "all"))
 
     # FINGERING SEARCH
     C.create_text(15.75*scale, 82*scale, text="Search for fingering:", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF", tags=("filterbackground"))
     C.create_rectangle(26.5*scale, 80.5*scale, 44.75*scale, 83.5*scale, fill=colors["searched"] if filters["search"] == "fingering_primary" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "fingering_primary"))
-    C.create_text(35.625*scale, 82*scale, text="Match primary fingering", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_primary"))
+    C.create_text(35.625*scale, 82*scale, text="Match primary fingering", font=("Arial", int(textscale*scale*8/7), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_primary"))
     C.create_rectangle(45.25*scale, 80.5*scale, 63.5*scale, 83.5*scale, fill=colors["searched"] if filters["search"] == "fingering_exact" else "#FFFFFF", width=0, tags=("clickable", "filters", "searchf", "fingering_exact"))
     C.create_text(54.375*scale, 82*scale, text="Match exact fingering", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "filters", "searchf", "fingering_exact"))
 
