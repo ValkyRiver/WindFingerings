@@ -1,6 +1,6 @@
-# WindFingerings 2.0 by Valky River
+# WindFingerings 2.0.1 by Valky River
 
-version = "2.0"
+version = "2.0.1"
 
 # VERSION 2.0 — NEW FEATURE: INSTRUMENT EDITOR
 
@@ -1231,7 +1231,7 @@ def onclick(event):
 
         # EDITKEYS
         elif "editkey" in tags[2]: 
-            if "addkey" in tags:
+            if "addkey" in tags and tags[2] == "editkeys":
                 if "partial" in key_systems["custom"]["special"]:
                     key_systems["custom"][key_systems["custom"]["parameters"]["keys"]] = key_systems["custom"][key_systems["custom"]["parameters"]["keys"] - 1].copy()
                     key_systems["custom"][key_systems["custom"]["parameters"]["keys"] - 1] = {
@@ -1241,6 +1241,14 @@ def onclick(event):
                     key_systems["custom"][key_systems["custom"]["parameters"]["keys"]] = {
                         "x1":33.5, "y1":11, "x2":40.5, "y2":18, "type":"main", "halfable":False, "label":"", "labelsize":1, "descname":"", "descoff":""}
                     key_systems["custom"]["parameters"]["keys"] += 1
+            elif "addkey" in tags:
+                keynum = int(tags[2][7:])
+                for k in list(range(keynum, key_systems["custom"]["parameters"]["keys"]))[::-1]:
+                    key_systems["custom"][k+1] = key_systems["custom"][k].copy()
+                key_systems["custom"][keynum] = {"x1":33.5, "y1":11, "x2":40.5, "y2":18, "type":"main", "halfable":False, "label":"", "labelsize":1, "descname":"", "descoff":""}
+                key_systems["custom"]["parameters"]["keys"] += 1
+                if keynum < key_systems["custom"]["parameters"]["LR_split"]:
+                    key_systems["custom"]["parameters"]["LR_split"] += 1
             elif "removekey" in tags:
                 keynum = int(tags[2][7:])
                 if keynum % EDITKEYS_PER_PAGE == 0 and PAGE != 0 and key_systems["custom"]["parameters"]["keys"] % EDITKEYS_PER_PAGE == 1:
@@ -3162,10 +3170,14 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                     C.create_text((157.25+offsetx1)*scale, (topy + rowspacing*(0.75 + k%per_page) - 1.375)*scale, text="OFF", font=("Arial", int(textscale*scale*6/5), "bold"), fill="#FFFFFF" if not key["halfable"] else "#000000", tags=("clickable", "custom", "halfableoff"+str(k)))
                     
                     
-                    # MOVE/DELETE KEY
-                    C.create_rectangle(185*scale, (topy + rowspacing*(k%per_page) + 1)*scale, 188*scale, (topy + rowspacing*(1 + k%per_page) - 2)*scale, fill="#DDDDDD", width=1, tags=("clickable", "custom", "editkey"+str(k), "removekey"))
-                    C.create_text(186.5*scale, (topy + rowspacing*(0.5 + k%per_page) - 0.5)*scale, text="×", font=("Arial", int(textscale*scale*2.5), "bold"), fill=("#000000"), tags=("clickable", "custom", "editkey"+str(k), "removekey"))      
+                    # ADD/DELETE/MOVE KEY
 
+                    C.create_rectangle(185*scale, (topy + rowspacing*(k%per_page) + 1)*scale, 188*scale, (topy + rowspacing*(0.5 + k%per_page) - 0.5)*scale, fill="#DDDDDD", width=1, tags=("clickable", "custom", "editkey"+str(k), "addkey"))
+                    C.create_text(186.5*scale, (topy + rowspacing*(0.25 + k%per_page) + 0.375)*scale, text="+", font=("Arial", int(textscale*scale*7/4), "bold"), fill=("#000000"), tags=("clickable", "custom", "editkey"+str(k), "addkey"))
+                    
+                    C.create_rectangle(185*scale, (topy + rowspacing*(0.5 + k%per_page) - 0.5)*scale, 188*scale, (topy + rowspacing*(1 + k%per_page) - 2)*scale, fill="#DDDDDD", width=1, tags=("clickable", "custom", "editkey"+str(k), "removekey"))
+                    C.create_text(186.5*scale, (topy + rowspacing*(0.75 + k%per_page) - 1.125)*scale, text="×", font=("Arial", int(textscale*scale*2), "bold"), fill=("#000000"), tags=("clickable", "custom", "editkey"+str(k), "removekey"))
+    
                     C.create_rectangle(182*scale, (topy + rowspacing*(k%per_page) + 1)*scale, 185*scale, (topy + rowspacing*(0.5 + k%per_page) - 0.5)*scale, fill="#DDDDDD", width=1, tags=("clickable", "custom", "editkey"+str(k), "upkey"))
                     C.create_text(183.5*scale, (topy + rowspacing*(0.25 + k%per_page) + 0.25)*scale, text="▲", font=("Arial", int(textscale*scale*extra_scale*1.25), "bold"), fill=("#000000"), tags=("clickable", "custom", "editkey"+str(k), "upkey"))
 
