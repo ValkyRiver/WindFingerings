@@ -3127,8 +3127,8 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
                     
                 else:
                     # DESC TEXT
-                    C.create_text(93.5*scale, (topy + rowspacing*(0.5 + k%per_page) - 1.75)*scale, text="fing on:", font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#FFFFFF"), tags=("custom"))
-                    C.create_text(93.5*scale, (topy + rowspacing*(0.5 + k%per_page) + 0.75)*scale, text="fing off:", font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#FFFFFF"), tags=("custom"))
+                    C.create_text(93*scale, (topy + rowspacing*(0.5 + k%per_page) - 1.75)*scale, text="SLFN on:", font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#FFFFFF"), tags=("custom"))
+                    C.create_text(93*scale, (topy + rowspacing*(0.5 + k%per_page) + 0.75)*scale, text="SLFN off:", font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#FFFFFF"), tags=("custom"))
 
                     # LABEL SIZE
                     C.create_text(105*scale, (topy + rowspacing*(k%per_page) + 1.375)*scale, text="label size", font=("Arial", int(textscale*scale*1), "bold"), fill=("#FFFFFF"), tags=("custom"))
@@ -3694,7 +3694,7 @@ def editkeys_help():
 
     Label(FH, text="Key Properties", font=("Arial", int(textscale*scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 36*scale)
 
-    Label(FH, text="fing on:\nfing off:", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 8*scale, y = 40*scale)
+    Label(FH, text="SLFN on:\nSLFN off:", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 7.5*scale, y = 40*scale)
     FH.create_rectangle(16*scale, 40.5*scale, 20*scale, 42.5*scale, fill=colors["dark_custom_background"], width=0)
     FH.create_text(18*scale, 41.5*scale, text="6", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
     FH.create_rectangle(16*scale, 43*scale, 20*scale, 45*scale, fill=colors["dark_custom_background"], width=0)
