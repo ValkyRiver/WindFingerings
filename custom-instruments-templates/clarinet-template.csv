@@ -1,0 +1,7 @@
+﻿clarinet-template.csv
+Instrument: Custom — clarinet-template — 28-14- | -144-178-40-0 — R-octave-4-84-28-96-0-1-R - § T-main-30-82-46-98-1-1.2-T - § G#-high-12-32-32-44-0-1-G# - § A-high-4-48-24-60-0-1-A - § 1-main-28-40-56-68-1-2-1-− § Eb*!Bb*-special-58-48-70-60-0-0.667-Eb*- § 2-main-72-40-100-68-1-2-2-− § Eb!Bb-second-98-28-110-48-0-0.833-Eb- § 3-main-108-40-136-68-1-2-3-− § C#!G#-second-132-28-142-44-0-0.833- C#- § F!C-low-142-22-150-38-0-0.833- F- § F# C#-low-150-22-164-30-0-0.667- F#- § E B-low-150-30-164-38-0-0.667- E- § Ab Eb-model-162-26-176-34-0-0.667- Ab- § b-trill-146-72-154-84-0-0.667-b - § bb-trill-154-72-162-84-0-0.667-bb - § f#-second-162-72-170-84-0-0.667-f# - § eb!bb-second-170-72-178-84-0-0.667-eb - §    B*!F#*-special-158-48-170-60-0-0.667-F#* - § 4-main-172-40-200-68-1-2-4-− § 5-main-204-40-232-68-1-2-5-− §    B!F#-second-228-62-240-82-0-0.833-B- § 6-main-236-40-264-68-1-2-6-− § Ab!Eb-second-264-56-274-72-0-0.75- Ab- § F!C-low-274-56-284-72-0-0.75- F- § F#!C#-low-264-72-274-88-0-0.75- F#- § E!B-low-274-72-284-88-0-0.75- E- § Eb-model-284-72-294-88-0-0.833- Eb-
+Transposition: 0.0 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: 
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
