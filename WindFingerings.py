@@ -1,8 +1,8 @@
-# WindFingerings 2.0.2 by Valky River
+# WindFingerings 2.1 by Valky River
 
-version = "2.0.2"
+version = "2.1"
 
-# VERSION 2.0 — NEW FEATURE: INSTRUMENT EDITOR
+# VERSION 2.0 NEW FEATURE: INSTRUMENT EDITOR
 
 from tkinter import *
 from tkinter import filedialog as fd
@@ -238,7 +238,7 @@ key_systems = {
     },
     
     "oboe": {
-        "parameters": {"keys":28, "LR_split":16, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":45.5, "My":13, "Bx":37, "By":32, "Rx":80, "Ry":32, "Descy":36},
+        "parameters": {"keys":29, "LR_split":16, "separator":" |", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":45.5, "My":13, "Bx":37, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":8, "y1":23, "x2":12.5, "y2":26, "type":"model", "halfable":False, "label":"III", "labelsize":1, "descname":"III ", "descoff":""},
         1: {"x1":12.5, "y1":23, "x2":17, "y2":26, "type":"octave", "halfable":False, "label":"I", "labelsize":1, "descname":"I ", "descoff":""},
@@ -256,28 +256,29 @@ key_systems = {
         13: {"x1":38, "y1":7.5, "x2":41.5, "y2":10, "type":"low", "halfable":False, "label":"B", "labelsize":1, "descname":" B", "descoff":""},
         14: {"x1":38, "y1":5, "x2":44, "y2":7.5, "type":"low", "halfable":False, "label":"Bb", "labelsize":1, "descname":" Bb", "descoff":""},
         15: {"x1":41.5, "y1":7.5, "x2":45, "y2":10, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":" F", "descoff":""},
-        16: {"x1":39, "y1":20, "x2":44, "y2":23, "type":"model", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
-        17: {"x1":44, "y1":20, "x2":49, "y2":23, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
-        18: {"x1":45.5, "y1":12, "x2":52.5, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
-        19: {"x1":53, "y1":14, "x2":56, "y2":17, "type":"special", "halfable":False, "label":"F+*", "labelsize":5/6, "descname":"F+*", "descoff":""},
-        20: {"x1":53.5, "y1":17.5, "x2":55.5, "y2":20.5, "type":"trill", "halfable":False, "label":"d", "labelsize":1, "descname":"d", "descoff":""},
-        21: {"x1":56.5, "y1":12, "x2":63.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
-        22: {"x1":63.5, "y1":16, "x2":66.5, "y2":21, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":"F", "descoff":""},
-        23: {"x1":66.5, "y1":12, "x2":73.5, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        24: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":False, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
-        25: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
-        26: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
-        27: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
+        16: {"x1":41, "y1":14, "x2":44, "y2":17, "type":"special", "halfable":False, "label":"Bb/C\n rod", "labelsize":1/2, "descname":"| ", "descoff":" "},
+        17: {"x1":39, "y1":20, "x2":44, "y2":23, "type":"model", "halfable":False, "label":"A", "labelsize":1, "descname":"A ", "descoff":""},
+        18: {"x1":44, "y1":20, "x2":49, "y2":23, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
+        19: {"x1":45.5, "y1":12, "x2":52.5, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
+        20: {"x1":53, "y1":14, "x2":56, "y2":17, "type":"special", "halfable":False, "label":"F+*", "labelsize":5/6, "descname":"F+*", "descoff":""},
+        21: {"x1":53.5, "y1":17.5, "x2":55.5, "y2":20.5, "type":"trill", "halfable":False, "label":"d", "labelsize":1, "descname":"d", "descoff":""},
+        22: {"x1":56.5, "y1":12, "x2":63.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
+        23: {"x1":63.5, "y1":16, "x2":66.5, "y2":21, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":"F", "descoff":""},
+        24: {"x1":66.5, "y1":12, "x2":73.5, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
+        25: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":False, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
+        26: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
+        27: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
+        28: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
     },
 
     "corangl": {
-        "parameters": {"keys":27, "LR_split":16, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":49, "My":13, "Bx":42, "By":32, "Rx":80, "Ry":32, "Descy":36},
+        "parameters": {"keys":28, "LR_split":16, "separator":" |", "offsetx":-4, "offsety":-1, "shiftx":-1, "shifty":1.75, "Lx":6, "Ly":3, "Mx":49, "My":13, "Bx":40.5, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":8, "y1":23, "x2":12.5, "y2":26, "type":"model", "halfable":False, "label":"III", "labelsize":1, "descname":"III ", "descoff":""},
         1: {"x1":12.5, "y1":23, "x2":17, "y2":26, "type":"octave", "halfable":False, "label":"I", "labelsize":1, "descname":"I ", "descoff":""},
         2: {"x1":8, "y1":9, "x2":14, "y2":12, "type":"octave", "halfable":False, "label":"II", "labelsize":1, "descname":"II ", "descoff":""},
         3: {"x1":12, "y1":12, "x2":19, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
-        4: {"x1":19.5, "y1":13.25, "x2":24, "y2":17.75, "type":"octave", "halfable":False, "label":"½", "labelsize":1.75, "descname":"$⌫", "descoff":""},
+        4: {"x1":19.5, "y1":13.25, "x2":24, "y2":17.75, "type":"octave", "halfable":False, "label":"½", "labelsize":1.75, "descname":"⌫h", "descoff":""},
         5: {"x1":22.5, "y1":18, "x2":25.5, "y2":20, "type":"trill", "halfable":False, "label":"b", "labelsize":1, "descname":"b", "descoff":""},
         6: {"x1":23, "y1":10, "x2":25, "y2":13.5, "type":"trill", "halfable":False, "label":"d", "labelsize":1, "descname":"d", "descoff":""},
         7: {"x1":24.5, "y1":12, "x2":31.5, "y2":19, "type":"main", "halfable":True, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
@@ -289,17 +290,18 @@ key_systems = {
         13: {"x1":41.5, "y1":7.5, "x2":45, "y2":10, "type":"low", "halfable":False, "label":"B", "labelsize":1, "descname":" B", "descoff":""},
         14: {"x1":41.5, "y1":5, "x2":47.5, "y2":7.5, "type":"model", "halfable":False, "label":"Bb", "labelsize":1, "descname":" Bb", "descoff":""},
         15: {"x1":45, "y1":7.5, "x2":48.5, "y2":10, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":" F", "descoff":""},
-        16: {"x1":44.5, "y1":20, "x2":52, "y2":23, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
-        17: {"x1":44.5, "y1":14, "x2":47.5, "y2":17, "type":"special", "halfable":False, "label":"Gd*", "labelsize":5/6, "descname":"Gd*", "descoff":""},
-        18: {"x1":48.5, "y1":12, "x2":55.5, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
-        19: {"x1":55, "y1":17.5, "x2":57, "y2":20.5, "type":"trill", "halfable":False, "label":"d", "labelsize":1, "descname":"d", "descoff":""},
-        20: {"x1":56.5, "y1":12, "x2":63.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
-        21: {"x1":63.5, "y1":16, "x2":66.5, "y2":21, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":"F", "descoff":""},
-        22: {"x1":66.5, "y1":12, "x2":73.5, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        23: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":False, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
-        24: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
-        25: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
-        26: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
+        16: {"x1":41, "y1":14, "x2":44, "y2":17, "type":"special", "halfable":False, "label":"Bb/C\n rod", "labelsize":1/2, "descname":"| ", "descoff":" "},
+        17: {"x1":44.5, "y1":20, "x2":52, "y2":23, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
+        18: {"x1":44.5, "y1":14, "x2":47.5, "y2":17, "type":"special", "halfable":False, "label":"Gd*", "labelsize":5/6, "descname":"Gd*", "descoff":""},
+        19: {"x1":48.5, "y1":12, "x2":55.5, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
+        20: {"x1":55, "y1":17.5, "x2":57, "y2":20.5, "type":"trill", "halfable":False, "label":"d", "labelsize":1, "descname":"d", "descoff":""},
+        21: {"x1":56.5, "y1":12, "x2":63.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
+        22: {"x1":63.5, "y1":16, "x2":66.5, "y2":21, "type":"second", "halfable":False, "label":"F", "labelsize":1, "descname":"F", "descoff":""},
+        23: {"x1":66.5, "y1":12, "x2":73.5, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
+        24: {"x1":67.5, "y1":8.5, "x2":72.5, "y2":11, "type":"model", "halfable":False, "label":"c", "labelsize":1, "descname":"c", "descoff":""},
+        25: {"x1":72.5, "y1":18.5, "x2":76, "y2":22, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":" C", "descoff":""},
+        26: {"x1":74.5, "y1":15, "x2":78, "y2":18.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
+        27: {"x1":76.5, "y1":18.5, "x2":80, "y2":22, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
     },
 
     "bassoon": {
@@ -464,7 +466,7 @@ key_systems = {
         12: {"x1":38, "y1":7, "x2":43, "y2":10, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
         13: {"x1":38, "y1":10, "x2":43, "y2":13, "type":"low", "halfable":False, "label":"B", "labelsize":1, "descname":" B", "descoff":""},
         14: {"x1":43, "y1":7.5, "x2":46, "y2":12.5, "type":"low", "halfable":False, "label":"Bb", "labelsize":1, "descname":" Bb", "descoff":""},
-        15: {"x1":40, "y1":14, "x2":43, "y2":17, "type":"link", "halfable":False, "label":"      G#\ncancel", "labelsize":1/2, "descname":"| ", "descoff":" "},
+        15: {"x1":40, "y1":14, "x2":43, "y2":17, "type":"special", "halfable":False, "label":"      G#\ncancel", "labelsize":1/2, "descname":"| ", "descoff":" "},
         16: {"x1":37, "y1":23, "x2":42, "y2":26, "type":"high", "halfable":False, "label":"e", "labelsize":1, "descname":"e ", "descoff":""},
         17: {"x1":42, "y1":23, "x2":47, "y2":26, "type":"second", "halfable":False, "label":"C", "labelsize":1, "descname":"C ", "descoff":""},
         18: {"x1":47, "y1":23, "x2":52, "y2":26, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
@@ -945,8 +947,22 @@ def onclick(event):
                 LR_split = int(TEMPVAR)
                 if LR_split >= 0 and LR_split <= key_systems["custom"]["parameters"]["keys"]:
                     key_systems["custom"]["parameters"]["LR_split"] = LR_split
+
+                # Avoid separator of | | — set it to ||
+                if "|" in key_systems["custom"]["parameters"]["separator"] and key_systems["custom"]["parameters"]["LR_split"] > 0 and key_systems["custom"]["parameters"]["LR_split"] < key_systems["custom"]["parameters"]["keys"]:
+                    nextlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"]]["descname"]
+                    prevlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"] - 1]["descname"]
+                    if len(nextlabel) >= 1 and nextlabel[0] == "|" and len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                        key_systems["custom"]["parameters"]["separator"] = "|"
+                    elif len(nextlabel) >= 1 and nextlabel[0] == "|":
+                        key_systems["custom"]["parameters"]["separator"] = " |"
+                    elif len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                        key_systems["custom"]["parameters"]["separator"] = "| "
+                    else:
+                        key_systems["custom"]["parameters"]["separator"] = " | "
             except Exception:
                 pass
+
             SELECT = ""
             TEMPVAR = ""
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
@@ -1035,6 +1051,19 @@ def onclick(event):
                 key_systems["custom"][keynum]["descname"] = label
             elif "editkeydescoff" in SELECT:
                 key_systems["custom"][keynum]["descoff"] = label
+
+            # Avoid separator of | | — set it to ||
+            if "|" in key_systems["custom"]["parameters"]["separator"] and key_systems["custom"]["parameters"]["LR_split"] > 0 and key_systems["custom"]["parameters"]["LR_split"] < key_systems["custom"]["parameters"]["keys"]:
+                nextlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"]]["descname"]
+                prevlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"] - 1]["descname"]
+                if len(nextlabel) >= 1 and nextlabel[0] == "|" and len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = "|"
+                elif len(nextlabel) >= 1 and nextlabel[0] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = " |"
+                elif len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = "| "
+                else:
+                    key_systems["custom"]["parameters"]["separator"] = " | "
                 
             SELECT = ""
             TEMPVAR = ""
@@ -1285,6 +1314,18 @@ def onclick(event):
         elif tags[2] in ["separatoron", "separatoroff", "partialson", "partialsoff"]:
             if tags[2] == "separatoron":
                 key_systems["custom"]["parameters"]["separator"] = " | "
+                
+                # Avoid separator of | | — set it to ||
+                if "|" in key_systems["custom"]["parameters"]["separator"] and key_systems["custom"]["parameters"]["LR_split"] > 0 and key_systems["custom"]["parameters"]["LR_split"] < key_systems["custom"]["parameters"]["keys"]:
+                    nextlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"]]["descname"]
+                    prevlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"] - 1]["descname"]
+                    if len(nextlabel) >= 1 and nextlabel[0] == "|" and len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                        key_systems["custom"]["parameters"]["separator"] = "|"
+                    elif len(nextlabel) >= 1 and nextlabel[0] == "|":
+                        key_systems["custom"]["parameters"]["separator"] = " |"
+                    elif len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                        key_systems["custom"]["parameters"]["separator"] = "| "                                                                                            
+                
             elif tags[2] == "separatoroff":
                 key_systems["custom"]["parameters"]["separator"] = ""
             elif tags[2] == "partialson" and "partial" not in key_systems["custom"]["special"]:
@@ -1401,10 +1442,10 @@ def onclick(event):
                     instrument += letter
 
             INSTRUMENT = instrument
-            if "partial" in key_systems["custom"]["special"]:
-                FINGERING = [0, 0, 0, 1, complex(0), complex(0), ""]
+            if "partial" in key_systems[instruments[instrument][0]]["special"]:
+                FINGERING = [0, 0, 0, 1]
             else:
-                FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
+                FINGERING = [0, 0, 0, -0.5]
             if "trombone" in key_systems[instruments[instrument][0]]["special"]:
                 if FINGTYPE == "trill":
                     FINGERING += [complex(1, 1), complex(0)]
@@ -1604,7 +1645,7 @@ def onclick(event):
             render_options(INSTRUMENT, DATABASE, SETINSTRUMENT, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
 
-        elif "labelsize" in tags[2] or "xpos" in tags[2] or "ypos" in tags[2] or "width" in tags[2] or "hight" in tags[2] or "partialssize" in tags[2] or "partialsx" in tags[2] or "partialsy" in tags[2]:
+        elif "labelsize" in tags[2] or "xpos" in tags[2] or "ypos" in tags[2] or "width" in tags[2] or "hight" in tags[2] or "partialssize" in tags[2] or "partialsx" in tags[2] or "partialsy" in tags[2] or "steers" in tags[2]:
             SELECT = tags[2]
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
       
@@ -1771,6 +1812,49 @@ def onkey(event):
         render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
         render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
 
+    elif "steer" in SELECT and pressed in ["up", "right", "down", "left"]:
+        allow_steer = True
+        for k in range(key_systems["custom"]["parameters"]["keys"]):
+            if key_systems["custom"][k]["type"] == "partial":
+                x1 = key_systems["custom"][k]["x"] - key_systems["custom"][k]["size"]*16
+                x2 = key_systems["custom"][k]["x"] + key_systems["custom"][k]["size"]*16
+                y1 = key_systems["custom"][k]["y"] - key_systems["custom"][k]["size"]*10
+                y2 = key_systems["custom"][k]["y"] + key_systems["custom"][k]["size"]*10
+            else:
+                x1 = key_systems["custom"][k]["x1"]
+                y1 = key_systems["custom"][k]["y1"]
+                x2 = key_systems["custom"][k]["x2"]
+                y2 = key_systems["custom"][k]["y2"]
+            if (pressed == "up" and y1 - 0.125 < 0) or (pressed == "down" and y2 + 0.125 > 29) or (pressed == "left" and x1 - 0.125 < 0) or (pressed == "right" and x2 + 0.125 > 74):
+                allow_steer = False
+        if allow_steer:
+            for k in range(key_systems["custom"]["parameters"]["keys"]):
+                if key_systems["custom"][k]["type"] == "partial":
+                    if pressed == "up":
+                        key_systems["custom"][k]["y"] -= 0.125
+                    elif pressed == "down":
+                        key_systems["custom"][k]["y"] += 0.125
+                    elif pressed == "left":
+                        key_systems["custom"][k]["x"] -= 0.125
+                    elif pressed == "right":
+                        key_systems["custom"][k]["x"] += 0.125
+                else:
+                    if pressed == "up":
+                        key_systems["custom"][k]["y1"] -= 0.125
+                        key_systems["custom"][k]["y2"] -= 0.125
+                    elif pressed == "down":
+                        key_systems["custom"][k]["y1"] += 0.125
+                        key_systems["custom"][k]["y2"] += 0.125
+                    elif pressed == "left":
+                        key_systems["custom"][k]["x1"] -= 0.125
+                        key_systems["custom"][k]["x2"] -= 0.125
+                    elif pressed == "right":
+                        key_systems["custom"][k]["x1"] += 0.125
+                        key_systems["custom"][k]["x2"] += 0.125
+
+        render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
+        render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
+
     elif "labelsize" in SELECT or "xpos" in SELECT or "ypos" in SELECT or "width" in SELECT or "hight" in SELECT or "partialssize" in SELECT or "partialsx" in SELECT or "partialsy" in SELECT:
         no_num = SELECT
         while no_num[-1] in "0123456789":
@@ -1869,6 +1953,21 @@ def onkey(event):
                     else:
                         PITCHES[int(SELECT[-1])-1] = temp_pitch
                 TEMPVAR = ""
+
+        if SELECT == "editlrsplit" and pressed in ["up", "right", "down", "left"]:
+            # Avoid separator of | | — set it to ||
+            if "|" in key_systems["custom"]["parameters"]["separator"] and key_systems["custom"]["parameters"]["LR_split"] > 0 and key_systems["custom"]["parameters"]["LR_split"] < key_systems["custom"]["parameters"]["keys"]:
+                nextlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"]]["descname"]
+                prevlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"] - 1]["descname"]
+                if len(nextlabel) >= 1 and nextlabel[0] == "|" and len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = "|"
+                elif len(nextlabel) >= 1 and nextlabel[0] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = " |"
+                elif len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = "| "
+                else:
+                    key_systems["custom"]["parameters"]["separator"] = " | "
+     
         render_pitches(PITCHES, FINGTYPE, SELECT, TEMPVAR, instruments[INSTRUMENT][1], TONIC, TET)
         render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
         render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
@@ -3040,44 +3139,50 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
         C.create_text(84*scale, 24.25*scale, text="ADD KEY", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("clickable", "custom", "editkeys", "addkey"))
 
         # SECTION SPLIT
-        C.create_text(96.5*scale, 24.25*scale, text="Section split", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("custom"))
-        C.create_rectangle(103.5*scale, 22.5*scale, 108*scale, 26*scale, fill=key_colors["model"][0] if select == "editlrsplit" else "#FFFFFF", width=0, tags=("clickable", "custom", "editlrsplit"))
-        C.create_text(105.75*scale, 24.25*scale, text=tempvar if select == "editlrsplit" and tempvar != "" else key_systems["custom"]["parameters"]["LR_split"], font=("Arial", int(textscale*scale*3/2), "bold"), fill="#000000", tags=("clickable", "custom", "editlrsplit"))
+        C.create_text(96*scale, 24.25*scale, text="Section split", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("custom"))
+        C.create_rectangle(103*scale, 22.5*scale, 107.5*scale, 26*scale, fill=key_colors["model"][0] if select == "editlrsplit" else "#FFFFFF", width=0, tags=("clickable", "custom", "editlrsplit"))
+        C.create_text(105.25*scale, 24.25*scale, text=tempvar if select == "editlrsplit" and tempvar != "" else key_systems["custom"]["parameters"]["LR_split"], font=("Arial", int(textscale*scale*3/2), "bold"), fill="#000000", tags=("clickable", "custom", "editlrsplit"))
 
-        C.create_text(113.5*scale, 22.75*scale, text="separator", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
-        C.create_rectangle(110*scale, 23.75*scale, 113.5*scale, 26.25*scale, fill="#000000" if key_systems["custom"]["parameters"]["separator"] == " | " else "#FFFFFF", width=0, tags=("clickable", "custom", "separatoron"))
-        C.create_text(111.75*scale, 25*scale, text="ON", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF" if key_systems["custom"]["parameters"]["separator"] == " | " else "#000000", tags=("clickable", "custom", "separatoron"))
-        C.create_rectangle(113.5*scale, 23.75*scale, 117*scale, 26.25*scale, fill="#000000" if key_systems["custom"]["parameters"]["separator"] == "" else "#FFFFFF", width=0, tags=("clickable", "custom", "separatoroff"))
-        C.create_text(115.25*scale, 25*scale, text="OFF", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF" if key_systems["custom"]["parameters"]["separator"] == "" else "#000000", tags=("clickable", "custom", "separatoroff"))
+        C.create_text(112.5*scale, 22.75*scale, text="separator", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
+        C.create_rectangle(109*scale, 23.75*scale, 112.5*scale, 26.25*scale, fill="#000000" if "|" in key_systems["custom"]["parameters"]["separator"] else "#FFFFFF", width=0, tags=("clickable", "custom", "separatoron"))
+        C.create_text(110.75*scale, 25*scale, text="ON", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF" if "|" in key_systems["custom"]["parameters"]["separator"] else "#000000", tags=("clickable", "custom", "separatoron"))
+        C.create_rectangle(112.5*scale, 23.75*scale, 116*scale, 26.25*scale, fill="#000000" if key_systems["custom"]["parameters"]["separator"] == "" else "#FFFFFF", width=0, tags=("clickable", "custom", "separatoroff"))
+        C.create_text(114.25*scale, 25*scale, text="OFF", font=("Arial", int(textscale*scale*1), "bold"), fill="#FFFFFF" if key_systems["custom"]["parameters"]["separator"] == "" else "#000000", tags=("clickable", "custom", "separatoroff"))
 
-        C.create_text(120.5*scale, 22.75*scale, text="mid X1", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
-        C.create_rectangle(118*scale, 23.75*scale, 123*scale, 26.25*scale, fill=key_colors["model"][0] if select == "editmidx1" else "#FFFFFF", width=0, tags=("clickable", "custom", "editmidx1"))
-        C.create_text(120.5*scale, 25*scale, text=tempvar if select == "editmidx1" and tempvar != "" else (int(round(4*key_systems["custom"]["parameters"]["Bx"], 2)) if int(round(4*key_systems["custom"]["parameters"]["Bx"], 2)) == round(4*key_systems["custom"]["parameters"]["Bx"], 2) else round(4*key_systems["custom"]["parameters"]["Bx"], 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "custom", "editmidx1"))
+        C.create_text(119.5*scale, 22.75*scale, text="mid X1", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
+        C.create_rectangle(117*scale, 23.75*scale, 122*scale, 26.25*scale, fill=key_colors["model"][0] if select == "editmidx1" else "#FFFFFF", width=0, tags=("clickable", "custom", "editmidx1"))
+        C.create_text(119.5*scale, 25*scale, text=tempvar if select == "editmidx1" and tempvar != "" else (int(round(4*key_systems["custom"]["parameters"]["Bx"], 2)) if int(round(4*key_systems["custom"]["parameters"]["Bx"], 2)) == round(4*key_systems["custom"]["parameters"]["Bx"], 2) else round(4*key_systems["custom"]["parameters"]["Bx"], 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "custom", "editmidx1"))
 
-        C.create_text(126.5*scale, 22.75*scale, text="mid X2", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
-        C.create_rectangle(124*scale, 23.75*scale, 129*scale, 26.25*scale, fill=key_colors["model"][0] if select == "editmidx2" else "#FFFFFF", width=0, tags=("clickable", "custom", "editmidx2"))
-        C.create_text(126.5*scale, 25*scale, text=tempvar if select == "editmidx2" and tempvar != "" else (int(round(4*key_systems["custom"]["parameters"]["Mx"], 2)) if int(round(4*key_systems["custom"]["parameters"]["Mx"], 2)) == round(4*key_systems["custom"]["parameters"]["Mx"], 2) else round(4*key_systems["custom"]["parameters"]["Mx"], 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "custom", "editmidx2"))
+        C.create_text(125.5*scale, 22.75*scale, text="mid X2", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
+        C.create_rectangle(123*scale, 23.75*scale, 128*scale, 26.25*scale, fill=key_colors["model"][0] if select == "editmidx2" else "#FFFFFF", width=0, tags=("clickable", "custom", "editmidx2"))
+        C.create_text(125.5*scale, 25*scale, text=tempvar if select == "editmidx2" and tempvar != "" else (int(round(4*key_systems["custom"]["parameters"]["Mx"], 2)) if int(round(4*key_systems["custom"]["parameters"]["Mx"], 2)) == round(4*key_systems["custom"]["parameters"]["Mx"], 2) else round(4*key_systems["custom"]["parameters"]["Mx"], 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "custom", "editmidx2"))
 
-        C.create_text(132.5*scale, 22.75*scale, text="mid Y", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
-        C.create_rectangle(130*scale, 23.75*scale, 135*scale, 26.25*scale, fill=key_colors["model"][0] if select == "editmidy" else "#FFFFFF", width=0, tags=("clickable", "custom", "editmidy"))
-        C.create_text(132.5*scale, 25*scale, text=tempvar if select == "editmidy" and tempvar != "" else (int(round(4*key_systems["custom"]["parameters"]["My"], 2)) if int(round(4*key_systems["custom"]["parameters"]["My"], 2)) == round(4*key_systems["custom"]["parameters"]["My"], 2) else round(4*key_systems["custom"]["parameters"]["My"], 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "custom", "editmidy"))
+        C.create_text(131.5*scale, 22.75*scale, text="mid Y", font=("Arial", int(textscale*scale*0.875), "bold"), fill=("#FFFFFF"), tags=("custom"))
+        C.create_rectangle(129*scale, 23.75*scale, 134*scale, 26.25*scale, fill=key_colors["model"][0] if select == "editmidy" else "#FFFFFF", width=0, tags=("clickable", "custom", "editmidy"))
+        C.create_text(131.5*scale, 25*scale, text=tempvar if select == "editmidy" and tempvar != "" else (int(round(4*key_systems["custom"]["parameters"]["My"], 2)) if int(round(4*key_systems["custom"]["parameters"]["My"], 2)) == round(4*key_systems["custom"]["parameters"]["My"], 2) else round(4*key_systems["custom"]["parameters"]["My"], 2)), font=("Arial", int(textscale*scale*6/5), "bold"), fill="#000000", tags=("clickable", "custom", "editmidy"))
+
+        C.create_oval(135.5*scale, 22.25*scale, 139.5*scale, 26.25*scale, fill=key_colors["model"][0] if select == "steers" else "#FFFFFF", width=0, tags=("clickable", "custom", "steers"))
+        C.create_text(137.5*scale, 23.0*scale, text="▲", font=("Arial", int(textscale*scale*extra_scale*1), "bold"), fill=("#000000"), tags=("clickable", "custom", "steers"))
+        C.create_text(137.5*scale, 25.5*scale, text="▼", font=("Arial", int(textscale*scale*extra_scale*1), "bold"), fill=("#000000"), tags=("clickable", "custom", "steers"))
+        C.create_text(136.25*scale, 24.25*scale, text="◀", font=("Arial", int(textscale*scale*extra_scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "custom", "steers"))
+        C.create_text(138.75*scale, 24.25*scale, text="▶", font=("Arial", int(textscale*scale*extra_scale*1.5), "bold"), fill=("#000000"), tags=("clickable", "custom", "steers"))
 
         # PARTIALS
-        C.create_text(140.5*scale, 24.25*scale, text="Partials", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("custom"))
-        C.create_rectangle(145*scale, 22.5*scale, 150*scale, 26*scale, fill="#000000" if "partial" in key_systems["custom"]["special"] else "#FFFFFF", width=0, tags=("clickable", "custom", "partialson"))
-        C.create_text(147.5*scale, 24.25*scale, text="ON", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF" if "partial" in key_systems["custom"]["special"] else "#000000", tags=("clickable", "custom", "partialson"))
-        C.create_rectangle(150*scale, 22.5*scale, 155*scale, 26*scale, fill="#000000" if "partial" not in key_systems["custom"]["special"] else "#FFFFFF", width=0, tags=("clickable", "custom", "partialsoff"))
-        C.create_text(152.5*scale, 24.25*scale, text="OFF", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF" if "partial" not in key_systems["custom"]["special"] else "#000000", tags=("clickable", "custom", "partialsoff"))
+        C.create_text(144.5*scale, 24.25*scale, text="Partials", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("custom"))
+        C.create_rectangle(149*scale, 22.5*scale, 154*scale, 26*scale, fill="#000000" if "partial" in key_systems["custom"]["special"] else "#FFFFFF", width=0, tags=("clickable", "custom", "partialson"))
+        C.create_text(151.5*scale, 24.25*scale, text="ON", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF" if "partial" in key_systems["custom"]["special"] else "#000000", tags=("clickable", "custom", "partialson"))
+        C.create_rectangle(154*scale, 22.5*scale, 159*scale, 26*scale, fill="#000000" if "partial" not in key_systems["custom"]["special"] else "#FFFFFF", width=0, tags=("clickable", "custom", "partialsoff"))
+        C.create_text(156.5*scale, 24.25*scale, text="OFF", font=("Arial", int(textscale*scale*3/2), "bold"), fill="#FFFFFF" if "partial" not in key_systems["custom"]["special"] else "#000000", tags=("clickable", "custom", "partialsoff"))
         
-        C.create_oval(159.5*scale, 22.75*scale, 162.5*scale, 25.75*scale, fill="#DDDDDD", width=0, tags=("clickable", "custom", "editkeyshelp"))
-        C.create_text(161*scale, 24.25*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#000000", tags=("clickable", "custom", "editkeyshelp"))
+        C.create_oval(163.5*scale, 22.75*scale, 166.5*scale, 25.75*scale, fill="#DDDDDD", width=0, tags=("clickable", "custom", "editkeyshelp"))
+        C.create_text(165*scale, 24.25*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#000000", tags=("clickable", "custom", "editkeyshelp"))
         
         # PAGE
-        C.create_rectangle(167*scale, 22.5*scale, 170.5*scale, 26*scale, fill="#FFFFFF", width=1, tags=("clickable", "custom", "prevpage"))
-        C.create_text(168.75*scale, 24.25*scale, text="◀", font=("Arial", int(textscale*scale*extra_scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "custom", "prevpage"))
+        C.create_rectangle(171*scale, 22.75*scale, 174*scale, 25.75*scale, fill="#FFFFFF", width=1, tags=("clickable", "custom", "prevpage"))
+        C.create_text(172.5*scale, 24.25*scale, text="◀", font=("Arial", int(textscale*scale*extra_scale*2), "bold"), fill=("#000000"), tags=("clickable", "custom", "prevpage"))
 
-        C.create_rectangle(185.5*scale, 22.5*scale, 189*scale, 26*scale, fill="#FFFFFF", width=1, tags=("clickable", "custom", "nextpage"))
-        C.create_text(187.25*scale, 24.25*scale, text="▶", font=("Arial", int(textscale*scale*extra_scale*2.25), "bold"), fill=("#000000"), tags=("clickable", "custom", "nextpage"))
+        C.create_rectangle(186*scale, 22.75*scale, 189*scale, 25.75*scale, fill="#FFFFFF", width=1, tags=("clickable", "custom", "nextpage"))
+        C.create_text(187.5*scale, 24.25*scale, text="▶", font=("Arial", int(textscale*scale*extra_scale*2), "bold"), fill=("#000000"), tags=("clickable", "custom", "nextpage"))
 
         # key system params
         #   LR split
@@ -3087,8 +3192,6 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
 
         #     label-type-x1-y1-x2-y2-halfable-labelsize-descname-descoff
 
-
-
         rowspacing = EDITKEYS_ROWSPACING # 7
         topy = EDITKEYS_TOPY # 27
         per_page = EDITKEYS_PER_PAGE # 10
@@ -3097,9 +3200,9 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
         NUM_PAGES = math.ceil(total_keys / per_page)
 
         if NUM_PAGES == 0:
-            C.create_text(178*scale, 24.25*scale, text="0−0 of 0", font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("custom"))
+            C.create_text(180*scale, 24.25*scale, text="0−0 of 0", font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#FFFFFF"), tags=("custom"))
         else:
-            C.create_text(178*scale, 24.25*scale, text=str((page*per_page) + 1) + "−" + str(min(total_keys, (page+1)*per_page)) + " of " + str(total_keys), font=("Arial", int(textscale*scale*1.5), "bold"), fill=("#FFFFFF"), tags=("custom"))
+            C.create_text(180*scale, 24.25*scale, text=str((page*per_page) + 1) + "−" + str(min(total_keys, (page+1)*per_page)) + " of " + str(total_keys), font=("Arial", int(textscale*scale*1.25), "bold"), fill=("#FFFFFF"), tags=("custom"))
         
         for k in range(total_keys):
             key = key_systems["custom"][k]
@@ -3651,7 +3754,7 @@ def filters_help():
 def editkeys_help():
     H = Toplevel(C)
     fhx = int(scale*138)
-    fhy = int(scale*74)
+    fhy = int(scale*78)
     textcolor = "#FFFFFF"
     bgcolor = colors["custom_background"]
     H.geometry(str(fhx) + "x" + str(fhy))
@@ -3659,6 +3762,11 @@ def editkeys_help():
     FH = Canvas(H)
     FH.pack(fill=BOTH, expand=1)
     FH.create_rectangle(0,0,fhx+360,fhy+480, fill=bgcolor, width=0)
+
+    if platform.system() == "Darwin": # On Mac, the arrows are rendered too large
+        extra_scale = 0.75
+    else:
+        extra_scale = 1
 
     Label(FH, text="Instrument Editor Help", font=("Arial", int(textscale*scale*2.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 0.75*scale)
 
@@ -3685,51 +3793,58 @@ def editkeys_help():
     FH.create_text(18*scale, 28.5*scale, text="62", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
     Label(FH, text="The boundary between the blue and red regions in the diagram forms a ┌┘ shape\nThese are the coordinates of the center points (note that they have the same Y coordinate)\nThe boundary can also be shifted using arrow keys", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 22*scale)
 
-    Label(FH, text="Partials", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 4*scale, y = 31*scale)
-    FH.create_rectangle(12*scale, 31*scale, 16*scale, 34*scale, fill="#FFFFFF", width=0)
-    FH.create_text(14*scale, 32.5*scale, text="ON", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    FH.create_rectangle(16*scale, 31*scale, 20*scale, 34*scale, fill="#000000", width=0)
-    FH.create_text(18*scale, 32.5*scale, text="OFF", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
-    Label(FH, text="Toggle whether this instrument uses partials", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 31*scale)
+    FH.create_oval(16*scale, 30.5*scale, 20*scale, 34.5*scale, fill="#FFFFFF", width=0) #qweg
+    FH.create_text(18*scale, 31.25*scale, text="▲", font=("Arial", int(textscale*scale*extra_scale*1), "bold"), fill="#000000")
+    FH.create_text(18*scale, 33.75*scale, text="▼", font=("Arial", int(textscale*scale*extra_scale*1), "bold"), fill="#000000")
+    FH.create_text(16.75*scale, 32.5*scale, text="◀", font=("Arial", int(textscale*scale*extra_scale*1.5), "bold"), fill="#000000")
+    FH.create_text(19.25*scale, 32.5*scale, text="▶", font=("Arial", int(textscale*scale*extra_scale*1.5), "bold"), fill="#000000")
+    Label(FH, text="Select this circle and use arrow keys to shift all keys in the diagram", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 31*scale)
+ 
+    Label(FH, text="Partials", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 4*scale, y = 35.5*scale)
+    FH.create_rectangle(12*scale, 35.5*scale, 16*scale, 38.5*scale, fill="#FFFFFF", width=0)
+    FH.create_text(14*scale, 37*scale, text="ON", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    FH.create_rectangle(16*scale, 35.5*scale, 20*scale, 38.5*scale, fill="#000000", width=0)
+    FH.create_text(18*scale, 37*scale, text="OFF", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
+    Label(FH, text="Toggle whether this instrument uses partials", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 35.5*scale)
 
-    Label(FH, text="Key Properties", font=("Arial", int(textscale*scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 36*scale)
+    Label(FH, text="Key Properties", font=("Arial", int(textscale*scale*2), "bold"), fg=textcolor, bg=bgcolor).place(x = 1*scale, y = 40.5*scale)
 
-    Label(FH, text="SLFN on:\nSLFN off:", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 7.5*scale, y = 40*scale)
-    FH.create_rectangle(16*scale, 40.5*scale, 20*scale, 42.5*scale, fill=colors["dark_custom_background"], width=0)
-    FH.create_text(18*scale, 41.5*scale, text="6", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
-    FH.create_rectangle(16*scale, 43*scale, 20*scale, 45*scale, fill=colors["dark_custom_background"], width=0)
-    FH.create_text(18*scale, 44*scale, text="−", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
-    Label(FH, text="Representation of the key in the single-line fingering notation, on and off (e.g. in 123 | 456, 6 is on, but in 123 | 45−, 6 is off)\nNote that when changing the label of the key, these values will update to the default value corresponding to the label", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 40*scale)
+    Label(FH, text="SLFN on:\nSLFN off:", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 7.5*scale, y = 44.5*scale)
+    FH.create_rectangle(16*scale, 45*scale, 20*scale, 47*scale, fill=colors["dark_custom_background"], width=0)
+    FH.create_text(18*scale, 46*scale, text="6", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
+    FH.create_rectangle(16*scale, 47.5*scale, 20*scale, 49.5*scale, fill=colors["dark_custom_background"], width=0)
+    FH.create_text(18*scale, 48.5*scale, text="−", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
+    Label(FH, text="Representation of the key in the single-line fingering notation, on and off (e.g. in 123 | 456, 6 is on, but in 123 | 45−, 6 is off)\nNote that when changing the label of the key, these values will update to the default value corresponding to the label", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 44.5*scale)
 
-    Label(FH, text="label size", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 6*scale, y = 46.5*scale)
-    FH.create_rectangle(16*scale, 46.5*scale, 20*scale, 49.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(18*scale, 48*scale, text="1.0", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    Label(FH, text="Text size of key label (can be adjusted with arrow keys)", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 46.5*scale)
+    Label(FH, text="label size", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 6*scale, y = 51*scale)
+    FH.create_rectangle(16*scale, 51*scale, 20*scale, 54*scale, fill="#FFFFFF", width=0)
+    FH.create_text(18*scale, 52.5*scale, text="1.0", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    Label(FH, text="Text size of key label (can be adjusted with arrow keys)", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 51*scale)
 
-    Label(FH, text="Type:", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1.5*scale, y = 52*scale)
+    Label(FH, text="Type:", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 1.5*scale, y = 56.5*scale)
     for i, keytype in enumerate(["main", "octave", "second", "low", "high", "trill", "model", "special"]):
         x = i%4; y = i//4
-        FH.create_oval((8 + x*3)*scale, (50.5 + y*3)*scale, (11 + x*3)*scale, (53.5 + y*3)*scale, fill=key_colors[keytype][0], width=0)
-    Label(FH, text="Set type of key (see Fingering Diagram Help for more information)", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 52*scale)
+        FH.create_oval((8 + x*3)*scale, (55 + y*3)*scale, (11 + x*3)*scale, (58 + y*3)*scale, fill=key_colors[keytype][0], width=0)
+    Label(FH, text="Set type of key (see Fingering Diagram Help for more information)", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 56.5*scale)
 
-    Label(FH, text="xpos\nypos\nwidth\nheight", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 8.75*scale, y = 57.25*scale)
-    FH.create_rectangle(16*scale, 57.5*scale, 20*scale, 59.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(18*scale, 58.5*scale, text="148", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    FH.create_rectangle(16*scale, 60*scale, 20*scale, 62*scale, fill="#FFFFFF", width=0)
-    FH.create_text(18*scale, 61*scale, text="58", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    FH.create_rectangle(16*scale, 62.5*scale, 20*scale, 64.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(18*scale, 63.5*scale, text="28", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    FH.create_rectangle(16*scale, 65*scale, 20*scale, 67*scale, fill="#FFFFFF", width=0)
-    FH.create_text(18*scale, 66*scale, text="28", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    Label(FH, text="Position and size of key on diagram\nChange position with arrow keys after selecting xpos or ypos\nChange size with arrow keys after selecting height or width", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 58.15*scale)
+    Label(FH, text="xpos\nypos\nwidth\nheight", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 8.75*scale, y = 61.75*scale)
+    FH.create_rectangle(16*scale, 62*scale, 20*scale, 64*scale, fill="#FFFFFF", width=0)
+    FH.create_text(18*scale, 63*scale, text="148", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    FH.create_rectangle(16*scale, 64.5*scale, 20*scale, 66.5*scale, fill="#FFFFFF", width=0)
+    FH.create_text(18*scale, 65.5*scale, text="58", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    FH.create_rectangle(16*scale, 67*scale, 20*scale, 69*scale, fill="#FFFFFF", width=0)
+    FH.create_text(18*scale, 68*scale, text="28", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    FH.create_rectangle(16*scale, 69.5*scale, 20*scale, 71.5*scale, fill="#FFFFFF", width=0)
+    FH.create_text(18*scale, 70.5*scale, text="28", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    Label(FH, text="Position and size of key on diagram\nChange position with arrow keys after selecting xpos or ypos\nChange size with arrow keys after selecting height or width", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 62.65*scale)
 
-    Label(FH, text="halfable", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 3.5*scale, y = 68.5*scale)
-    FH.create_rectangle(12*scale, 68.5*scale, 16*scale, 71.5*scale, fill="#000000", width=0)
-    FH.create_text(14*scale, 70*scale, text="ON", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
-    FH.create_rectangle(16*scale, 68.5*scale, 20*scale, 71.5*scale, fill="#FFFFFF", width=0)
-    FH.create_text(18*scale, 70*scale, text="OFF", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
-    Label(FH, text="Toggle whether this key can be half-pressed", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 68.5*scale)
-
+    Label(FH, text="halfable", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 3.5*scale, y = 73*scale)
+    FH.create_rectangle(12*scale, 73*scale, 16*scale, 76*scale, fill="#000000", width=0)
+    FH.create_text(14*scale, 74.5*scale, text="ON", fill="#FFFFFF", font=("Arial", int(textscale*scale*1.25), "bold"))
+    FH.create_rectangle(16*scale, 73*scale, 20*scale, 76*scale, fill="#FFFFFF", width=0)
+    FH.create_text(18*scale, 74.5*scale, text="OFF", fill="#000000", font=("Arial", int(textscale*scale*1.25), "bold"))
+    Label(FH, text="Toggle whether this key can be half-pressed", justify="left", font=("Arial", int(textscale*scale*1.5), "bold"), fg=textcolor, bg=bgcolor).place(x = 21*scale, y = 73*scale)
+    
 # WHEN APPLICATION OPENED
 try:
     with open("temp.wfc", "r", encoding="utf-8-sig") as f:
