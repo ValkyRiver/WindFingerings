@@ -1,4 +1,4 @@
-# WindFingerings 2.0.2
+# WindFingerings 2.1
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba, as well as an instrument editor for custom instruments.
 
 ## Current supported instruments
@@ -27,6 +27,9 @@ The instruments in **bold** also contain templates of scales and arpeggios, incl
 - dom-arp (dominant 7th arpeggios, 2 octaves)
 - other (chromatic scale 3 octaves, diminished 7th arpeggios)
 Once again, there may be a few errors.
+
+### Custom instruments templates
+These collections are templates for the instrument editor. They contain all of the same keys as the built-in instrument they refer to, however it is stored as a custom instrument so that it can be edited using the instrument editor. As of version 2.1, there as six provided templates — flute-template, oboe-template, bassoon-template, clarinet-template, saxophone-template, and brass-template.
 
 ## Fingering section
 To select a fingering, click on the keys in the fingering diagram on the top left corner. Middle-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, right-click on a key to trill it (which will change the color of the key to bright green).
@@ -61,12 +64,19 @@ Fingerings are also notated using the single-line fingering notation (SLFN). Thi
 - Any keys that are half-pressed are written as ½, regardless of its original value (e.g. 123 | 4½−, not 123 | 4⁵/₂− )
 - Any keys that are being trilled are written in square brackets with no spaces (e.g. 123 | 45\[6]\[Eb], not 123 | 45\[6] \[Eb])
 
+### Special: Bb/C rod on oboe and English horn
+The "Bb/C rod" refers to the rod on the side of the instrument. It is controlled by the RH 4 key and serves two purposes:
+- If LH 3 is not pressed, it opens the a* tone-hole key to raise the pitch from A (12− | −−−) to Bb (12− | 4−−)
+- If LH 2 is not pressed, it opens the b tone-hole key to raise the pitch from B (1−− | −−−) to C (1−− | 4−−)
+
+Some non-standard (microtonal, trill, multiphonic) fingerings involve pressing the Bb/C rod without closing the 4 tone-hole. The way of doing that differs between models and brands (and could even be in different hands), but in the SLFN, this is represented by a double vertical bar (e.g. 12− || −−−).
+
 ### Special: G# cancel on saxophone
 The "G# cancel" refers to the screw on top of the tone-hole key for G#. It serves two purposes:
 - When the RH presses F#*, 4, 5, or 6, the G# key is prevented from activating
 - When the RH presses F#*, 4, 5, or 6, the bis key is automatically pressed
 
-While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# (as well as between Bb and B) that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill, 1−− || 4−− Bb), you need to also select "G# cancel" on the fingering diagram. This will change the fingering description to contain a double vertical bar (||) — e.g. B3 (low B) is 123 B || 456 C, not 123 B | 456 C.
+While this mechanism allows smoother transitions to the note G#, it also eliminates a lot of microtonal fingerings between G and G# (as well as between Bb and B) that would have worked if the G# key was not canceled out by the right hand keys. Because WindFingerings is designed to be microtone-compatible, it assumes that this screw is unscrewed from the instrument. If you are inputting a fingering that relies on one of the above (e.g. low Bb, low B, low C#, F#/G# trill, 1−− || 4−− Bb), you need to also select "G# cancel" on the fingering diagram. This will change the SLFN to contain a double vertical bar (||) — e.g. B3 (low B) is 123 B || 456 C, not 123 B | 456 C.
 
 ### Special: E−* on trombone
 On a trombone, the lowest "normal" note is E2 (played in 7th position). Then, there is a gap until Bb1, the first pedal tone (in 1st position). The notes within this gap are partially filled by a trombone with a F attachment, namely Eb2, D2, C#2, and C2, however this still leaves a 1-note gap at B1. In order to play this note on a single-(F)-trigger trombone without resorting to lipping or using false tones, the tuning of the F attachment has to be pulled out to just below E. This turns the F-trigger into a "E−-trigger", and this what the E−* refers to.
@@ -159,7 +169,7 @@ If one doesn't want to use the SLFN default for a key (especially for a thumb ma
 See **Fingering section** above for an explanation of what each type means.
 
 #### xpos, ypos, width, height
-The position and size of the key in the diagram. When xpos or ypos is selected, one can use the arrow keys to move the key around. When width or height is selected, one can use the arrow keys to resize the key.
+The position and size of the key in the diagram. When xpos or ypos is selected, one can use the arrow keys to move the key around. When width or height is selected, one can use the arrow keys to resize the key. One can shift all of the keys by selecting the circle with arrows on the top, using arrow keys.
 
 #### Halfable
 The parameter toggles whether this key can be half-pressed (by middle-clicking it).
@@ -198,5 +208,6 @@ Partials can be toggled on or off with the "Partials" setting on the top. When p
 - 2.0 — **added instrument editor**
 - 2.0.1 — bug fixes
 - 2.0.2 — bug fixes
+- 2.1 — **added custom instrument templates**, updated instrument editor, updated Oboe / English Horn
 
 ## Issues
