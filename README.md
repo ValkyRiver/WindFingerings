@@ -11,6 +11,7 @@ WindFingerings is an interface for viewing and storing fingerings on wind instru
 - Tenor Trombone, Bass Trombone
 - Tenor Horn, Baritone Horn, Euphonium*, F Tuba, Eb Tuba, CC Tuba, BBb Tuba*
 - _Sopranino Recorder_, Soprano Recorder, Alto Recorder, _Tenor Recorder_, _Bass Recorder_, _Great Bass Recorder_
+
 **NEW 2.0 FEATURE: CUSTOMIZED INSTRUMENTS**
 
 ### Standard collections
