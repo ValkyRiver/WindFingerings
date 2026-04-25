@@ -1307,6 +1307,19 @@ def onclick(event):
             else:
                 FINGERING = [0, 0, 0, -0.5, complex(0), complex(0), ""]
 
+            # Avoid separator of | | — set it to ||
+            if "|" in key_systems["custom"]["parameters"]["separator"] and key_systems["custom"]["parameters"]["LR_split"] > 0 and key_systems["custom"]["parameters"]["LR_split"] < key_systems["custom"]["parameters"]["keys"]:
+                nextlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"]]["descname"]
+                prevlabel = key_systems["custom"][key_systems["custom"]["parameters"]["LR_split"] - 1]["descname"]
+                if len(nextlabel) >= 1 and nextlabel[0] == "|" and len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = "|"
+                elif len(nextlabel) >= 1 and nextlabel[0] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = " |"
+                elif len(prevlabel) >= 1 and prevlabel[-1] == "|":
+                    key_systems["custom"]["parameters"]["separator"] = "| "
+                else:
+                    key_systems["custom"]["parameters"]["separator"] = " | "
+
             render_fingering(instruments[INSTRUMENT][0], FINGERING, SELECT, TEMPVAR)
             render_database(INSTRUMENT, DATABASE, SETINSTRUMENT, PAGE, FILTERS, SELECT, TEMPVAR)
             create_editkeys_textboxes()
