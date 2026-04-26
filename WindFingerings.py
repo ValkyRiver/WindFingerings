@@ -1,6 +1,6 @@
-# WindFingerings 2.1.2 by Valky River
+# WindFingerings 2.1.3 by Valky River
 
-version = "2.1.2"
+version = "2.1.3"
 
 # VERSION 2.0 NEW FEATURE: INSTRUMENT EDITOR
 
@@ -1510,6 +1510,8 @@ def onclick(event):
                 else:
                     instrument += letter
 
+            old_description = DATABASE[0][-1]
+
             INSTRUMENT = instrument
             if "partial" in key_systems[instruments[instrument][0]]["special"]:
                 FINGERING = [0, 0, 0, 1]
@@ -1522,16 +1524,17 @@ def onclick(event):
                     FINGERING += [complex(1), complex(0)]
             else:
                 FINGERING += [complex(0), complex(0)]
-            FINGERING.append("")
-            
-            FILTERS["search"] = "none"
-            DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, ""]])
 
+            FINGERING.append("")
+            FILTERS["search"] = "none"
+            
             if "Custom" in instrument:
+                DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, old_description]])
                 SETINSTRUMENT = "edit"
                 PAGE = 0
                 create_customname()
             else:
+                DATABASE = list([["new-database.csv", INSTRUMENT, TONIC, TET, ""]])
                 SETINSTRUMENT = "not"
                 
             FILTERS_TEMP_FINGERING = list(FINGERING)
