@@ -1,6 +1,6 @@
-# WindFingerings 2.1.1 by Valky River
+# WindFingerings 2.1.2 by Valky River
 
-version = "2.1.1"
+version = "2.1.2"
 
 # VERSION 2.0 NEW FEATURE: INSTRUMENT EDITOR
 
@@ -1303,7 +1303,29 @@ def onclick(event):
                 keynum = int(tags[2][7:])
                 for k in list(range(keynum, key_systems["custom"]["parameters"]["keys"]))[::-1]:
                     key_systems["custom"][k+1] = key_systems["custom"][k].copy()
-                key_systems["custom"][keynum] = {"x1":33.5, "y1":11, "x2":40.5, "y2":18, "type":"main", "halfable":False, "label":"", "labelsize":1, "descname":"", "descoff":""}
+                key_systems["custom"][keynum] = key_systems["custom"][keynum + 1].copy()
+                
+                if key_systems["custom"][keynum]["x2"] + 1 >= 74 and key_systems["custom"][keynum]["y2"] + 1 >= 29:
+                    key_systems["custom"][keynum]["x1"] -= 1
+                    key_systems["custom"][keynum]["x2"] -= 1
+                    key_systems["custom"][keynum]["y1"] -= 1
+                    key_systems["custom"][keynum]["y2"] -= 1
+                elif key_systems["custom"][keynum]["x2"] + 1 >= 74:
+                    key_systems["custom"][keynum]["x1"] -= 1
+                    key_systems["custom"][keynum]["x2"] -= 1
+                    key_systems["custom"][keynum]["y1"] += 1
+                    key_systems["custom"][keynum]["y2"] += 1
+                elif key_systems["custom"][keynum]["y2"] + 1 >= 29:
+                    key_systems["custom"][keynum]["x1"] += 1
+                    key_systems["custom"][keynum]["x2"] += 1
+                    key_systems["custom"][keynum]["y1"] -= 1
+                    key_systems["custom"][keynum]["y2"] -= 1
+                else:
+                    key_systems["custom"][keynum]["x1"] += 1
+                    key_systems["custom"][keynum]["x2"] += 1
+                    key_systems["custom"][keynum]["y1"] += 1
+                    key_systems["custom"][keynum]["y2"] += 1
+                
                 key_systems["custom"]["parameters"]["keys"] += 1
                 if keynum < key_systems["custom"]["parameters"]["LR_split"]:
                     key_systems["custom"]["parameters"]["LR_split"] += 1
@@ -1324,12 +1346,17 @@ def onclick(event):
                     temp_key = key_systems["custom"][keynum].copy()
                     key_systems["custom"][keynum] = key_systems["custom"][keynum-1].copy()
                     key_systems["custom"][keynum-1] = temp_key
+                    if keynum % EDITKEYS_PER_PAGE == 0:
+                        PAGE -= 1
+                    
             elif "downkey" in tags:
                 keynum = int(tags[2][7:])
                 if keynum <= key_systems["custom"]["parameters"]["keys"] - 3 or (keynum <= key_systems["custom"]["parameters"]["keys"] - 2 and "partial" not in key_systems["custom"]["special"]):
                     temp_key = key_systems["custom"][keynum].copy()
                     key_systems["custom"][keynum] = key_systems["custom"][keynum+1].copy()
                     key_systems["custom"][keynum+1] = temp_key
+                    if keynum % EDITKEYS_PER_PAGE == EDITKEYS_PER_PAGE - 1:
+                        PAGE += 1
 
             if "partial" in key_systems["custom"]["special"]:
                 FINGERING = [0, 0, 0, 1, complex(0), complex(0), ""]
