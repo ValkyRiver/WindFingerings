@@ -1,6 +1,6 @@
-# WindFingerings 2.1.3 by Valky River
+# WindFingerings 2.1.4 by Valky River
 
-version = "2.1.3"
+version = "2.1.4"
 
 # VERSION 2.0 NEW FEATURE: INSTRUMENT EDITOR
 
@@ -557,38 +557,9 @@ key_systems = {
     },
 
     "custom": {
-        "parameters": {"keys":29, "LR_split":16, "separator":" | ", "offsetx":2, "offsety":2, "shiftx":0, "shifty":0, "Lx":0, "Ly":0, "Mx":37, "My":15.5, "Bx":37, "By":29, "Rx":74, "Ry":29, "Descy":33},
+        "parameters": {"keys":0, "LR_split":0, "separator":" | ", "offsetx":2, "offsety":2, "shiftx":0, "shifty":0, "Lx":0, "Ly":0, "Mx":37, "My":15.5, "Bx":37, "By":29, "Rx":74, "Ry":29, "Descy":33},
         "special": [],
         "name": "New Custom Instrument",
-        0: {"x1":13, "y1":26.5, "x2":16, "y2":29.5, "type":"special", "halfable":False, "label":"C*", "labelsize":1, "descname":"C* ", "descoff":""},
-        1: {"x1":16.5, "y1":26.5, "x2":20, "y2":29.5, "type":"low", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
-        2: {"x1":18, "y1":29.5, "x2":20.5, "y2":32.5, "type":"low", "halfable":False, "label":"B", "labelsize":1, "descname":"B ", "descoff":""},
-        3: {"x1":20.5, "y1":29.5, "x2":23, "y2":32.5, "type":"low", "halfable":False, "label":"C", "labelsize":1, "descname":"C ", "descoff":""},
-        4: {"x1":23, "y1":29.5, "x2":25.5, "y2":32.5, "type":"low", "halfable":False, "label":"D", "labelsize":1, "descname":"D ", "descoff":""},
-        5: {"x1":20, "y1":26, "x2":22.5, "y2":29, "type":"octave", "halfable":False, "label":"d", "labelsize":1, "descname":"d ", "descoff":""},
-        6: {"x1":23.5, "y1":24, "x2":26.5, "y2":26, "type":"model", "halfable":False, "label":"d2", "labelsize":5/6, "descname":"d2 ", "descoff":""},
-        7: {"x1":22.5, "y1":26, "x2":25, "y2":29, "type":"octave", "halfable":False, "label":"a", "labelsize":1, "descname":"a ", "descoff":""},
-        8: {"x1":25, "y1":26, "x2":27.5, "y2":29, "type":"second", "halfable":False, "label":"C#", "labelsize":1, "descname":"C# ", "descoff":""},
-        9: {"x1":14.5, "y1":12, "x2":21.5, "y2":19, "type":"main", "halfable":False, "label":"1", "labelsize":2, "descname":"1", "descoff":"−"},
-        10: {"x1":22.5, "y1":12, "x2":29.5, "y2":19, "type":"main", "halfable":False, "label":"2", "labelsize":2, "descname":"2", "descoff":"−"},
-        11: {"x1":29.5, "y1":10.5, "x2":32.5, "y2":15.5, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":"Eb", "descoff":""},
-        12: {"x1":32.5, "y1":12, "x2":39.5, "y2":19, "type":"main", "halfable":False, "label":"3", "labelsize":2, "descname":"3", "descoff":"−"},
-        13: {"x1":38.5, "y1":7.5, "x2":41.5, "y2":12.5, "type":"second", "halfable":False, "label":"Eb", "labelsize":1, "descname":" Eb", "descoff":""},
-        14: {"x1":41.5, "y1":7.5, "x2":44.5, "y2":12.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
-        15: {"x1":44.5, "y1":7.5, "x2":47.5, "y2":12.5, "type":"model", "halfable":False, "label":"A", "labelsize":1, "descname":" A", "descoff":""},
-        16: {"x1":45.5, "y1":27.5, "x2":48, "y2":31.5, "type":"model", "halfable":False, "label":"Eb", "labelsize":1, "descname":"G# ", "descoff":""},       
-        17: {"x1":48, "y1":27.5, "x2":50.5, "y2":31.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
-        18: {"x1":50.5, "y1":27, "x2":55.5, "y2":32, "type":"low", "halfable":False, "label":"E", "labelsize":1, "descname":"E ", "descoff":""},
-        19: {"x1":55.5, "y1":27.5, "x2":58, "y2":31.5, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":"F# ", "descoff":""},
-        20: {"x1":45, "y1":14, "x2":48, "y2":17, "type":"special", "halfable":False, "label":"6*", "labelsize":1, "descname":"6*", "descoff":""},
-        21: {"x1":48.5, "y1":10.5, "x2":51.5, "y2":15.5, "type":"model", "halfable":False, "label":"Eb", "labelsize":1, "descname":"Eb ", "descoff":""},
-        22: {"x1":51.5, "y1":12, "x2":58.5, "y2":19, "type":"main", "halfable":False, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
-        23: {"x1":59.5, "y1":12, "x2":66.5, "y2":19, "type":"main", "halfable":False, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
-        24: {"x1":66.5, "y1":10.5, "x2":69.5, "y2":15.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb", "descoff":""},
-        25: {"x1":69.5, "y1":12, "x2":76.5, "y2":19, "type":"main", "halfable":False, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        26: {"x1":77, "y1":19, "x2":80, "y2":22, "type":"low", "halfable":False, "label":"F", "labelsize":1, "descname":" F", "descoff":""},
-        27: {"x1":77, "y1":14, "x2":80, "y2":19, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":" F#", "descoff":""},
-        28: {"x1":80, "y1":17, "x2":83, "y2":22, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":" G#", "descoff":""},
     }
 }
 
@@ -1305,26 +1276,26 @@ def onclick(event):
                     key_systems["custom"][k+1] = key_systems["custom"][k].copy()
                 key_systems["custom"][keynum] = key_systems["custom"][keynum + 1].copy()
                 
-                if key_systems["custom"][keynum]["x2"] + 1 >= 74 and key_systems["custom"][keynum]["y2"] + 1 >= 29:
-                    key_systems["custom"][keynum]["x1"] -= 1
-                    key_systems["custom"][keynum]["x2"] -= 1
-                    key_systems["custom"][keynum]["y1"] -= 1
-                    key_systems["custom"][keynum]["y2"] -= 1
-                elif key_systems["custom"][keynum]["x2"] + 1 >= 74:
-                    key_systems["custom"][keynum]["x1"] -= 1
-                    key_systems["custom"][keynum]["x2"] -= 1
-                    key_systems["custom"][keynum]["y1"] += 1
-                    key_systems["custom"][keynum]["y2"] += 1
-                elif key_systems["custom"][keynum]["y2"] + 1 >= 29:
-                    key_systems["custom"][keynum]["x1"] += 1
-                    key_systems["custom"][keynum]["x2"] += 1
-                    key_systems["custom"][keynum]["y1"] -= 1
-                    key_systems["custom"][keynum]["y2"] -= 1
+                if key_systems["custom"][keynum + 1]["x2"] + 1 >= 74 and key_systems["custom"][keynum]["y2"] + 1 >= 29:
+                    key_systems["custom"][keynum + 1]["x1"] -= 1
+                    key_systems["custom"][keynum + 1]["x2"] -= 1
+                    key_systems["custom"][keynum + 1]["y1"] -= 1
+                    key_systems["custom"][keynum + 1]["y2"] -= 1
+                elif key_systems["custom"][keynum + 1]["x2"] + 1 >= 74:
+                    key_systems["custom"][keynum + 1]["x1"] -= 1
+                    key_systems["custom"][keynum + 1]["x2"] -= 1
+                    key_systems["custom"][keynum + 1]["y1"] += 1
+                    key_systems["custom"][keynum + 1]["y2"] += 1
+                elif key_systems["custom"][keynum + 1]["y2"] + 1 >= 29:
+                    key_systems["custom"][keynum + 1]["x1"] += 1
+                    key_systems["custom"][keynum + 1]["x2"] += 1
+                    key_systems["custom"][keynum + 1]["y1"] -= 1
+                    key_systems["custom"][keynum + 1]["y2"] -= 1
                 else:
-                    key_systems["custom"][keynum]["x1"] += 1
-                    key_systems["custom"][keynum]["x2"] += 1
-                    key_systems["custom"][keynum]["y1"] += 1
-                    key_systems["custom"][keynum]["y2"] += 1
+                    key_systems["custom"][keynum + 1]["x1"] += 1
+                    key_systems["custom"][keynum + 1]["x2"] += 1
+                    key_systems["custom"][keynum + 1]["y1"] += 1
+                    key_systems["custom"][keynum + 1]["y2"] += 1
                 
                 key_systems["custom"]["parameters"]["keys"] += 1
                 if keynum < key_systems["custom"]["parameters"]["LR_split"]:
@@ -3251,10 +3222,10 @@ def render_database(instrument=INSTRUMENT, database=DATABASE, setinstrument=Fals
         C.create_text(165*scale, 24.25*scale, text="?", font=("Arial", int(textscale*scale*1.5), "bold"), fill="#000000", tags=("clickable", "custom", "editkeyshelp"))
         
         # PAGE
-        C.create_rectangle(171*scale, 22.75*scale, 174*scale, 25.75*scale, fill="#FFFFFF", width=1, tags=("clickable", "custom", "prevpage"))
+        C.create_rectangle(171*scale, 22.75*scale, 174*scale, 25.75*scale, fill="#FFFFFF", width=0, tags=("clickable", "custom", "prevpage"))
         C.create_text(172.5*scale, 24.25*scale, text="◀", font=("Arial", int(textscale*scale*extra_scale*2), "bold"), fill=("#000000"), tags=("clickable", "custom", "prevpage"))
 
-        C.create_rectangle(186*scale, 22.75*scale, 189*scale, 25.75*scale, fill="#FFFFFF", width=1, tags=("clickable", "custom", "nextpage"))
+        C.create_rectangle(186*scale, 22.75*scale, 189*scale, 25.75*scale, fill="#FFFFFF", width=0, tags=("clickable", "custom", "nextpage"))
         C.create_text(187.5*scale, 24.25*scale, text="▶", font=("Arial", int(textscale*scale*extra_scale*2), "bold"), fill=("#000000"), tags=("clickable", "custom", "nextpage"))
 
         # key system params
