@@ -551,9 +551,9 @@ key_systems = {
         4: {"x1":43, "y1":12, "x2":50, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
         5: {"x1":51, "y1":12, "x2":58, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
         6: {"x1":59, "y1":12, "x2":66, "y2":19, "type":"main", "halfable":True, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        7: {"x1":60.5, "y1":19.5, "x2":64.5, "y2":23.5, "type":"second", "halfable":True, "label":"½", "labelsize":3/2, "descname":"$⌫", "descoff":""},
+        7: {"x1":60.5, "y1":19.5, "x2":64.5, "y2":23.5, "type":"second", "halfable":True, "label":"½", "labelsize":3/2, "descname":"⌫h", "descoff":""},
         8: {"x1":67, "y1":12, "x2":74, "y2":19, "type":"main", "halfable":True, "label":"7", "labelsize":2, "descname":"7", "descoff":"−"},
-        9: {"x1":68.5, "y1":19.5, "x2":72.5, "y2":23.5, "type":"second", "halfable":True, "label":"½", "labelsize":3/2, "descname":"$⌫", "descoff":""},
+        9: {"x1":68.5, "y1":19.5, "x2":72.5, "y2":23.5, "type":"second", "halfable":True, "label":"½", "labelsize":3/2, "descname":"⌫h", "descoff":""},
         10: {"x1":75, "y1":13, "x2":80, "y2":18, "type":"special", "halfable":True, "label":"8*", "labelsize":4/3, "descname":" 8*", "descoff":""},
     },
 
