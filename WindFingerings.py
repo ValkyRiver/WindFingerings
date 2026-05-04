@@ -1,6 +1,6 @@
-# WindFingerings 2.1.4 by Valky River
+# WindFingerings 2.2 by Valky River
 
-version = "2.1.4"
+version = "2.2"
 
 # VERSION 2.0 NEW FEATURE: INSTRUMENT EDITOR
 
@@ -305,7 +305,7 @@ key_systems = {
     },
 
     "bassoon": {
-        "parameters": {"keys":34, "LR_split":21, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-3.5, "shifty":-2, "Lx":6, "Ly":3, "Mx":48, "My":14.5, "Bx":43, "By":32, "Rx":80, "Ry":32, "Descy":36},
+        "parameters": {"keys":35, "LR_split":21, "separator":" | ", "offsetx":-4, "offsety":-1, "shiftx":-3.5, "shifty":-2, "Lx":6, "Ly":3, "Mx":48, "My":14.5, "Bx":43, "By":32, "Rx":80, "Ry":32, "Descy":36},
         "special": [],
         0: {"x1":10, "y1":27.5, "x2":13, "y2":30.5, "type":"special", "halfable":False, "label":"C*", "labelsize":1, "descname":"C* ", "descoff":""},
         1: {"x1":13.5, "y1":27, "x2":18.5, "y2":29, "type":"low", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
@@ -328,19 +328,20 @@ key_systems = {
         18: {"x1":42, "y1":7.5, "x2":45, "y2":12.5, "type":"low", "halfable":False, "label":"C#", "labelsize":1, "descname":" C#", "descoff":""},
         19: {"x1":45, "y1":10, "x2":47.5, "y2":14, "type":"model", "halfable":False, "label":"W", "labelsize":1, "descname":" W", "descoff":""},
         20: {"x1":45, "y1":6, "x2":47.5, "y2":10, "type":"model", "halfable":False, "label":"A", "labelsize":1, "descname":" A", "descoff":""},
-        21: {"x1":45.5, "y1":27.5, "x2":48, "y2":31.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
-        22: {"x1":48, "y1":27, "x2":53, "y2":32, "type":"low", "halfable":False, "label":"E", "labelsize":1, "descname":"E ", "descoff":""},
-        23: {"x1":53, "y1":27.5, "x2":55.5, "y2":31.5, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":"F# ", "descoff":""},
-        24: {"x1":55.5, "y1":27.5, "x2":58, "y2":31.5, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
-        25: {"x1":45.5, "y1":17, "x2":48.5, "y2":21, "type":"trill", "halfable":False, "label":"C#", "labelsize":1, "descname":"C# ", "descoff":""},
-        26: {"x1":48.5, "y1":12, "x2":55.5, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
-        27: {"x1":56, "y1":14, "x2":59, "y2":17, "type":"special", "halfable":False, "label":"Bb*", "labelsize":5/6, "descname":"Bb*", "descoff":""},
-        28: {"x1":59.5, "y1":12, "x2":66.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
-        29: {"x1":66.5, "y1":10.5, "x2":69.5, "y2":15.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb", "descoff":""},
-        30: {"x1":69.5, "y1":12, "x2":76.5, "y2":19, "type":"main", "halfable":False, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
-        31: {"x1":77, "y1":19, "x2":80, "y2":22, "type":"low", "halfable":False, "label":"F", "labelsize":1, "descname":" F", "descoff":""},
-        32: {"x1":77, "y1":14, "x2":80, "y2":19, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":" F#", "descoff":""},
-        33: {"x1":80, "y1":17, "x2":83, "y2":22, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":" G#", "descoff":""},
+        21: {"x1":45.5, "y1":26.5, "x2":48, "y2":30.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb ", "descoff":""},
+        22: {"x1":48, "y1":26, "x2":53, "y2":31, "type":"low", "halfable":False, "label":"E", "labelsize":1, "descname":"E ", "descoff":""},
+        23: {"x1":53, "y1":26.5, "x2":55.5, "y2":30.5, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":"F# ", "descoff":""},
+        24: {"x1":54.5, "y1":30, "x2":56.5, "y2":33, "type":"model", "halfable":False, "label":"ab", "labelsize":5/6, "descname":"ab ", "descoff":""},
+        25: {"x1":55.5, "y1":26.5, "x2":58, "y2":30.5, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":"G# ", "descoff":""},
+        26: {"x1":45.5, "y1":17, "x2":48.5, "y2":21, "type":"trill", "halfable":False, "label":"C#", "labelsize":1, "descname":"C# ", "descoff":""},
+        27: {"x1":48.5, "y1":12, "x2":55.5, "y2":19, "type":"main", "halfable":True, "label":"4", "labelsize":2, "descname":"4", "descoff":"−"},
+        28: {"x1":56, "y1":14, "x2":59, "y2":17, "type":"special", "halfable":False, "label":"Bb*", "labelsize":5/6, "descname":"Bb*", "descoff":""},
+        29: {"x1":59.5, "y1":12, "x2":66.5, "y2":19, "type":"main", "halfable":True, "label":"5", "labelsize":2, "descname":"5", "descoff":"−"},
+        30: {"x1":66.5, "y1":10.5, "x2":69.5, "y2":15.5, "type":"second", "halfable":False, "label":"Bb", "labelsize":1, "descname":"Bb", "descoff":""},
+        31: {"x1":69.5, "y1":12, "x2":76.5, "y2":19, "type":"main", "halfable":False, "label":"6", "labelsize":2, "descname":"6", "descoff":"−"},
+        32: {"x1":77, "y1":19, "x2":80, "y2":22, "type":"low", "halfable":False, "label":"F", "labelsize":1, "descname":" F", "descoff":""},
+        33: {"x1":77, "y1":14, "x2":80, "y2":19, "type":"low", "halfable":False, "label":"F#", "labelsize":1, "descname":" F#", "descoff":""},
+        34: {"x1":80, "y1":17, "x2":83, "y2":22, "type":"second", "halfable":False, "label":"G#", "labelsize":1, "descname":" G#", "descoff":""},
     },
 
     "contrafg": {
