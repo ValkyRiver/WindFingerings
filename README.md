@@ -1,4 +1,4 @@
-# WindFingerings 2.1.4
+# WindFingerings 2.2
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 30+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba, as well as an instrument editor for custom instruments.
 
 ## Current supported instruments
@@ -214,6 +214,7 @@ Partials can be toggled on or off with the "Partials" setting on the top. When p
 - 2.1.2 — changed how adding new keys works
 - 2.1.3 — bug fixes
 - 2.1.4 — bug fixes
+- 2.2 — **added more templates**, updated Bassoon
 
 ## Issues
 - Any Oboe collections created before the 2.1 version might have their fingerings broken. This is because the Bb/C rod special key was not added until version 2.1. To fix this, open the .csv (or .wfc) file, and replace "Instrument: Oboe" with the following:
@@ -223,3 +224,7 @@ Instrument: Custom — Oboe (no Bb/C rod) — 28-16- | -120-154-47-0 — III-mod
 - Any English Horn collections created before the 2.1 version might have their fingerings broken. This is because the Bb/C rod special key was not added until version 2.1. To fix this, open the .csv (or .wfc) file, and replace "Instrument: English Horn" with the following:
 
 Instrument: Custom — English Horn (no Bb/C rod) — 27-16- | -140-168-47-0 — III-model-4-87-22-99-0-1.0-III - § I-octave-22-87-40-99-0-1.0-I - § II-octave-4-31-28-43-0-1.0-II - § 1-main-20-43-48-71-0-2.0-1-− § ½-octave-50-48-68-66-0-1.75-⌫h- § b-trill-62-67-74-75-0-1.0-b- § d-trill-64-35-72-49-0-1.0-d- § 2-main-70-43-98-71-1-2.0-2-− § a*-special-94-67-106-79-0-1.0-a*- § c#-trill-96-35-104-49-0-1.0-c#- § 3-main-102-43-130-71-1-2.0-3-− § G#-second-126-25-138-45-0-1.0- G#- § Eb-second-138-35-162-45-0-1.0- Eb- § B-low-138-25-152-35-0-1.0- B- § Bb-model-138-15-162-25-0-1.0- Bb- § F-second-152-25-166-35-0-1.0- F- § G#-second-150-75-180-87-0-1.0-G# - § Gd*-special-150-51-162-63-0-0.833-Gd*- § 4-main-166-43-194-71-1-2.0-4-− § d-trill-192-65-200-77-0-1.0-d- § 5-main-198-43-226-71-1-2.0-5-− § F-second-226-59-238-79-0-1.0-F- § 6-main-238-43-266-71-1-2.0-6-− § c-model-242-29-262-39-0-1.0-c- § C-low-262-69-276-83-0-1.0- C- § C#-low-270-55-284-69-0-1.0- C#- § Eb-second-278-69-292-83-0-1.0- Eb-
+
+- Any Bassoon collections created before the 2.2 version might have their fingerings broken. This is because the ab key was not added until version 2.2. To fix this, open the .csv (or .wfc) file, and replace "Instrument: Bassoon" with the following:
+
+Instrument: Custom — Bassoon (no ab key) — 34-21- | -134-154-38-0 — C*-special-2-90-14-102-0-1.0-C* - § Bb-low-16-88-36-96-0-1.0-Bb - § B-low-16-96-36-104-0-1.0-B - § C-low-20-104-36-112-0-1.0-C - § C2-model-36-92-50-102-0-1.0-C2 - § D-low-36-102-62-112-0-1.0-D - § d-octave-18-74-28-88-0-1.0-d - § c-octave-28-74-38-88-0-1.0-c - § a-octave-38-74-48-88-0-1.0-a - § C#-second-48-76-58-90-0-1.0-C# - § W-octave-58-82-68-92-0-1.0-W - § e-high-2-22-14-42-0-1.0-e- § 1-main-14-28-42-56-1-2.0-1-− § eb-high-42-22-54-42-0-1.0-eb- § 2-main-54-28-82-56-1-2.0-2-− § Eb-model-82-22-94-42-0-1.0-Eb- § 3-main-94-28-122-56-1-2.0-3-− § Eb-second-118-10-130-30-0-1.0- Eb- § C#-low-130-10-142-30-0-1.0- C#- § W-model-142-20-152-36-0-1.0- W- § A-model-142-4-152-20-0-1.0- A- § Bb-second-144-86-154-102-0-1.0-Bb - § E-low-154-84-174-104-0-1.0-E - § F#-low-174-86-184-102-0-1.0-F# - § G#-second-184-86-194-102-0-1.0-G# - § C#-trill-144-48-156-64-0-1.0-C# - § 4-main-156-28-184-56-1-2.0-4-− § Bb*-special-186-36-198-48-0-0.833-Bb*- § 5-main-200-28-228-56-1-2.0-5-− § Bb-second-228-22-240-42-0-1.0-Bb- § 6-main-240-28-268-56-0-2.0-6-− § F-low-270-56-282-68-0-1.0- F- § F#-low-270-36-282-56-0-1.0- F#- § G#-second-282-48-294-68-0-1.0- G#-
