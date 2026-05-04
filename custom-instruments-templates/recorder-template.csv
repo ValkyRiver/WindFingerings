@@ -1,0 +1,7 @@
+﻿recorder-template.csv
+Instrument: Custom — recorder-template — 11-4- | -130-130-62-0 — 0-main-8-70-28-90-1-1.5-0 - § 1-main-28-44-56-72-1-2-1-− § 2-main-60-44-88-72-1-2-2-− § 3-main-92-44-120-72-1-2-3-− § 4-main-140-44-168-72-1-2-4-− § 5-main-172-44-200-72-1-2-5-− § 6-main-204-44-232-72-1-2-6-− § ½-second-210-74-226-90-1-1.5-$⌫- § 7-main-236-44-264-72-1-2-7-− § ½-second-242-74-258-90-1-1.5-$⌫- § 8*-special-268-48-288-68-1-1.333- 8*-
+Transposition: 0.0 cents
+Tonic: 440.0 Hz
+Temperament: 12-TET
+Description: 
+Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
