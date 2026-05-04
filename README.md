@@ -30,7 +30,7 @@ The instruments in **bold** also contain templates of scales and arpeggios, incl
 Once again, there may be a few errors.
 
 ### Custom instruments templates
-These collections are templates for the instrument editor. They contain all of the same keys as the built-in instrument they refer to, however it is stored as a custom instrument so that it can be edited using the instrument editor. As of version 2.1, there as six provided templates — flute-template, oboe-template, bassoon-template, clarinet-template, saxophone-template, and brass-template.
+These collections are templates for the instrument editor. They contain all of the same keys as the built-in instrument they refer to, however it is stored as a custom instrument so that it can be edited using the instrument editor. As of version 2.2, there are 11 provided templates — piccolo-template, flute-template, oboe-template, english-horn-template, bassoon-template, contrabassoon-template, clarinet-template, bass-clarinet-template, saxophone-template, valved-brass-template, and recorder-template.
 
 ## Fingering section
 To select a fingering, click on the keys in the fingering diagram on the top left corner. Middle-click on a key to "half-press" it (such as pressing the key but not covering the tone hole) and change the key's color to gray, and if "trill" is selected in the pitch section, right-click on a key to trill it (which will change the color of the key to bright green).
