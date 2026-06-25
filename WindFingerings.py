@@ -73,8 +73,8 @@ fingtypes = {
 }
 
 key_colors = {
-    "main": ["#FFFFFF", "#000000", "#A3A3A3"],
-    "octave": ["#DDDDDD", "#555555", "#898989"],
+    "main": ["#FFFFFF", "#000000", "#9F9F9F"],
+    "octave": ["#DDDDDD", "#555555", "#7A7A7A"],
     "second": ["#99EEBB", "#006633", "#66AA88"],
     "low": ["#FFCCCC", "#770022", "#AA7788"],
     "high": ["#CCE577", "#556600", "#99AA77"],
