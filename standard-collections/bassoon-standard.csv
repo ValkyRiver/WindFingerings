@@ -5,7 +5,7 @@ Tonic: 440.0 Hz
 Temperament: 12-TET
 Description: In $standard$ collections` all pitches are shown as in tune relative to 12-TET` even though this might not always be the case. Also` there might be some errors
 Type,Frequency (Hz),Transposed pitch,Concert pitch,TET step,Fingering,Fingering ID,Description
-note,58.27047,Bb1+0.0,Bb1+0.0,1\12 -0.0%, Bb B 123 | E C# 456 F,7184928774_0_0_|_0.0:0.0_0.0:0.0,
+note,58.27047,Bb1+0.0,Bb1+0.0,1\12 -0.0%, Bb B 123 | E 456 F,7117819910_0_0_|_0.0:0.0_0.0:0.0,
 note,61.735412,B1+0.0,B1+0.0,2\12 -0.0%, B 123 | E 456 F,7117819908_0_0_|_0.0:0.0_0.0:0.0,
 note,65.406391,C2+0.0,C2+0.0,3\12 -0.0%, C 123 | E 456 F,7117819912_0_0_|_0.0:0.0_0.0:0.0,
 note,69.295657,C#2+0.0,C#2+0.0,4\12 -0.0%, C 123 C# | E 456 F,7118082056_0_0_|_0.0:0.0_0.0:0.0,
