@@ -1,6 +1,6 @@
-# WindFingerings 2.2.3 by Valky River
+# WindFingerings 2.2.4 by Valky River
 
-version = "2.2.3"
+version = "2.2.4"
 
 # VERSION 2.0 NEW FEATURE: INSTRUMENT EDITOR
 
