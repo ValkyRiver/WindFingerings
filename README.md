@@ -1,4 +1,4 @@
-# WindFingerings 2.2.3
+# WindFingerings 2.2.4
 WindFingerings is an interface for viewing and storing fingerings on wind instruments. It was designed to be microtone-compatible, and offers searching for fingerings and for microtones in other temperaments (rather than as a mere deviation from 12−TET). The current version of WindFingerings contains interfaces for 40+ instruments, including flute, oboe, bassoon, clarinet, saxophone, trumpet, horn, trombone, euphonium, and tuba, as well as an instrument editor for custom instruments.
 
 **A demonstration can be seen in this video: https://youtu.be/guL1K-5TB-k**
@@ -219,6 +219,7 @@ Partials can be toggled on or off with the "Partials" setting on the top. When p
 - 2.2.1 — bug fixes
 - 2.2.2 — fixed page resetting after search, updated custsom instrument templates (added french-horn-template)
 - 2.2.3 — bug fixes, updated Bassoon
+- 2.2.4 — fixed English Horn and Oboe
 
 ## Issues
 - Any Oboe collections created before the 2.1 version might have their fingerings broken. This is because the Bb/C rod special key was not added until version 2.1. To fix this, open the .csv (or .wfc) file, and replace "Instrument: Oboe" with the following:
